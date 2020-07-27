@@ -118,16 +118,17 @@ Class | Method | HTTP request | Description
 
 ## bearer_auth
 
-- **Type**: HTTP basic authentication
+With your Up Token.
 
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
-    UserName: "username",
-    Password: "password",
-})
-r, err := client.Service.Operation(auth, args)
+ctx := context.WithValue(
+  context.Background(),
+  openapi.ContextAccessToken,
+  os.Getenv("UP_TOKEN"),
+)
+r, err := client.Service.Operation(ctx, args)
 ```
 
 
