@@ -36,16 +36,5 @@ type TransactionResourceAttributes struct {
 	// The date-time at which this transaction settled. This field will be `null` for transactions that are currently in the `HELD` status.
 	SettledAt *time.Time `json:"settledAt"`
 	// The date-time at which this transaction was first encountered.
-	CreatedAt      time.Time `json:"createdAt"`
-	Category       *Category `json:"category"`
-	ParentCategory *Category `json:"parentCategory"`
-}
-
-type CategoryData struct {
-	Type string `json:"type"`
-	ID   string `json:"id"`
-}
-
-type Category struct {
-	Data *CategoryData `json:"data"`
+	CreatedAt time.Time `json:"createdAt"`
 }
