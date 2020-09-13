@@ -5,13 +5,10 @@
 ```
 docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate -i https://raw.githubusercontent.com/up-banking/api/master/v1/openapi.json -g go -o /local/out/go
 ```
-
-## Summary
-
 The Up API gives you programmatic access to your balances and
 transaction data. You can request past transactions or set up
 webhooks to receive real-time events when new transactions hit your
-account. It's new, it's exciting and it's just the beginning.
+account. It’s new, it’s exciting and it’s just the beginning.
 
 
 ## Overview
@@ -47,6 +44,9 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AccountsApi* | [**AccountsGet**](docs/AccountsApi.md#accountsget) | **Get** /accounts | List accounts
 *AccountsApi* | [**AccountsIdGet**](docs/AccountsApi.md#accountsidget) | **Get** /accounts/{id} | Retrieve account
+*CategoriesApi* | [**CategoriesGet**](docs/CategoriesApi.md#categoriesget) | **Get** /categories | List categories
+*CategoriesApi* | [**CategoriesIdGet**](docs/CategoriesApi.md#categoriesidget) | **Get** /categories/{id} | Retrieve category
+*TagsApi* | [**TagsGet**](docs/TagsApi.md#tagsget) | **Get** /tags | List tags
 *TagsApi* | [**TransactionsTransactionIdRelationshipsTagsDelete**](docs/TagsApi.md#transactionstransactionidrelationshipstagsdelete) | **Delete** /transactions/{transactionId}/relationships/tags | Remove tags from transaction
 *TagsApi* | [**TransactionsTransactionIdRelationshipsTagsPost**](docs/TagsApi.md#transactionstransactionidrelationshipstagspost) | **Post** /transactions/{transactionId}/relationships/tags | Add tags to transaction
 *TransactionsApi* | [**AccountsAccountIdTransactionsGet**](docs/TransactionsApi.md#accountsaccountidtransactionsget) | **Get** /accounts/{accountId}/transactions | List transactions by account
@@ -71,17 +71,27 @@ Class | Method | HTTP request | Description
  - [AccountResourceRelationshipsTransactionsLinks](docs/AccountResourceRelationshipsTransactionsLinks.md)
  - [AccountTypeEnum](docs/AccountTypeEnum.md)
  - [CashbackObject](docs/CashbackObject.md)
+ - [CategoryResource](docs/CategoryResource.md)
+ - [CategoryResourceAttributes](docs/CategoryResourceAttributes.md)
+ - [CategoryResourceRelationships](docs/CategoryResourceRelationships.md)
+ - [CategoryResourceRelationshipsChildren](docs/CategoryResourceRelationshipsChildren.md)
+ - [CategoryResourceRelationshipsChildrenData](docs/CategoryResourceRelationshipsChildrenData.md)
+ - [CategoryResourceRelationshipsParent](docs/CategoryResourceRelationshipsParent.md)
+ - [CategoryResourceRelationshipsParentData](docs/CategoryResourceRelationshipsParentData.md)
  - [CreateWebhookRequest](docs/CreateWebhookRequest.md)
  - [CreateWebhookResponse](docs/CreateWebhookResponse.md)
  - [ErrorObject](docs/ErrorObject.md)
  - [ErrorObjectSource](docs/ErrorObjectSource.md)
  - [ErrorResponse](docs/ErrorResponse.md)
  - [GetAccountResponse](docs/GetAccountResponse.md)
+ - [GetCategoryResponse](docs/GetCategoryResponse.md)
  - [GetTransactionResponse](docs/GetTransactionResponse.md)
  - [GetWebhookResponse](docs/GetWebhookResponse.md)
  - [HoldInfoObject](docs/HoldInfoObject.md)
  - [ListAccountsResponse](docs/ListAccountsResponse.md)
  - [ListAccountsResponseLinks](docs/ListAccountsResponseLinks.md)
+ - [ListCategoriesResponse](docs/ListCategoriesResponse.md)
+ - [ListTagsResponse](docs/ListTagsResponse.md)
  - [ListTransactionsResponse](docs/ListTransactionsResponse.md)
  - [ListWebhookDeliveryLogsResponse](docs/ListWebhookDeliveryLogsResponse.md)
  - [ListWebhooksResponse](docs/ListWebhooksResponse.md)
@@ -90,6 +100,7 @@ Class | Method | HTTP request | Description
  - [PingResponseMeta](docs/PingResponseMeta.md)
  - [RoundUpObject](docs/RoundUpObject.md)
  - [TagInputResourceIdentifier](docs/TagInputResourceIdentifier.md)
+ - [TagResource](docs/TagResource.md)
  - [TransactionResource](docs/TransactionResource.md)
  - [TransactionResourceAttributes](docs/TransactionResourceAttributes.md)
  - [TransactionResourceRelationships](docs/TransactionResourceRelationships.md)

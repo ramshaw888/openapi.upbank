@@ -36,8 +36,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **pageSize** | **optional.Int32**| The number of records to return in each page.  | 
+ **filterStatus** | [**optional.Interface of TransactionStatusEnum**](.md)| The transaction status for which to return records. This can be used to filter &#x60;HELD&#x60; transactions from those that are &#x60;SETTLED&#x60;.  | 
  **filterSince** | **optional.Time**| The start date-time from which to return records, formatted according to rfc-3339. Not to be used for pagination purposes.  | 
  **filterUntil** | **optional.Time**| The end date-time up to which to return records, formatted according to rfc-3339. Not to be used for pagination purposes.  | 
+ **filterCategory** | **optional.String**| The category identifier for which to filter transactions. Both parent and child categories can be filtered through this parameter. Providing an invalid category identifier results in a &#x60;404&#x60; response.  | 
+ **filterTag** | **optional.String**| A transaction tag to filter for which to return records. If the tag does not exist, zero records are returned and a success response is given.  | 
 
 ### Return type
 
@@ -81,8 +84,11 @@ Optional parameters are passed through a pointer to a TransactionsGetOpts struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pageSize** | **optional.Int32**| The number of records to return in each page.  | 
+ **filterStatus** | [**optional.Interface of TransactionStatusEnum**](.md)| The transaction status for which to return records. This can be used to filter &#x60;HELD&#x60; transactions from those that are &#x60;SETTLED&#x60;.  | 
  **filterSince** | **optional.Time**| The start date-time from which to return records, formatted according to rfc-3339. Not to be used for pagination purposes.  | 
  **filterUntil** | **optional.Time**| The end date-time up to which to return records, formatted according to rfc-3339. Not to be used for pagination purposes.  | 
+ **filterCategory** | **optional.String**| The category identifier for which to filter transactions. Both parent and child categories can be filtered through this parameter. Providing an invalid category identifier results in a &#x60;404&#x60; response.  | 
+ **filterTag** | **optional.String**| A transaction tag to filter for which to return records. If the tag does not exist, zero records are returned and a success response is given.  | 
 
 ### Return type
 

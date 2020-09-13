@@ -7,7 +7,7 @@ info:
     The Up API gives you programmatic access to your balances and
     transaction data. You can request past transactions or set up
     webhooks to receive real-time events when new transactions hit your
-    account. It's new, it's exciting and it's just the beginning.
+    account. It’s new, it’s exciting and it’s just the beginning.
   title: Up API
   version: v1
 servers:
@@ -23,6 +23,14 @@ tags:
     for everyday spending.
   name: Accounts
 - description: |
+    Categories enable understanding where your money goes by driving
+    powerful insights in Up. All categories in Up are pre-defined
+    and are automatically assigned to new purchases in most cases. A
+    parent-child relationship is used to represent categories,
+    however parent categories cannot be directly assigned to
+    transactions.
+  name: Categories
+- description: |
     Tags are custom labels that can be associated with transactions
     on Up. Within the Up application, tags provide additional insight
     into spending. For example, you could have a "Take Away" tag that
@@ -36,7 +44,7 @@ tags:
 - description: |
     Transactions represent the movement of money into and out of an
     account. They have many characteristics that vary depending on
-    the kind of transaction. Transactions may be tempoarily `HELD`
+    the kind of transaction. Transactions may be temporarily `HELD`
     (pending) or `SETTLED`, typically depending on which payment
     method was used at the point of sale.
   name: Transactions
@@ -79,14 +87,14 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:3shVEcuFnD1iQTYg
+                Authorization: Bearer up:demo:HIvThbob76kGCuol
               pathParameters: {}
               queryParameters:
                 page[size]: 1
             response:
               data:
-              - id: b2415b16-d602-4b97-8dd0-b52612d2b0ab
-                type: accounts
+              - type: accounts
+                id: e0746933-045d-4c1b-a0b2-938d3e587583
                 attributes:
                   displayName: Up Account
                   accountType: TRANSACTIONAL
@@ -94,15 +102,15 @@ paths:
                     currencyCode: AUD
                     value: "1.00"
                     valueInBaseUnits: 100
-                  createdAt: 2020-08-05T13:30:34+10:00
-                links:
-                  self: https://api.up.com.au/api/v1/accounts/b2415b16-d602-4b97-8dd0-b52612d2b0ab
+                  createdAt: 2020-09-04T13:37:07+10:00
                 relationships:
                   transactions:
                     links:
-                      related: https://api.up.com.au/api/v1/accounts/b2415b16-d602-4b97-8dd0-b52612d2b0ab/transactions
+                      related: https://api.up.com.au/api/v1/accounts/e0746933-045d-4c1b-a0b2-938d3e587583/transactions
+                links:
+                  self: https://api.up.com.au/api/v1/accounts/e0746933-045d-4c1b-a0b2-938d3e587583
               links:
-                next: https://api.up.com.au/api/v1/accounts?page%5Bafter%5D=WyIyMDIwLTA4LTA1VDAzOjMwOjM0LjAwNTE0NjAwMFoiLCJiMjQxNWIxNi1kNjAyLTRiOTctOGRkMC1iNTI2MTJkMmIwYWIiXQ%3D%3D&page%5Bsize%5D=1
+                next: https://api.up.com.au/api/v1/accounts?page%5Bafter%5D=WyIyMDIwLTA5LTA0VDAzOjM3OjA3Ljg3MDU4MTAwMFoiLCJlMDc0NjkzMy0wNDVkLTRjMWItYTBiMi05MzhkM2U1ODc1ODMiXQ%3D%3D&page%5Bsize%5D=1
       summary: List accounts
       tags:
       - Accounts
@@ -113,7 +121,7 @@ paths:
       parameters:
       - description: |
           The unique identifier for the account.
-        example: 3fe77a70-f9f8-4f06-abbe-fbe1db50cd42
+        example: 9842e43e-a1f9-4460-a252-364c86df2d3e
         explode: false
         in: path
         name: id
@@ -132,31 +140,152 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:sDWa30kXQV1azjiJ
+                Authorization: Bearer up:demo:orwRnj3vlo9ZTw8c
               pathParameters:
-                id: f14bbcb2-824b-43da-9e1c-05d0cd50682c
+                id: 66938e72-9d80-4b91-99bf-281ce20b161a
               queryParameters: {}
             response:
               data:
-                id: f14bbcb2-824b-43da-9e1c-05d0cd50682c
                 type: accounts
+                id: 66938e72-9d80-4b91-99bf-281ce20b161a
                 attributes:
-                  displayName: Savings
+                  displayName: 🐷 Savings
                   accountType: SAVER
                   balance:
                     currencyCode: AUD
                     value: "125.36"
                     valueInBaseUnits: 12536
-                  createdAt: 2020-08-05T13:30:35+10:00
-                links:
-                  self: https://api.up.com.au/api/v1/accounts/f14bbcb2-824b-43da-9e1c-05d0cd50682c
+                  createdAt: 2020-09-04T13:37:09+10:00
                 relationships:
                   transactions:
                     links:
-                      related: https://api.up.com.au/api/v1/accounts/f14bbcb2-824b-43da-9e1c-05d0cd50682c/transactions
+                      related: https://api.up.com.au/api/v1/accounts/66938e72-9d80-4b91-99bf-281ce20b161a/transactions
+                links:
+                  self: https://api.up.com.au/api/v1/accounts/66938e72-9d80-4b91-99bf-281ce20b161a
       summary: Retrieve account
       tags:
       - Accounts
+  /categories:
+    get:
+      description: |
+        Retrieve a list of all categories and their ancestry. The returned list
+        is not paginated.
+      parameters:
+      - description: |
+          The unique identifier of a parent category for which to
+          return only its children. Providing an invalid category
+          identifier results in a `404` response.
+        example: good-life
+        explode: true
+        in: query
+        name: filter[parent]
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCategoriesResponse'
+          description: Successful Response
+          x-up:example:
+            type: exampleRequestResponse
+            request:
+              headers:
+                Authorization: Bearer up:demo:NbylCaQt4uXPoAdn
+              pathParameters: {}
+              queryParameters:
+                filter[parent]: good-life
+            response:
+              data:
+              - type: categories
+                id: hobbies
+                attributes:
+                  name: Hobbies
+                relationships:
+                  parent:
+                    data:
+                      type: categories
+                      id: good-life
+                    links:
+                      related: https://api.up.com.au/api/v1/categories/good-life
+                  children:
+                    data: []
+                    links:
+                      related: https://api.up.com.au/api/v1/categories?filter%5Bparent%5D=hobbies
+                links:
+                  self: https://api.up.com.au/api/v1/categories/hobbies
+              - type: categories
+                id: restaurants-and-cafes
+                attributes:
+                  name: Restaurants & Cafes
+                relationships:
+                  parent:
+                    data:
+                      type: categories
+                      id: good-life
+                    links:
+                      related: https://api.up.com.au/api/v1/categories/good-life
+                  children:
+                    data: []
+                    links:
+                      related: https://api.up.com.au/api/v1/categories?filter%5Bparent%5D=restaurants-and-cafes
+                links:
+                  self: https://api.up.com.au/api/v1/categories/restaurants-and-cafes
+      summary: List categories
+      tags:
+      - Categories
+  /categories/{id}:
+    get:
+      description: |
+        Retrieve a specific category by providing its unique identifier.
+      parameters:
+      - description: |
+          The unique identifier for the category.
+        example: restaurants-and-cafes
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCategoryResponse'
+          description: Successful Response
+          x-up:example:
+            type: exampleRequestResponse
+            request:
+              headers:
+                Authorization: Bearer up:demo:z1uQ6Ph1KhcWXcn1
+              pathParameters:
+                id: home
+              queryParameters: {}
+            response:
+              data:
+                type: categories
+                id: home
+                attributes:
+                  name: Home
+                relationships:
+                  parent: {}
+                  children:
+                    data:
+                    - type: categories
+                      id: groceries
+                    links:
+                      related: https://api.up.com.au/api/v1/categories?filter%5Bparent%5D=home
+                links:
+                  self: https://api.up.com.au/api/v1/categories/home
+      summary: Retrieve category
+      tags:
+      - Categories
   /util/ping:
     get:
       description: |
@@ -175,12 +304,12 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:MJBFQjLVJHTEwdLq
+                Authorization: Bearer up:demo:Ei7727gXam4j0JOy
               pathParameters: {}
               queryParameters: {}
             response:
               meta:
-                id: 5b12109e-0e7b-423b-b2e1-569d0e6c6939
+                id: 7c3c84c7-a02e-4218-96ba-2a6ebc64c594
                 statusEmoji: ⚡️
         "401":
           content:
@@ -204,15 +333,71 @@ paths:
       summary: Ping
       tags:
       - Utility endpoints
+  /tags:
+    get:
+      description: |
+        Retrieve a list of all tags currently in use. The returned list is
+        [paginated](#pagination) and can be scrolled by following the `next`
+        and `prev` links where present. Results are ordered lexicographically.
+        The `transactions` relationship for each tag exposes a link
+        to get the transactions with the given tag.
+      parameters:
+      - description: |
+          The number of records to return in each page.
+        example: 50
+        explode: true
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTagsResponse'
+          description: Successful Response
+          x-up:example:
+            type: exampleRequestResponse
+            request:
+              headers:
+                Authorization: Bearer up:demo:mbGGi7jVeVj0qXec
+              pathParameters: {}
+              queryParameters:
+                page[size]: 2
+            response:
+              data:
+              - type: tags
+                id: Holiday
+                relationships:
+                  transactions:
+                    links:
+                      related: https://api.up.com.au/api/v1/transactions?filter%5Btag%5D=Holiday
+              - type: tags
+                id: Pizza Night
+                relationships:
+                  transactions:
+                    links:
+                      related: https://api.up.com.au/api/v1/transactions?filter%5Btag%5D=Pizza+Night
+              links:
+                next: https://api.up.com.au/api/v1/tags?page%5Bafter%5D=WyJQaXp6YSBOaWdodCJd&page%5Bsize%5D=2
+      summary: List tags
+      tags:
+      - Tags
   /transactions/{transactionId}/relationships/tags:
     delete:
       description: |
-        Delete a specific webhook by providing its unique identifier. Once
-        deleted, webhook events will no longer be sent to the configured URL.
+        Disassociates one or more tags from a specific transaction. Tags that are
+        not associated are silently ignored. An HTTP `204` is returned on
+        success. The associated tags, along with this request URL, are also
+        exposed via the `tags` relationship on the transaction resource returned
+        from `/transactions/{id}`.
       parameters:
       - description: |
           The unique identifier for the transaction.
-        example: 9e1ef3b3-b863-485a-bee7-3e08dc5c06c3
+        example: d8c190d6-be35-4d64-b2c4-e1aa0c09a0e0
         explode: false
         in: path
         name: transactionId
@@ -232,10 +417,10 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:oAdp45wBO0Dc9ugs
+                Authorization: Bearer up:demo:cktrwA7Wmm5eSlBA
                 Content-Type: application/json
               pathParameters:
-                transactionId: d264a44b-7175-4083-9c10-befc364cbd6c
+                transactionId: 734affdd-fc33-4dec-b4d1-ce1b2a2fd883
               queryParameters: {}
               payload:
                 data:
@@ -257,7 +442,7 @@ paths:
       parameters:
       - description: |
           The unique identifier for the transaction.
-        example: 3acf1058-eab4-4a7f-938f-a9f70ee7e97f
+        example: d024c1b8-bc6a-4785-afc6-cd332d2a2efb
         explode: false
         in: path
         name: transactionId
@@ -277,10 +462,10 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:FpVYg7xw8pHIuqRR
+                Authorization: Bearer up:demo:arTSpKPKqafUZOyn
                 Content-Type: application/json
               pathParameters:
-                transactionId: 8eac11fa-27de-4d1c-97c2-4439defc0b67
+                transactionId: dd21471e-771b-4367-997a-785e326dcde3
               queryParameters: {}
               payload:
                 data:
@@ -313,6 +498,18 @@ paths:
           type: integer
         style: form
       - description: |
+          The transaction status for which to return records. This
+          can be used to filter `HELD` transactions from those
+          that are `SETTLED`.
+        example: HELD
+        explode: true
+        in: query
+        name: filter[status]
+        required: false
+        schema:
+          $ref: '#/components/schemas/TransactionStatusEnum'
+        style: form
+      - description: |
           The start date-time from which to return records,
           formatted according to rfc-3339. Not to be used for
           pagination purposes.
@@ -338,6 +535,31 @@ paths:
           format: date-time
           type: string
         style: form
+      - description: |
+          The category identifier for which to filter transactions.
+          Both parent and child categories can be filtered through
+          this parameter. Providing an invalid category identifier
+          results in a `404` response.
+        example: good-life
+        explode: true
+        in: query
+        name: filter[category]
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: |
+          A transaction tag to filter for which to return records.
+          If the tag does not exist, zero records are returned and
+          a success response is given.
+        example: Holiday
+        explode: true
+        in: query
+        name: filter[tag]
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -349,14 +571,16 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:GB3Zuus1E9GmEyXn
+                Authorization: Bearer up:demo:GghWDaFwjaTZl5EE
               pathParameters: {}
               queryParameters:
                 page[size]: 1
+                filter[tag]: Pizza Night
+                filter[status]: SETTLED
             response:
               data:
-              - id: 952c9d2d-39fc-437f-9540-d8f0e9e9d242
-                type: transactions
+              - type: transactions
+                id: faf43161-fb81-4e23-a900-c234ac099437
                 attributes:
                   status: SETTLED
                   description: David Taylor
@@ -365,25 +589,26 @@ paths:
                     currencyCode: AUD
                     value: -59.98
                     valueInBaseUnits: -5998
-                  settledAt: 2020-08-04T06:28:41+10:00
-                  createdAt: 2020-08-04T06:28:41+10:00
-                links:
-                  self: https://api.up.com.au/api/v1/transactions/952c9d2d-39fc-437f-9540-d8f0e9e9d242
+                  settledAt: 2020-09-03T06:35:27+10:00
+                  createdAt: 2020-09-03T06:35:27+10:00
                 relationships:
                   account:
                     data:
                       type: accounts
-                      id: 690662f2-55e0-4db3-ab8f-17a2db462ab7
+                      id: 091ef233-f7d5-4900-aafc-82f77555e5b2
                     links:
-                      related: https://api.up.com.au/api/v1/accounts/690662f2-55e0-4db3-ab8f-17a2db462ab7
+                      related: https://api.up.com.au/api/v1/accounts/091ef233-f7d5-4900-aafc-82f77555e5b2
+                  category: {}
+                  parentCategory: {}
                   tags:
                     data:
                     - type: tags
                       id: Pizza Night
                     links:
-                      self: https://api.up.com.au/api/v1/transactions/952c9d2d-39fc-437f-9540-d8f0e9e9d242/relationships/tags
-              links:
-                next: https://api.up.com.au/api/v1/transactions?page%5Bafter%5D=WyIyMDIwLTA4LTAzVDIwOjI4OjQxLjQyOTcwODAwMFoiLCI5NTJjOWQyZC0zOWZjLTQzN2YtOTU0MC1kOGYwZTllOWQyNDIiXQ%3D%3D&page%5Bsize%5D=1
+                      self: https://api.up.com.au/api/v1/transactions/faf43161-fb81-4e23-a900-c234ac099437/relationships/tags
+                links:
+                  self: https://api.up.com.au/api/v1/transactions/faf43161-fb81-4e23-a900-c234ac099437
+              links: {}
       summary: List transactions
       tags:
       - Transactions
@@ -394,7 +619,7 @@ paths:
       parameters:
       - description: |
           The unique identifier for the transaction.
-        example: f60fcd6f-14ca-43a6-a01e-e968dea49e65
+        example: 8e1da97e-6490-42eb-9c18-d8fdd94cfddc
         explode: false
         in: path
         name: id
@@ -413,14 +638,14 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:j44kR4I5m7vGJXY1
+                Authorization: Bearer up:demo:mYhaIvMQsZr4Jkio
               pathParameters:
-                id: 3934d502-9372-4afc-bcf1-f3ae9792b4b2
+                id: 75d3cffa-c517-4e64-8e41-acd63156c8b0
               queryParameters: {}
             response:
               data:
-                id: 3934d502-9372-4afc-bcf1-f3ae9792b4b2
                 type: transactions
+                id: 75d3cffa-c517-4e64-8e41-acd63156c8b0
                 attributes:
                   status: SETTLED
                   rawText: WARUNG BEBEK, UBUD INDONES
@@ -430,10 +655,6 @@ paths:
                       currencyCode: AUD
                       value: -107.92
                       valueInBaseUnits: -10792
-                    foreignAmount:
-                      currencyCode: IDR
-                      value: -1053698.77
-                      valueInBaseUnits: -105369877
                   roundUp:
                     amount:
                       currencyCode: AUD
@@ -447,21 +668,23 @@ paths:
                     currencyCode: IDR
                     value: -1053698.77
                     valueInBaseUnits: -105369877
-                  settledAt: 2020-07-31T11:27:42+10:00
-                  createdAt: 2020-08-02T04:00:00+10:00
-                links:
-                  self: https://api.up.com.au/api/v1/transactions/3934d502-9372-4afc-bcf1-f3ae9792b4b2
+                  settledAt: 2020-08-30T11:34:29+10:00
+                  createdAt: 2020-09-01T04:00:00+10:00
                 relationships:
                   account:
                     data:
                       type: accounts
-                      id: 80c99e6d-44c6-4281-a2f5-02b46c0eb802
+                      id: 139ed96d-9697-4c4a-b221-3d0f72d656cd
                     links:
-                      related: https://api.up.com.au/api/v1/accounts/80c99e6d-44c6-4281-a2f5-02b46c0eb802
+                      related: https://api.up.com.au/api/v1/accounts/139ed96d-9697-4c4a-b221-3d0f72d656cd
+                  category: {}
+                  parentCategory: {}
                   tags:
                     data: []
                     links:
-                      self: https://api.up.com.au/api/v1/transactions/3934d502-9372-4afc-bcf1-f3ae9792b4b2/relationships/tags
+                      self: https://api.up.com.au/api/v1/transactions/75d3cffa-c517-4e64-8e41-acd63156c8b0/relationships/tags
+                links:
+                  self: https://api.up.com.au/api/v1/transactions/75d3cffa-c517-4e64-8e41-acd63156c8b0
       summary: Retrieve transaction
       tags:
       - Transactions
@@ -478,7 +701,7 @@ paths:
       parameters:
       - description: |
           The unique identifier for the account.
-        example: 5626e2f8-99d3-47fa-a207-5c339ac14827
+        example: 86150b64-feaa-4186-a7e4-e84eae764602
         explode: false
         in: path
         name: accountId
@@ -495,6 +718,18 @@ paths:
         required: false
         schema:
           type: integer
+        style: form
+      - description: |
+          The transaction status for which to return records. This
+          can be used to filter `HELD` transactions from those
+          that are `SETTLED`.
+        example: HELD
+        explode: true
+        in: query
+        name: filter[status]
+        required: false
+        schema:
+          $ref: '#/components/schemas/TransactionStatusEnum'
         style: form
       - description: |
           The start date-time from which to return records,
@@ -522,6 +757,31 @@ paths:
           format: date-time
           type: string
         style: form
+      - description: |
+          The category identifier for which to filter transactions.
+          Both parent and child categories can be filtered through
+          this parameter. Providing an invalid category identifier
+          results in a `404` response.
+        example: good-life
+        explode: true
+        in: query
+        name: filter[category]
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: |
+          A transaction tag to filter for which to return records.
+          If the tag does not exist, zero records are returned and
+          a success response is given.
+        example: Holiday
+        explode: true
+        in: query
+        name: filter[tag]
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -533,42 +793,57 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:ZHQG1voLUVcGxLCz
+                Authorization: Bearer up:demo:gOJGDHqZa3HSYFZD
               pathParameters:
-                accountId: 317aacc6-109c-414e-b362-527e5d738971
+                accountId: a84f4f2b-1281-4f8f-9fbd-3e00fc28af90
               queryParameters:
                 page[size]: 1
+                filter[status]: HELD
+                filter[category]: good-life
             response:
               data:
-              - id: 808b6888-5256-4378-84fb-e0a58418d461
-                type: transactions
+              - type: transactions
+                id: f86b92e8-abda-4f8d-9101-59897ff0ca1b
                 attributes:
-                  status: SETTLED
-                  description: David Taylor
-                  message: Money for the pizzas last night.
+                  status: HELD
+                  rawText: Spotify 0123456789
+                  description: Spotify
+                  holdInfo:
+                    amount:
+                      currencyCode: AUD
+                      value: -11.95
+                      valueInBaseUnits: -1195
                   amount:
                     currencyCode: AUD
-                    value: -59.98
-                    valueInBaseUnits: -5998
-                  settledAt: 2020-08-04T06:28:45+10:00
-                  createdAt: 2020-08-04T06:28:45+10:00
-                links:
-                  self: https://api.up.com.au/api/v1/transactions/808b6888-5256-4378-84fb-e0a58418d461
+                    value: -11.95
+                    valueInBaseUnits: -1195
+                  createdAt: 2020-09-01T09:28:36+10:00
                 relationships:
                   account:
                     data:
                       type: accounts
-                      id: 317aacc6-109c-414e-b362-527e5d738971
+                      id: a84f4f2b-1281-4f8f-9fbd-3e00fc28af90
                     links:
-                      related: https://api.up.com.au/api/v1/accounts/317aacc6-109c-414e-b362-527e5d738971
-                  tags:
+                      related: https://api.up.com.au/api/v1/accounts/a84f4f2b-1281-4f8f-9fbd-3e00fc28af90
+                  category:
                     data:
-                    - type: tags
-                      id: Pizza Night
+                      type: categories
+                      id: tv-and-music
                     links:
-                      self: https://api.up.com.au/api/v1/transactions/808b6888-5256-4378-84fb-e0a58418d461/relationships/tags
-              links:
-                next: https://api.up.com.au/api/v1/accounts/317aacc6-109c-414e-b362-527e5d738971/transactions?page%5Bafter%5D=WyIyMDIwLTA4LTAzVDIwOjI4OjQ1LjcyMjAzNDAwMFoiLCI4MDhiNjg4OC01MjU2LTQzNzgtODRmYi1lMGE1ODQxOGQ0NjEiXQ%3D%3D&page%5Bsize%5D=1
+                      related: https://api.up.com.au/api/v1/categories/tv-and-music
+                  parentCategory:
+                    data:
+                      type: categories
+                      id: good-life
+                    links:
+                      related: https://api.up.com.au/api/v1/categories/good-life
+                  tags:
+                    data: []
+                    links:
+                      self: https://api.up.com.au/api/v1/transactions/f86b92e8-abda-4f8d-9101-59897ff0ca1b/relationships/tags
+                links:
+                  self: https://api.up.com.au/api/v1/transactions/f86b92e8-abda-4f8d-9101-59897ff0ca1b
+              links: {}
       summary: List transactions by account
       tags:
       - Transactions
@@ -601,26 +876,26 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:CtyDkO2c8MmFRxNW
+                Authorization: Bearer up:demo:9E64pZGsOXbna3ZG
               pathParameters: {}
               queryParameters:
                 page[size]: 1
             response:
               data:
-              - id: 6ef28fcf-6f36-43ac-b4ce-98adfa8af28b
-                type: webhooks
+              - type: webhooks
+                id: c4c9bcb9-88aa-4a52-87c8-9eaa9fef735f
                 attributes:
                   url: http://example.com/webhook-1
                   description: Webhook number 1
-                  createdAt: 2020-08-03T13:30:46+10:00
-                links:
-                  self: https://api.up.com.au/api/v1/webhooks/6ef28fcf-6f36-43ac-b4ce-98adfa8af28b
+                  createdAt: 2020-09-02T13:37:37+10:00
                 relationships:
                   logs:
                     links:
-                      related: https://api.up.com.au/api/v1/webhooks/6ef28fcf-6f36-43ac-b4ce-98adfa8af28b/logs
+                      related: https://api.up.com.au/api/v1/webhooks/c4c9bcb9-88aa-4a52-87c8-9eaa9fef735f/logs
+                links:
+                  self: https://api.up.com.au/api/v1/webhooks/c4c9bcb9-88aa-4a52-87c8-9eaa9fef735f
               links:
-                next: https://api.up.com.au/api/v1/webhooks?page%5Bafter%5D=WyIyMDIwLTA4LTAzVDAzOjMwOjQ2Ljc1MDI0MDAwMFoiLCI2ZWYyOGZjZi02ZjM2LTQzYWMtYjRjZS05OGFkZmE4YWYyOGIiXQ%3D%3D&page%5Bsize%5D=1
+                next: https://api.up.com.au/api/v1/webhooks?page%5Bafter%5D=WyIyMDIwLTA5LTAyVDAzOjM3OjM3LjM2MjQxMjAwMFoiLCJjNGM5YmNiOS04OGFhLTRhNTItODdjOC05ZWFhOWZlZjczNWYiXQ%3D%3D&page%5Bsize%5D=1
       summary: List webhooks
       tags:
       - Webhooks
@@ -631,7 +906,7 @@ paths:
             post:
               description: |
                 Once you have created a webhook in the Up API, events are sent to the
-                webhook's configured URL as JSON-encoded `POST` requests. The webhook
+                webhook’s configured URL as JSON-encoded `POST` requests. The webhook
                 URL must respond with a HTTP `200` status on success.
 
                 It is important that the URL responds in a timely manner. If the URL
@@ -642,7 +917,7 @@ paths:
                 to do the work asynchronously.
 
                 Event delivery is retried with exponential backoff in the case of any
-                non `200` response status, if the URL is unreachable, or if the request
+                non-`200` response status, if the URL is unreachable, or if the request
                 is timed out.
 
                 Refer to the `eventType` attribute in order to determine what course of
@@ -734,9 +1009,10 @@ paths:
                 public function handleWebhookEvent(Request $request) {
                     $received_signature = $request->header(
                         'X-Up-Authenticity-Signature',
+                        ''
                     );
-                    $raw_body = file_get_contents('php://input');
-                    $signature = hash_hmac('sha256', $raw_body, $secret_key);
+                    $raw_body = $request->getContent();
+                    $signature = hash_hmac('sha256', $raw_body, $this->secretKey);
 
                     if (hash_equals($signature, $received_signature)) {
                         // Process webhook event
@@ -758,15 +1034,15 @@ paths:
                 )
 
                 func handleWebhookEvent(w http.ResponseWriter, r *http.Request) {
-                    received_signature, _ := hex.DecodeString(
+                    receivedSignature, _ := hex.DecodeString(
                         r.Header.Get("X-Up-Authenticity-Signature"),
                     )
 
-                    mac := hmac.New(sha256.New, secret_key)
+                    mac := hmac.New(sha256.New, secretKey)
                     io.Copy(mac, r.Body)
                     signature := mac.Sum(nil)
 
-                    if hmac.Equal(signature, received_signature)
+                    if hmac.Equal(signature, receivedSignature)
                         // Process webhook event
                     }
                 }
@@ -801,24 +1077,24 @@ paths:
                 type: examplePayload
                 payload:
                   data:
-                    id: 31cd5bec-8891-4c15-a01c-34f1bcf06460
                     type: webhook-events
+                    id: 8671d400-d9e0-4d99-923c-95c031bc6739
                     attributes:
                       eventType: TRANSACTION_CREATED
-                      createdAt: 2020-08-05T13:30:47+10:00
+                      createdAt: 2020-09-04T13:37:38+10:00
                     relationships:
                       webhook:
                         data:
                           type: webhooks
-                          id: c2aabcf1-afa5-44cb-9ab6-66bab8eab239
+                          id: 3c62e0a3-86e5-4dcd-a217-d7c1d096ba0e
                         links:
-                          related: https://api.up.com.au/api/v1/webhooks/c2aabcf1-afa5-44cb-9ab6-66bab8eab239
+                          related: https://api.up.com.au/api/v1/webhooks/3c62e0a3-86e5-4dcd-a217-d7c1d096ba0e
                       transaction:
                         data:
                           type: transactions
-                          id: f04ae45c-2451-4430-a8fb-f9f087a2d532
+                          id: 468ec9d9-aac6-4c8a-ba85-141a39d09b91
                         links:
-                          related: https://api.up.com.au/api/v1/transactions/f04ae45c-2451-4430-a8fb-f9f087a2d532
+                          related: https://api.up.com.au/api/v1/transactions/468ec9d9-aac6-4c8a-ba85-141a39d09b91
               x-callback-request: true
       description: |
         Create a new webhook with a given URL. The URL will receive webhook
@@ -857,7 +1133,7 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:pkkg2OGqSScSyJsF
+                Authorization: Bearer up:demo:vJCDnqeW8lNkeBA1
                 Content-Type: application/json
               pathParameters: {}
               queryParameters: {}
@@ -868,19 +1144,19 @@ paths:
                     description: Example webhook
             response:
               data:
-                id: a24d8178-a590-4552-822e-575d7a23ed4f
                 type: webhooks
+                id: 39b070ae-8595-437f-a3f3-f5ee482ca206
                 attributes:
                   url: http://example.com/webhook
                   description: Example webhook
-                  secretKey: gK6u25afFTAopg9sarmWtNQWjqgZa6EyVNDlOFPgYinlyasfETPqKZkxgC0fRhzp
-                  createdAt: 2020-08-05T13:30:47+10:00
-                links:
-                  self: https://api.up.com.au/api/v1/webhooks/a24d8178-a590-4552-822e-575d7a23ed4f
+                  secretKey: UcYEuMacPkZjui0XhUzKeS0z3ETXtYgFDNJ16Gcrk7o4iSh7ZHNS2u7fOEjqtlzR
+                  createdAt: 2020-09-04T13:37:38+10:00
                 relationships:
                   logs:
                     links:
-                      related: https://api.up.com.au/api/v1/webhooks/a24d8178-a590-4552-822e-575d7a23ed4f/logs
+                      related: https://api.up.com.au/api/v1/webhooks/39b070ae-8595-437f-a3f3-f5ee482ca206/logs
+                links:
+                  self: https://api.up.com.au/api/v1/webhooks/39b070ae-8595-437f-a3f3-f5ee482ca206
       summary: Create webhook
       tags:
       - Webhooks
@@ -892,7 +1168,7 @@ paths:
       parameters:
       - description: |
           The unique identifier for the webhook.
-        example: 4408601b-76a5-4c02-8074-7d81b21e87aa
+        example: 81f485ae-0e10-493d-95f3-a9c1dd4b6b6a
         explode: false
         in: path
         name: id
@@ -907,9 +1183,9 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:vNK8XSIHR4KIp5En
+                Authorization: Bearer up:demo:wJTpdJqQniotjF64
               pathParameters:
-                id: c6678fee-3f8f-4a1d-a67e-762814a7ff17
+                id: a64bdc5f-d245-4678-a1af-9894318ebcec
               queryParameters: {}
       summary: Delete webhook
       tags:
@@ -920,7 +1196,7 @@ paths:
       parameters:
       - description: |
           The unique identifier for the webhook.
-        example: e9aae644-72fc-485a-944c-7e1623fb590f
+        example: bc11e3ed-362e-43ab-b141-ef4f6251faa5
         explode: false
         in: path
         name: id
@@ -939,24 +1215,24 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:g3rX5zns1U8HH4Ox
+                Authorization: Bearer up:demo:qqUmYsIcKyjjLBBM
               pathParameters:
-                id: 254f498a-4a35-4da7-9a7c-c5f6d840f705
+                id: c6715e53-68d8-4315-b183-5993dea31603
               queryParameters: {}
             response:
               data:
-                id: 254f498a-4a35-4da7-9a7c-c5f6d840f705
                 type: webhooks
+                id: c6715e53-68d8-4315-b183-5993dea31603
                 attributes:
                   url: http://example.com/webhook-2
                   description: Webhook number 2
-                  createdAt: 2020-08-04T13:30:48+10:00
-                links:
-                  self: https://api.up.com.au/api/v1/webhooks/254f498a-4a35-4da7-9a7c-c5f6d840f705
+                  createdAt: 2020-09-03T13:37:39+10:00
                 relationships:
                   logs:
                     links:
-                      related: https://api.up.com.au/api/v1/webhooks/254f498a-4a35-4da7-9a7c-c5f6d840f705/logs
+                      related: https://api.up.com.au/api/v1/webhooks/c6715e53-68d8-4315-b183-5993dea31603/logs
+                links:
+                  self: https://api.up.com.au/api/v1/webhooks/c6715e53-68d8-4315-b183-5993dea31603
       summary: Retrieve webhook
       tags:
       - Webhooks
@@ -969,7 +1245,7 @@ paths:
       parameters:
       - description: |
           The unique identifier for the webhook.
-        example: 77f23152-899c-427b-b215-9d7de5cbe016
+        example: 6ef4bb23-53f1-4a3d-aa5c-a6e9121c5da3
         explode: false
         in: path
         name: webhookId
@@ -988,24 +1264,26 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:D8WmNlX191Wkoho8
+                Authorization: Bearer up:demo:TPZKsyrzLBxjuJjl
+                Content-Type: application/json
               pathParameters:
-                webhookId: aa966c4f-63b9-4fb4-bb8d-c015caece616
+                webhookId: 7a72c637-9a0d-4dfd-8f1a-dc2a75b484b7
               queryParameters: {}
+              payload: ""
             response:
               data:
-                id: d77ce04e-e9a5-44c5-8683-46a9c6c80266
                 type: webhook-events
+                id: fb177d1d-003f-4e9a-831a-62194652937d
                 attributes:
                   eventType: PING
-                  createdAt: 2020-08-05T13:30:49+10:00
+                  createdAt: 2020-09-04T13:37:41+10:00
                 relationships:
                   webhook:
                     data:
                       type: webhooks
-                      id: aa966c4f-63b9-4fb4-bb8d-c015caece616
+                      id: 7a72c637-9a0d-4dfd-8f1a-dc2a75b484b7
                     links:
-                      related: https://api.up.com.au/api/v1/webhooks/aa966c4f-63b9-4fb4-bb8d-c015caece616
+                      related: https://api.up.com.au/api/v1/webhooks/7a72c637-9a0d-4dfd-8f1a-dc2a75b484b7
       summary: Ping webhook
       tags:
       - Webhooks
@@ -1021,7 +1299,7 @@ paths:
       parameters:
       - description: |
           The unique identifier for the webhook.
-        example: bc49e549-04d4-41be-9b97-c68b32263186
+        example: 49733526-b90d-436a-8a75-9715a1d7cc5b
         explode: false
         in: path
         name: webhookId
@@ -1050,30 +1328,30 @@ paths:
             type: exampleRequestResponse
             request:
               headers:
-                Authorization: Bearer up:demo:7iLD0GZ08Uu6DCKD
+                Authorization: Bearer up:demo:cDMrkDxg8msPDmVC
               pathParameters:
-                webhookId: 6b98fe77-d994-4483-b951-5e89c9379e46
+                webhookId: 843f52cf-ceab-43cc-a7c6-449cf82c49e3
               queryParameters:
                 page[size]: 1
             response:
               data:
-              - id: 4c4e2818-1a05-49be-b60d-95d3db23e339
-                type: webhook-delivery-logs
+              - type: webhook-delivery-logs
+                id: 7dfbd731-5537-46ab-b658-7676f6024475
                 attributes:
                   request:
-                    body: '{"data":{"id":"9bfbab63-42cd-4535-ae1f-40d90d2f00ec","type":"webhook-events","attributes":{"eventType":"TRANSACTION_CREATED","createdAt":"2020-08-04T13:31:50+10:00"},"relationships":{"webhook":{"data":{"type":"webhooks","id":"6b98fe77-d994-4483-b951-5e89c9379e46"},"links":{"related":"https://api.up.com.au/api/v1/webhooks/6b98fe77-d994-4483-b951-5e89c9379e46"}},"transaction":{"data":{"type":"transactions","id":"47dbdd79-88fa-427b-9fb3-973813449704"},"links":{"related":"https://api.up.com.au/api/v1/transactions/47dbdd79-88fa-427b-9fb3-973813449704"}}}}}'
+                    body: '{"data":{"type":"webhook-events","id":"9dee0635-accd-42a0-b2b5-af5914692a17","attributes":{"eventType":"TRANSACTION_CREATED","createdAt":"2020-09-03T13:38:43+10:00"},"relationships":{"webhook":{"data":{"type":"webhooks","id":"843f52cf-ceab-43cc-a7c6-449cf82c49e3"},"links":{"related":"https://api.up.com.au/api/v1/webhooks/843f52cf-ceab-43cc-a7c6-449cf82c49e3"}},"transaction":{"data":{"type":"transactions","id":"a131f7ec-681f-4bf4-9dc9-b25ba94c02dc"},"links":{"related":"https://api.up.com.au/api/v1/transactions/a131f7ec-681f-4bf4-9dc9-b25ba94c02dc"}}}}}'
                   response:
                     statusCode: 200
                     body: '{"ok":true}'
                   deliveryStatus: DELIVERED
-                  createdAt: 2020-08-04T13:31:50+10:00
+                  createdAt: 2020-09-03T13:38:43+10:00
                 relationships:
                   webhookEvent:
                     data:
                       type: webhook-events
-                      id: 9bfbab63-42cd-4535-ae1f-40d90d2f00ec
+                      id: 9dee0635-accd-42a0-b2b5-af5914692a17
               links:
-                next: https://api.up.com.au/api/v1/webhooks/6b98fe77-d994-4483-b951-5e89c9379e46/logs?page%5Bafter%5D=WyIyMDIwLTA4LTA0VDAzOjMxOjUwLjc2MDM4OTAwMFoiLCI0YzRlMjgxOC0xYTA1LTQ5YmUtYjYwZC05NWQzZGIyM2UzMzkiXQ%3D%3D&page%5Bsize%5D=1
+                next: https://api.up.com.au/api/v1/webhooks/843f52cf-ceab-43cc-a7c6-449cf82c49e3/logs?page%5Bafter%5D=WyIyMDIwLTA5LTAzVDAzOjM4OjQzLjYxMzE3MTAwMFoiLCI3ZGZiZDczMS01NTM3LTQ2YWItYjY1OC03Njc2ZjYwMjQ0NzUiXQ%3D%3D&page%5Bsize%5D=1
       summary: List webhook logs
       tags:
       - Webhooks
@@ -1130,19 +1408,19 @@ components:
         id: id
         type: type
       properties:
+        type:
+          description: 'The type of this resource: `accounts`'
+          type: string
         id:
           description: |
             The unique identifier for this account.
           type: string
-        type:
-          description: 'The type of this resource: `accounts`'
-          type: string
         attributes:
           $ref: '#/components/schemas/AccountResource_attributes'
-        links:
-          $ref: '#/components/schemas/AccountResource_links'
         relationships:
           $ref: '#/components/schemas/AccountResource_relationships'
+        links:
+          $ref: '#/components/schemas/AccountResource_links'
       required:
       - attributes
       - id
@@ -1212,6 +1490,124 @@ components:
       required:
       - data
       type: object
+    CategoryResource:
+      description: |
+        Provides information about a category and its ancestry.
+      example:
+        relationships:
+          parent:
+            data:
+              id: id
+              type: type
+            links:
+              related: related
+          children:
+            data:
+            - id: id
+              type: type
+            - id: id
+              type: type
+            links:
+              related: related
+        attributes:
+          name: name
+        links:
+          self: self
+        id: id
+        type: type
+      properties:
+        type:
+          description: 'The type of this resource: `categories`'
+          type: string
+        id:
+          description: |
+            The unique identifier for this category. This is a human-readable but
+            URL-safe value.
+          type: string
+        attributes:
+          $ref: '#/components/schemas/CategoryResource_attributes'
+        relationships:
+          $ref: '#/components/schemas/CategoryResource_relationships'
+        links:
+          $ref: '#/components/schemas/AccountResource_links'
+      required:
+      - attributes
+      - id
+      - relationships
+      - type
+      type: object
+    ListCategoriesResponse:
+      description: |
+        Successful response to get all categories and their ancestry. The
+        returned list is not paginated.
+      example:
+        data:
+        - relationships:
+            parent:
+              data:
+                id: id
+                type: type
+              links:
+                related: related
+            children:
+              data:
+              - id: id
+                type: type
+              - id: id
+                type: type
+              links:
+                related: related
+          attributes:
+            name: name
+          links:
+            self: self
+          id: id
+          type: type
+        - relationships:
+            parent:
+              data:
+                id: id
+                type: type
+              links:
+                related: related
+            children:
+              data:
+              - id: id
+                type: type
+              - id: id
+                type: type
+              links:
+                related: related
+          attributes:
+            name: name
+          links:
+            self: self
+          id: id
+          type: type
+      properties:
+        data:
+          description: |
+            The list of categories returned in this response.
+          items:
+            $ref: '#/components/schemas/CategoryResource'
+          type: array
+      required:
+      - data
+      type: object
+    GetCategoryResponse:
+      description: |
+        Successful response to get a single category and its ancestry.
+      example:
+        data: ""
+      properties:
+        data:
+          allOf:
+          - $ref: '#/components/schemas/CategoryResource'
+          description: |
+            The category returned in this response.
+      required:
+      - data
+      type: object
     PingResponse:
       description: |
         Basic ping response to verify authentication.
@@ -1267,6 +1663,66 @@ components:
       required:
       - errors
       type: object
+    TagResource:
+      description: |
+        Provides information about a tag.
+      example:
+        relationships:
+          transactions:
+            links:
+              related: related
+        id: id
+        type: type
+      properties:
+        type:
+          description: 'The type of this resource: `tags`'
+          type: string
+        id:
+          description: |
+            The label of the tag, which also acts as the tag’s unique identifier.
+          type: string
+        relationships:
+          $ref: '#/components/schemas/AccountResource_relationships'
+      required:
+      - id
+      - relationships
+      - type
+      type: object
+    ListTagsResponse:
+      description: |
+        Successful response to get all tags. This returns a paginated list of
+        tags, which can be scrolled by following the `prev` and `next` links if
+        present.
+      example:
+        data:
+        - relationships:
+            transactions:
+              links:
+                related: related
+          id: id
+          type: type
+        - relationships:
+            transactions:
+              links:
+                related: related
+          id: id
+          type: type
+        links:
+          next: next
+          prev: prev
+      properties:
+        data:
+          description: |
+            The list of tags returned in this response.
+          items:
+            $ref: '#/components/schemas/TagResource'
+          type: array
+        links:
+          $ref: '#/components/schemas/ListAccountsResponse_links'
+      required:
+      - data
+      - links
+      type: object
     TagInputResourceIdentifier:
       description: |
         Uniquely identifies a single tag in the API.
@@ -1279,7 +1735,7 @@ components:
           type: string
         id:
           description: |
-            The name of the tag, which also acts as the tag's unique identifier.
+            The label of the tag, which also acts as the tag’s unique identifier.
           type: string
       required:
       - id
@@ -1308,8 +1764,8 @@ components:
       description: |
         Specifies which stage of processing a transaction is currently at.
         Currently returned values are `HELD` and `SETTLED`. When a transaction is
-        held, its account's `availableBalance` is affected. When a transaction is
-        settled, its account's `currentBalance` is affected.
+        held, its account’s `availableBalance` is affected. When a transaction is
+        settled, its account’s `currentBalance` is affected.
       enum:
       - HELD
       - SETTLED
@@ -1346,7 +1802,8 @@ components:
           allOf:
           - $ref: '#/components/schemas/MoneyObject'
           description: |
-            The total amount of this Round Up, represented as negative value.
+            The total amount of this Round Up, including any boosts, represented as
+            a negative value.
         boostPortion:
           allOf:
           - $ref: '#/components/schemas/MoneyObject'
@@ -1380,6 +1837,18 @@ components:
     TransactionResource:
       example:
         relationships:
+          parentCategory:
+            data:
+              id: id
+              type: type
+            links:
+              related: related
+          category:
+            data:
+              id: id
+              type: type
+            links:
+              related: related
           account:
             data:
               id: id
@@ -1411,19 +1880,19 @@ components:
         id: id
         type: type
       properties:
+        type:
+          description: 'The type of this resource: `transactions`'
+          type: string
         id:
           description: |
             The unique identifier for this transaction.
           type: string
-        type:
-          description: 'The type of this resource: `transactions`'
-          type: string
         attributes:
           $ref: '#/components/schemas/TransactionResource_attributes'
-        links:
-          $ref: '#/components/schemas/AccountResource_links'
         relationships:
           $ref: '#/components/schemas/TransactionResource_relationships'
+        links:
+          $ref: '#/components/schemas/AccountResource_links'
       required:
       - attributes
       - id
@@ -1431,9 +1900,25 @@ components:
       - type
       type: object
     ListTransactionsResponse:
+      description: |
+        Successful response to get all transactions. This returns a paginated
+        list of transactions, which can be scrolled by following the `prev` and
+        `next` links if present.
       example:
         data:
         - relationships:
+            parentCategory:
+              data:
+                id: id
+                type: type
+              links:
+                related: related
+            category:
+              data:
+                id: id
+                type: type
+              links:
+                related: related
             account:
               data:
                 id: id
@@ -1465,6 +1950,18 @@ components:
           id: id
           type: type
         - relationships:
+            parentCategory:
+              data:
+                id: id
+                type: type
+              links:
+                related: related
+            category:
+              data:
+                id: id
+                type: type
+              links:
+                related: related
             account:
               data:
                 id: id
@@ -1543,19 +2040,19 @@ components:
         id: id
         type: type
       properties:
+        type:
+          description: 'The type of this resource: `webhooks`'
+          type: string
         id:
           description: |
             The unique identifier for this webhook.
           type: string
-        type:
-          description: 'The type of this resource: `webhooks`'
-          type: string
         attributes:
           $ref: '#/components/schemas/WebhookResource_attributes'
-        links:
-          $ref: '#/components/schemas/AccountResource_links'
         relationships:
           $ref: '#/components/schemas/WebhookResource_relationships'
+        links:
+          $ref: '#/components/schemas/AccountResource_links'
       required:
       - attributes
       - id
@@ -1666,18 +2163,16 @@ components:
         subscribed endpoints. Webhooks events have defined `eventType`s and may
         optionally relate to other resources within the Up API.
       properties:
+        type:
+          description: 'The type of this resource: `webhook-events`'
+          type: string
         id:
           description: |
             The unique identifier for this event. This will remain constant across
             delivery retries.
           type: string
-        type:
-          description: 'The type of this resource: `webhook-events`'
-          type: string
         attributes:
           $ref: '#/components/schemas/WebhookEventResource_attributes'
-        links:
-          $ref: '#/components/schemas/AccountResource_links'
         relationships:
           $ref: '#/components/schemas/WebhookEventResource_relationships'
       required:
@@ -1748,22 +2243,18 @@ components:
             body: body
             statusCode: 0
           deliveryStatus: ""
-        links:
-          self: self
         id: id
         type: type
       properties:
+        type:
+          description: 'The type of this resource: `webhook-delivery-logs`'
+          type: string
         id:
           description: |
             The unique identifier for this log entry.
           type: string
-        type:
-          description: 'The type of this resource: `webhook-delivery-logs`'
-          type: string
         attributes:
           $ref: '#/components/schemas/WebhookDeliveryLogResource_attributes'
-        links:
-          $ref: '#/components/schemas/AccountResource_links'
         relationships:
           $ref: '#/components/schemas/WebhookDeliveryLogResource_relationships'
       required:
@@ -1775,8 +2266,8 @@ components:
     ListWebhookDeliveryLogsResponse:
       description: |
         Successful response to get all delivery logs for a webhook. This returns
-        a [paginated](#pagination) list of delivery logs, which can be scrolled
-        by following the `next` and `prev` links if present.
+        a paginated list of delivery logs, which can be scrolled by following the
+        `next` and `prev` links if present.
       example:
         data:
         - relationships:
@@ -1792,8 +2283,6 @@ components:
               body: body
               statusCode: 0
             deliveryStatus: ""
-          links:
-            self: self
           id: id
           type: type
         - relationships:
@@ -1809,8 +2298,6 @@ components:
               body: body
               statusCode: 0
             deliveryStatus: ""
-          links:
-            self: self
           id: id
           type: type
         links:
@@ -1862,17 +2349,6 @@ components:
       - createdAt
       - displayName
       type: object
-    AccountResource_links:
-      example:
-        self: self
-      properties:
-        self:
-          description: |
-            The canonical link to this resource.
-          type: string
-      required:
-      - self
-      type: object
     AccountResource_relationships_transactions_links:
       example:
         related: related
@@ -1903,6 +2379,17 @@ components:
       required:
       - transactions
       type: object
+    AccountResource_links:
+      example:
+        self: self
+      properties:
+        self:
+          description: |
+            The canonical link to this resource within the API.
+          type: string
+      required:
+      - self
+      type: object
     ListAccountsResponse_links:
       example:
         next: next
@@ -1923,6 +2410,109 @@ components:
       required:
       - next
       - prev
+      type: object
+    CategoryResource_attributes:
+      example:
+        name: name
+      properties:
+        name:
+          description: |
+            The name of this category as seen in the Up application.
+          type: string
+      required:
+      - name
+      type: object
+    CategoryResource_relationships_parent_data:
+      example:
+        id: id
+        type: type
+      nullable: true
+      properties:
+        type:
+          description: 'The type of this resource: `categories`'
+          type: string
+        id:
+          description: |
+            The unique identifier of the resource within its type.
+          type: string
+      required:
+      - id
+      - type
+      type: object
+    CategoryResource_relationships_parent:
+      example:
+        data:
+          id: id
+          type: type
+        links:
+          related: related
+      properties:
+        data:
+          $ref: '#/components/schemas/CategoryResource_relationships_parent_data'
+        links:
+          $ref: '#/components/schemas/AccountResource_relationships_transactions_links'
+      required:
+      - data
+      type: object
+    CategoryResource_relationships_children_data:
+      example:
+        id: id
+        type: type
+      properties:
+        type:
+          description: 'The type of this resource: `categories`'
+          type: string
+        id:
+          description: |
+            The unique identifier of the resource within its type.
+          type: string
+      required:
+      - id
+      - type
+      type: object
+    CategoryResource_relationships_children:
+      example:
+        data:
+        - id: id
+          type: type
+        - id: id
+          type: type
+        links:
+          related: related
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/CategoryResource_relationships_children_data'
+          type: array
+        links:
+          $ref: '#/components/schemas/AccountResource_relationships_transactions_links'
+      required:
+      - data
+      type: object
+    CategoryResource_relationships:
+      example:
+        parent:
+          data:
+            id: id
+            type: type
+          links:
+            related: related
+        children:
+          data:
+          - id: id
+            type: type
+          - id: id
+            type: type
+          links:
+            related: related
+      properties:
+        parent:
+          $ref: '#/components/schemas/CategoryResource_relationships_parent'
+        children:
+          $ref: '#/components/schemas/CategoryResource_relationships_children'
+      required:
+      - children
+      - parent
       type: object
     PingResponse_meta:
       example:
@@ -2102,7 +2692,7 @@ components:
           type: string
         id:
           description: |
-            The name of the tag, which also acts as the tag's unique identifier.
+            The label of the tag, which also acts as the tag’s unique identifier.
           type: string
       required:
       - id
@@ -2141,6 +2731,18 @@ components:
       type: object
     TransactionResource_relationships:
       example:
+        parentCategory:
+          data:
+            id: id
+            type: type
+          links:
+            related: related
+        category:
+          data:
+            id: id
+            type: type
+          links:
+            related: related
         account:
           data:
             id: id
@@ -2158,10 +2760,16 @@ components:
       properties:
         account:
           $ref: '#/components/schemas/TransactionResource_relationships_account'
+        category:
+          $ref: '#/components/schemas/CategoryResource_relationships_parent'
+        parentCategory:
+          $ref: '#/components/schemas/CategoryResource_relationships_parent'
         tags:
           $ref: '#/components/schemas/TransactionResource_relationships_tags'
       required:
       - account
+      - category
+      - parentCategory
       - tags
       type: object
     WebhookResource_attributes:
