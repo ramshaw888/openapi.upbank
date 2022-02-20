@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Amount** | [**MoneyObject**](MoneyObject.md) | The total amount of this Round Up, including any boosts, represented as a negative value.  | 
-**BoostPortion** | [**MoneyObject**](MoneyObject.md) | The portion of the Round Up &#x60;amount&#x60; owing to boosted Round Ups, represented as a negative value. If no boost was added to the Round Up this field will be &#x60;null&#x60;.  | 
+**BoostPortion** | [**NullableMoneyObject**](MoneyObject.md) | The portion of the Round Up &#x60;amount&#x60; owing to boosted Round Ups, represented as a negative value. If no boost was added to the Round Up this field will be &#x60;null&#x60;.  | 
 
 ## Methods
 
 ### NewRoundUpObject
 
-`func NewRoundUpObject(amount MoneyObject, boostPortion MoneyObject, ) *RoundUpObject`
+`func NewRoundUpObject(amount MoneyObject, boostPortion NullableMoneyObject, ) *RoundUpObject`
 
 NewRoundUpObject instantiates a new RoundUpObject object
 This constructor will assign default values to properties that have it defined,
@@ -46,16 +46,6 @@ and a boolean to check if the value has been set.
 SetAmount sets Amount field to given value.
 
 
-### SetAmountNil
-
-`func (o *RoundUpObject) SetAmountNil(b bool)`
-
- SetAmountNil sets the value for Amount to be an explicit nil
-
-### UnsetAmount
-`func (o *RoundUpObject) UnsetAmount()`
-
-UnsetAmount ensures that no value is present for Amount, not even an explicit nil
 ### GetBoostPortion
 
 `func (o *RoundUpObject) GetBoostPortion() MoneyObject`

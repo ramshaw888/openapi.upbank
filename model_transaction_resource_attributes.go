@@ -28,15 +28,15 @@ type TransactionResourceAttributes struct {
 	// Boolean flag set to true on transactions that support the use of categories. 
 	IsCategorizable bool `json:"isCategorizable"`
 	// If this transaction is currently in the `HELD` status, or was ever in the `HELD` status, the `amount` and `foreignAmount` of the transaction while `HELD`. 
-	HoldInfo HoldInfoObject `json:"holdInfo"`
+	HoldInfo NullableHoldInfoObject `json:"holdInfo"`
 	// Details of how this transaction was rounded-up. If no Round Up was applied this field will be `null`. 
-	RoundUp RoundUpObject `json:"roundUp"`
+	RoundUp NullableRoundUpObject `json:"roundUp"`
 	// If all or part of this transaction was instantly reimbursed in the form of cashback, details of the reimbursement. 
-	Cashback CashbackObject `json:"cashback"`
+	Cashback NullableCashbackObject `json:"cashback"`
 	// The amount of this transaction in Australian dollars. For transactions that were once `HELD` but are now `SETTLED`, refer to the `holdInfo` field for the original `amount` the transaction was `HELD` at. 
 	Amount MoneyObject `json:"amount"`
 	// The foreign currency amount of this transaction. This field will be `null` for domestic transactions. The amount was converted to the AUD amount reflected in the `amount` of this transaction. Refer to the `holdInfo` field for the original `foreignAmount` the transaction was `HELD` at. 
-	ForeignAmount MoneyObject `json:"foreignAmount"`
+	ForeignAmount NullableMoneyObject `json:"foreignAmount"`
 	// The date-time at which this transaction settled. This field will be `null` for transactions that are currently in the `HELD` status. 
 	SettledAt NullableTime `json:"settledAt"`
 	// The date-time at which this transaction was first encountered. 
@@ -47,7 +47,7 @@ type TransactionResourceAttributes struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTransactionResourceAttributes(status TransactionStatusEnum, rawText NullableString, description string, message NullableString, isCategorizable bool, holdInfo HoldInfoObject, roundUp RoundUpObject, cashback CashbackObject, amount MoneyObject, foreignAmount MoneyObject, settledAt NullableTime, createdAt time.Time) *TransactionResourceAttributes {
+func NewTransactionResourceAttributes(status TransactionStatusEnum, rawText NullableString, description string, message NullableString, isCategorizable bool, holdInfo NullableHoldInfoObject, roundUp NullableRoundUpObject, cashback NullableCashbackObject, amount MoneyObject, foreignAmount NullableMoneyObject, settledAt NullableTime, createdAt time.Time) *TransactionResourceAttributes {
 	this := TransactionResourceAttributes{}
 	this.Status = status
 	this.RawText = rawText
@@ -73,7 +73,6 @@ func NewTransactionResourceAttributesWithDefaults() *TransactionResourceAttribut
 }
 
 // GetStatus returns the Status field value
-// If the value is explicit nil, the zero value for TransactionStatusEnum will be returned
 func (o *TransactionResourceAttributes) GetStatus() TransactionStatusEnum {
 	if o == nil {
 		var ret TransactionStatusEnum
@@ -85,9 +84,8 @@ func (o *TransactionResourceAttributes) GetStatus() TransactionStatusEnum {
 
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *TransactionResourceAttributes) GetStatusOk() (*TransactionStatusEnum, bool) {
-	if o == nil || o.Status == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Status, true
@@ -201,83 +199,82 @@ func (o *TransactionResourceAttributes) SetIsCategorizable(v bool) {
 // GetHoldInfo returns the HoldInfo field value
 // If the value is explicit nil, the zero value for HoldInfoObject will be returned
 func (o *TransactionResourceAttributes) GetHoldInfo() HoldInfoObject {
-	if o == nil {
+	if o == nil || o.HoldInfo.Get() == nil {
 		var ret HoldInfoObject
 		return ret
 	}
 
-	return o.HoldInfo
+	return *o.HoldInfo.Get()
 }
 
 // GetHoldInfoOk returns a tuple with the HoldInfo field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *TransactionResourceAttributes) GetHoldInfoOk() (*HoldInfoObject, bool) {
-	if o == nil || o.HoldInfo == nil {
+	if o == nil  {
 		return nil, false
 	}
-	return &o.HoldInfo, true
+	return o.HoldInfo.Get(), o.HoldInfo.IsSet()
 }
 
 // SetHoldInfo sets field value
 func (o *TransactionResourceAttributes) SetHoldInfo(v HoldInfoObject) {
-	o.HoldInfo = v
+	o.HoldInfo.Set(&v)
 }
 
 // GetRoundUp returns the RoundUp field value
 // If the value is explicit nil, the zero value for RoundUpObject will be returned
 func (o *TransactionResourceAttributes) GetRoundUp() RoundUpObject {
-	if o == nil {
+	if o == nil || o.RoundUp.Get() == nil {
 		var ret RoundUpObject
 		return ret
 	}
 
-	return o.RoundUp
+	return *o.RoundUp.Get()
 }
 
 // GetRoundUpOk returns a tuple with the RoundUp field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *TransactionResourceAttributes) GetRoundUpOk() (*RoundUpObject, bool) {
-	if o == nil || o.RoundUp == nil {
+	if o == nil  {
 		return nil, false
 	}
-	return &o.RoundUp, true
+	return o.RoundUp.Get(), o.RoundUp.IsSet()
 }
 
 // SetRoundUp sets field value
 func (o *TransactionResourceAttributes) SetRoundUp(v RoundUpObject) {
-	o.RoundUp = v
+	o.RoundUp.Set(&v)
 }
 
 // GetCashback returns the Cashback field value
 // If the value is explicit nil, the zero value for CashbackObject will be returned
 func (o *TransactionResourceAttributes) GetCashback() CashbackObject {
-	if o == nil {
+	if o == nil || o.Cashback.Get() == nil {
 		var ret CashbackObject
 		return ret
 	}
 
-	return o.Cashback
+	return *o.Cashback.Get()
 }
 
 // GetCashbackOk returns a tuple with the Cashback field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *TransactionResourceAttributes) GetCashbackOk() (*CashbackObject, bool) {
-	if o == nil || o.Cashback == nil {
+	if o == nil  {
 		return nil, false
 	}
-	return &o.Cashback, true
+	return o.Cashback.Get(), o.Cashback.IsSet()
 }
 
 // SetCashback sets field value
 func (o *TransactionResourceAttributes) SetCashback(v CashbackObject) {
-	o.Cashback = v
+	o.Cashback.Set(&v)
 }
 
 // GetAmount returns the Amount field value
-// If the value is explicit nil, the zero value for MoneyObject will be returned
 func (o *TransactionResourceAttributes) GetAmount() MoneyObject {
 	if o == nil {
 		var ret MoneyObject
@@ -289,9 +286,8 @@ func (o *TransactionResourceAttributes) GetAmount() MoneyObject {
 
 // GetAmountOk returns a tuple with the Amount field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *TransactionResourceAttributes) GetAmountOk() (*MoneyObject, bool) {
-	if o == nil || o.Amount == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Amount, true
@@ -305,27 +301,27 @@ func (o *TransactionResourceAttributes) SetAmount(v MoneyObject) {
 // GetForeignAmount returns the ForeignAmount field value
 // If the value is explicit nil, the zero value for MoneyObject will be returned
 func (o *TransactionResourceAttributes) GetForeignAmount() MoneyObject {
-	if o == nil {
+	if o == nil || o.ForeignAmount.Get() == nil {
 		var ret MoneyObject
 		return ret
 	}
 
-	return o.ForeignAmount
+	return *o.ForeignAmount.Get()
 }
 
 // GetForeignAmountOk returns a tuple with the ForeignAmount field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *TransactionResourceAttributes) GetForeignAmountOk() (*MoneyObject, bool) {
-	if o == nil || o.ForeignAmount == nil {
+	if o == nil  {
 		return nil, false
 	}
-	return &o.ForeignAmount, true
+	return o.ForeignAmount.Get(), o.ForeignAmount.IsSet()
 }
 
 // SetForeignAmount sets field value
 func (o *TransactionResourceAttributes) SetForeignAmount(v MoneyObject) {
-	o.ForeignAmount = v
+	o.ForeignAmount.Set(&v)
 }
 
 // GetSettledAt returns the SettledAt field value
@@ -380,7 +376,7 @@ func (o *TransactionResourceAttributes) SetCreatedAt(v time.Time) {
 
 func (o TransactionResourceAttributes) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Status != nil {
+	if true {
 		toSerialize["status"] = o.Status
 	}
 	if true {
@@ -395,20 +391,20 @@ func (o TransactionResourceAttributes) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["isCategorizable"] = o.IsCategorizable
 	}
-	if o.HoldInfo != nil {
-		toSerialize["holdInfo"] = o.HoldInfo
+	if true {
+		toSerialize["holdInfo"] = o.HoldInfo.Get()
 	}
-	if o.RoundUp != nil {
-		toSerialize["roundUp"] = o.RoundUp
+	if true {
+		toSerialize["roundUp"] = o.RoundUp.Get()
 	}
-	if o.Cashback != nil {
-		toSerialize["cashback"] = o.Cashback
+	if true {
+		toSerialize["cashback"] = o.Cashback.Get()
 	}
-	if o.Amount != nil {
+	if true {
 		toSerialize["amount"] = o.Amount
 	}
-	if o.ForeignAmount != nil {
-		toSerialize["foreignAmount"] = o.ForeignAmount
+	if true {
+		toSerialize["foreignAmount"] = o.ForeignAmount.Get()
 	}
 	if true {
 		toSerialize["settledAt"] = o.SettledAt.Get()

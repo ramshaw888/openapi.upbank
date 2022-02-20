@@ -79,7 +79,9 @@ func (a *AccountsApiService) AccountsGetExecute(r ApiAccountsGetRequest) (ListAc
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		localVarReturnValue  ListAccountsResponse
 	)
 
@@ -120,7 +122,7 @@ func (a *AccountsApiService) AccountsGetExecute(r ApiAccountsGetRequest) (ListAc
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -192,7 +194,9 @@ func (a *AccountsApiService) AccountsIdGetExecute(r ApiAccountsIdGetRequest) (Ge
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		localVarReturnValue  GetAccountResponse
 	)
 
@@ -225,7 +229,7 @@ func (a *AccountsApiService) AccountsIdGetExecute(r ApiAccountsIdGetRequest) (Ge
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}

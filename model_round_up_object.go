@@ -19,14 +19,14 @@ type RoundUpObject struct {
 	// The total amount of this Round Up, including any boosts, represented as a negative value. 
 	Amount MoneyObject `json:"amount"`
 	// The portion of the Round Up `amount` owing to boosted Round Ups, represented as a negative value. If no boost was added to the Round Up this field will be `null`. 
-	BoostPortion MoneyObject `json:"boostPortion"`
+	BoostPortion NullableMoneyObject `json:"boostPortion"`
 }
 
 // NewRoundUpObject instantiates a new RoundUpObject object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRoundUpObject(amount MoneyObject, boostPortion MoneyObject) *RoundUpObject {
+func NewRoundUpObject(amount MoneyObject, boostPortion NullableMoneyObject) *RoundUpObject {
 	this := RoundUpObject{}
 	this.Amount = amount
 	this.BoostPortion = boostPortion
@@ -42,7 +42,6 @@ func NewRoundUpObjectWithDefaults() *RoundUpObject {
 }
 
 // GetAmount returns the Amount field value
-// If the value is explicit nil, the zero value for MoneyObject will be returned
 func (o *RoundUpObject) GetAmount() MoneyObject {
 	if o == nil {
 		var ret MoneyObject
@@ -54,9 +53,8 @@ func (o *RoundUpObject) GetAmount() MoneyObject {
 
 // GetAmountOk returns a tuple with the Amount field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *RoundUpObject) GetAmountOk() (*MoneyObject, bool) {
-	if o == nil || o.Amount == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Amount, true
@@ -70,36 +68,36 @@ func (o *RoundUpObject) SetAmount(v MoneyObject) {
 // GetBoostPortion returns the BoostPortion field value
 // If the value is explicit nil, the zero value for MoneyObject will be returned
 func (o *RoundUpObject) GetBoostPortion() MoneyObject {
-	if o == nil {
+	if o == nil || o.BoostPortion.Get() == nil {
 		var ret MoneyObject
 		return ret
 	}
 
-	return o.BoostPortion
+	return *o.BoostPortion.Get()
 }
 
 // GetBoostPortionOk returns a tuple with the BoostPortion field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *RoundUpObject) GetBoostPortionOk() (*MoneyObject, bool) {
-	if o == nil || o.BoostPortion == nil {
+	if o == nil  {
 		return nil, false
 	}
-	return &o.BoostPortion, true
+	return o.BoostPortion.Get(), o.BoostPortion.IsSet()
 }
 
 // SetBoostPortion sets field value
 func (o *RoundUpObject) SetBoostPortion(v MoneyObject) {
-	o.BoostPortion = v
+	o.BoostPortion.Set(&v)
 }
 
 func (o RoundUpObject) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Amount != nil {
+	if true {
 		toSerialize["amount"] = o.Amount
 	}
-	if o.BoostPortion != nil {
-		toSerialize["boostPortion"] = o.BoostPortion
+	if true {
+		toSerialize["boostPortion"] = o.BoostPortion.Get()
 	}
 	return json.Marshal(toSerialize)
 }

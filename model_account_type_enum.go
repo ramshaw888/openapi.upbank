@@ -24,8 +24,7 @@ const (
 	TRANSACTIONAL AccountTypeEnum = "TRANSACTIONAL"
 )
 
-// All allowed values of AccountTypeEnum enum
-var AllowedAccountTypeEnumEnumValues = []AccountTypeEnum{
+var allowedAccountTypeEnumEnumValues = []AccountTypeEnum{
 	"SAVER",
 	"TRANSACTIONAL",
 }
@@ -37,7 +36,7 @@ func (v *AccountTypeEnum) UnmarshalJSON(src []byte) error {
 		return err
 	}
 	enumTypeValue := AccountTypeEnum(value)
-	for _, existing := range AllowedAccountTypeEnumEnumValues {
+	for _, existing := range allowedAccountTypeEnumEnumValues {
 		if existing == enumTypeValue {
 			*v = enumTypeValue
 			return nil
@@ -54,13 +53,13 @@ func NewAccountTypeEnumFromValue(v string) (*AccountTypeEnum, error) {
 	if ev.IsValid() {
 		return &ev, nil
 	} else {
-		return nil, fmt.Errorf("invalid value '%v' for AccountTypeEnum: valid values are %v", v, AllowedAccountTypeEnumEnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for AccountTypeEnum: valid values are %v", v, allowedAccountTypeEnumEnumValues)
 	}
 }
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v AccountTypeEnum) IsValid() bool {
-	for _, existing := range AllowedAccountTypeEnumEnumValues {
+	for _, existing := range allowedAccountTypeEnumEnumValues {
 		if existing == v {
 			return true
 		}

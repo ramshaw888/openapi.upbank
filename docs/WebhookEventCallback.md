@@ -45,16 +45,6 @@ and a boolean to check if the value has been set.
 SetData sets Data field to given value.
 
 
-### SetDataNil
-
-`func (o *WebhookEventCallback) SetDataNil(b bool)`
-
- SetDataNil sets the value for Data to be an explicit nil
-
-### UnsetData
-`func (o *WebhookEventCallback) UnsetData()`
-
-UnsetData ensures that no value is present for Data, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

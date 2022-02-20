@@ -1,7 +1,7 @@
 /*
 Up API
 
-The Up API gives you programmatic access to your balances and transaction data. You can request past transactions or set up webhooks to receive real-time events when new transactions hit your account. It’s new, it’s exciting and it’s just the beginning. 
+The Up API gives you programmatic access to your balances and transaction data. You can request past transactions or set up webhooks to receive real-time events when new transactions hit your account. It’s new, it’s exciting and it’s just the beginning.
 
 API version: v1
 */
@@ -17,15 +17,15 @@ import (
 
 // AccountResourceAttributes struct for AccountResourceAttributes
 type AccountResourceAttributes struct {
-	// The name associated with the account in the Up application. 
+	// The name associated with the account in the Up application.
 	DisplayName string `json:"displayName"`
-	// The bank account type of this account. 
+	// The bank account type of this account.
 	AccountType AccountTypeEnum `json:"accountType"`
-	// The ownership structure for this account. 
+	// The ownership structure for this account.
 	OwnershipType OwnershipTypeEnum `json:"ownershipType"`
-	// The available balance of the account, taking into account any amounts that are currently on hold. 
+	// The available balance of the account, taking into account any amounts that are currently on hold.
 	Balance MoneyObject `json:"balance"`
-	// The date-time at which this account was first opened. 
+	// The date-time at which this account was first opened.
 	CreatedAt time.Time `json:"createdAt"`
 }
 
@@ -64,7 +64,7 @@ func (o *AccountResourceAttributes) GetDisplayName() string {
 // GetDisplayNameOk returns a tuple with the DisplayName field value
 // and a boolean to check if the value has been set.
 func (o *AccountResourceAttributes) GetDisplayNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.DisplayName, true
@@ -76,7 +76,6 @@ func (o *AccountResourceAttributes) SetDisplayName(v string) {
 }
 
 // GetAccountType returns the AccountType field value
-// If the value is explicit nil, the zero value for AccountTypeEnum will be returned
 func (o *AccountResourceAttributes) GetAccountType() AccountTypeEnum {
 	if o == nil {
 		var ret AccountTypeEnum
@@ -88,9 +87,8 @@ func (o *AccountResourceAttributes) GetAccountType() AccountTypeEnum {
 
 // GetAccountTypeOk returns a tuple with the AccountType field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AccountResourceAttributes) GetAccountTypeOk() (*AccountTypeEnum, bool) {
-	if o == nil || o.AccountType == nil {
+	if o == nil {
 		return nil, false
 	}
 	return &o.AccountType, true
@@ -102,7 +100,6 @@ func (o *AccountResourceAttributes) SetAccountType(v AccountTypeEnum) {
 }
 
 // GetOwnershipType returns the OwnershipType field value
-// If the value is explicit nil, the zero value for OwnershipTypeEnum will be returned
 func (o *AccountResourceAttributes) GetOwnershipType() OwnershipTypeEnum {
 	if o == nil {
 		var ret OwnershipTypeEnum
@@ -114,9 +111,8 @@ func (o *AccountResourceAttributes) GetOwnershipType() OwnershipTypeEnum {
 
 // GetOwnershipTypeOk returns a tuple with the OwnershipType field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AccountResourceAttributes) GetOwnershipTypeOk() (*OwnershipTypeEnum, bool) {
-	if o == nil || o.OwnershipType == nil {
+	if o == nil {
 		return nil, false
 	}
 	return &o.OwnershipType, true
@@ -128,7 +124,6 @@ func (o *AccountResourceAttributes) SetOwnershipType(v OwnershipTypeEnum) {
 }
 
 // GetBalance returns the Balance field value
-// If the value is explicit nil, the zero value for MoneyObject will be returned
 func (o *AccountResourceAttributes) GetBalance() MoneyObject {
 	if o == nil {
 		var ret MoneyObject
@@ -140,9 +135,8 @@ func (o *AccountResourceAttributes) GetBalance() MoneyObject {
 
 // GetBalanceOk returns a tuple with the Balance field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AccountResourceAttributes) GetBalanceOk() (*MoneyObject, bool) {
-	if o == nil || o.Balance == nil {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Balance, true
@@ -166,7 +160,7 @@ func (o *AccountResourceAttributes) GetCreatedAt() time.Time {
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *AccountResourceAttributes) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CreatedAt, true
@@ -182,13 +176,13 @@ func (o AccountResourceAttributes) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["displayName"] = o.DisplayName
 	}
-	if o.AccountType != nil {
+	if true {
 		toSerialize["accountType"] = o.AccountType
 	}
-	if o.OwnershipType != nil {
+	if true {
 		toSerialize["ownershipType"] = o.OwnershipType
 	}
-	if o.Balance != nil {
+	if true {
 		toSerialize["balance"] = o.Balance
 	}
 	if true {
@@ -232,5 +226,3 @@ func (v *NullableAccountResourceAttributes) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

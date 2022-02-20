@@ -43,7 +43,6 @@ func NewWebhookEventResourceAttributesWithDefaults() *WebhookEventResourceAttrib
 }
 
 // GetEventType returns the EventType field value
-// If the value is explicit nil, the zero value for WebhookEventTypeEnum will be returned
 func (o *WebhookEventResourceAttributes) GetEventType() WebhookEventTypeEnum {
 	if o == nil {
 		var ret WebhookEventTypeEnum
@@ -55,9 +54,8 @@ func (o *WebhookEventResourceAttributes) GetEventType() WebhookEventTypeEnum {
 
 // GetEventTypeOk returns a tuple with the EventType field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *WebhookEventResourceAttributes) GetEventTypeOk() (*WebhookEventTypeEnum, bool) {
-	if o == nil || o.EventType == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.EventType, true
@@ -94,7 +92,7 @@ func (o *WebhookEventResourceAttributes) SetCreatedAt(v time.Time) {
 
 func (o WebhookEventResourceAttributes) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.EventType != nil {
+	if true {
 		toSerialize["eventType"] = o.EventType
 	}
 	if true {

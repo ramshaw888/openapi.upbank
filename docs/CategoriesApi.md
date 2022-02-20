@@ -168,7 +168,7 @@ import (
 
 func main() {
     transactionId := "a572c7c3-b637-433c-a4ce-c0be5dcb0a5a" // string | The unique identifier for the transaction. 
-    updateTransactionCategoryRequest := *openapiclient.NewUpdateTransactionCategoryRequest(*openapiclient.NewCategoryInputResourceIdentifier("Type_example", "Id_example")) // UpdateTransactionCategoryRequest |  (optional)
+    updateTransactionCategoryRequest := *openapiclient.NewUpdateTransactionCategoryRequest("TODO") // UpdateTransactionCategoryRequest |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

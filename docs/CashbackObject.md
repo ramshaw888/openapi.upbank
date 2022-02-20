@@ -66,16 +66,6 @@ and a boolean to check if the value has been set.
 SetAmount sets Amount field to given value.
 
 
-### SetAmountNil
-
-`func (o *CashbackObject) SetAmountNil(b bool)`
-
- SetAmountNil sets the value for Amount to be an explicit nil
-
-### UnsetAmount
-`func (o *CashbackObject) UnsetAmount()`
-
-UnsetAmount ensures that no value is present for Amount, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

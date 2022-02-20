@@ -25,8 +25,7 @@ const (
 	BAD_RESPONSE_CODE WebhookDeliveryStatusEnum = "BAD_RESPONSE_CODE"
 )
 
-// All allowed values of WebhookDeliveryStatusEnum enum
-var AllowedWebhookDeliveryStatusEnumEnumValues = []WebhookDeliveryStatusEnum{
+var allowedWebhookDeliveryStatusEnumEnumValues = []WebhookDeliveryStatusEnum{
 	"DELIVERED",
 	"UNDELIVERABLE",
 	"BAD_RESPONSE_CODE",
@@ -39,7 +38,7 @@ func (v *WebhookDeliveryStatusEnum) UnmarshalJSON(src []byte) error {
 		return err
 	}
 	enumTypeValue := WebhookDeliveryStatusEnum(value)
-	for _, existing := range AllowedWebhookDeliveryStatusEnumEnumValues {
+	for _, existing := range allowedWebhookDeliveryStatusEnumEnumValues {
 		if existing == enumTypeValue {
 			*v = enumTypeValue
 			return nil
@@ -56,13 +55,13 @@ func NewWebhookDeliveryStatusEnumFromValue(v string) (*WebhookDeliveryStatusEnum
 	if ev.IsValid() {
 		return &ev, nil
 	} else {
-		return nil, fmt.Errorf("invalid value '%v' for WebhookDeliveryStatusEnum: valid values are %v", v, AllowedWebhookDeliveryStatusEnumEnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for WebhookDeliveryStatusEnum: valid values are %v", v, allowedWebhookDeliveryStatusEnumEnumValues)
 	}
 }
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v WebhookDeliveryStatusEnum) IsValid() bool {
-	for _, existing := range AllowedWebhookDeliveryStatusEnumEnumValues {
+	for _, existing := range allowedWebhookDeliveryStatusEnumEnumValues {
 		if existing == v {
 			return true
 		}

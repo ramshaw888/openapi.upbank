@@ -69,16 +69,6 @@ and a boolean to check if the value has been set.
 SetAccountType sets AccountType field to given value.
 
 
-### SetAccountTypeNil
-
-`func (o *AccountResourceAttributes) SetAccountTypeNil(b bool)`
-
- SetAccountTypeNil sets the value for AccountType to be an explicit nil
-
-### UnsetAccountType
-`func (o *AccountResourceAttributes) UnsetAccountType()`
-
-UnsetAccountType ensures that no value is present for AccountType, not even an explicit nil
 ### GetOwnershipType
 
 `func (o *AccountResourceAttributes) GetOwnershipType() OwnershipTypeEnum`
@@ -99,16 +89,6 @@ and a boolean to check if the value has been set.
 SetOwnershipType sets OwnershipType field to given value.
 
 
-### SetOwnershipTypeNil
-
-`func (o *AccountResourceAttributes) SetOwnershipTypeNil(b bool)`
-
- SetOwnershipTypeNil sets the value for OwnershipType to be an explicit nil
-
-### UnsetOwnershipType
-`func (o *AccountResourceAttributes) UnsetOwnershipType()`
-
-UnsetOwnershipType ensures that no value is present for OwnershipType, not even an explicit nil
 ### GetBalance
 
 `func (o *AccountResourceAttributes) GetBalance() MoneyObject`
@@ -129,16 +109,6 @@ and a boolean to check if the value has been set.
 SetBalance sets Balance field to given value.
 
 
-### SetBalanceNil
-
-`func (o *AccountResourceAttributes) SetBalanceNil(b bool)`
-
- SetBalanceNil sets the value for Balance to be an explicit nil
-
-### UnsetBalance
-`func (o *AccountResourceAttributes) UnsetBalance()`
-
-UnsetBalance ensures that no value is present for Balance, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *AccountResourceAttributes) GetCreatedAt() time.Time`

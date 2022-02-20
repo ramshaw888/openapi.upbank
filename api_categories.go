@@ -66,7 +66,9 @@ func (a *CategoriesApiService) CategoriesGetExecute(r ApiCategoriesGetRequest) (
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		localVarReturnValue  ListCategoriesResponse
 	)
 
@@ -101,7 +103,7 @@ func (a *CategoriesApiService) CategoriesGetExecute(r ApiCategoriesGetRequest) (
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -173,7 +175,9 @@ func (a *CategoriesApiService) CategoriesIdGetExecute(r ApiCategoriesIdGetReques
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		localVarReturnValue  GetCategoryResponse
 	)
 
@@ -206,7 +210,7 @@ func (a *CategoriesApiService) CategoriesIdGetExecute(r ApiCategoriesIdGetReques
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -289,7 +293,9 @@ func (a *CategoriesApiService) TransactionsTransactionIdRelationshipsCategoryPat
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CategoriesApiService.TransactionsTransactionIdRelationshipsCategoryPatch")
@@ -323,7 +329,7 @@ func (a *CategoriesApiService) TransactionsTransactionIdRelationshipsCategoryPat
 	}
 	// body params
 	localVarPostBody = r.updateTransactionCategoryRequest
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}

@@ -105,7 +105,9 @@ func (a *TransactionsApiService) AccountsAccountIdTransactionsGetExecute(r ApiAc
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		localVarReturnValue  ListTransactionsResponse
 	)
 
@@ -156,7 +158,7 @@ func (a *TransactionsApiService) AccountsAccountIdTransactionsGetExecute(r ApiAc
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -267,7 +269,9 @@ func (a *TransactionsApiService) TransactionsGetExecute(r ApiTransactionsGetRequ
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		localVarReturnValue  ListTransactionsResponse
 	)
 
@@ -317,7 +321,7 @@ func (a *TransactionsApiService) TransactionsGetExecute(r ApiTransactionsGetRequ
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -389,7 +393,9 @@ func (a *TransactionsApiService) TransactionsIdGetExecute(r ApiTransactionsIdGet
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		localVarReturnValue  GetTransactionResponse
 	)
 
@@ -422,7 +428,7 @@ func (a *TransactionsApiService) TransactionsIdGetExecute(r ApiTransactionsIdGet
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}

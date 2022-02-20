@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Amount** | [**MoneyObject**](MoneyObject.md) | The amount of this transaction while in the &#x60;HELD&#x60; status, in Australian dollars.  | 
-**ForeignAmount** | [**MoneyObject**](MoneyObject.md) | The foreign currency amount of this transaction while in the &#x60;HELD&#x60; status. This field will be &#x60;null&#x60; for domestic transactions. The amount was converted to the AUD amount reflected in the &#x60;amount&#x60; field.  | 
+**ForeignAmount** | [**NullableMoneyObject**](MoneyObject.md) | The foreign currency amount of this transaction while in the &#x60;HELD&#x60; status. This field will be &#x60;null&#x60; for domestic transactions. The amount was converted to the AUD amount reflected in the &#x60;amount&#x60; field.  | 
 
 ## Methods
 
 ### NewHoldInfoObject
 
-`func NewHoldInfoObject(amount MoneyObject, foreignAmount MoneyObject, ) *HoldInfoObject`
+`func NewHoldInfoObject(amount MoneyObject, foreignAmount NullableMoneyObject, ) *HoldInfoObject`
 
 NewHoldInfoObject instantiates a new HoldInfoObject object
 This constructor will assign default values to properties that have it defined,
@@ -46,16 +46,6 @@ and a boolean to check if the value has been set.
 SetAmount sets Amount field to given value.
 
 
-### SetAmountNil
-
-`func (o *HoldInfoObject) SetAmountNil(b bool)`
-
- SetAmountNil sets the value for Amount to be an explicit nil
-
-### UnsetAmount
-`func (o *HoldInfoObject) UnsetAmount()`
-
-UnsetAmount ensures that no value is present for Amount, not even an explicit nil
 ### GetForeignAmount
 
 `func (o *HoldInfoObject) GetForeignAmount() MoneyObject`

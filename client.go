@@ -204,12 +204,6 @@ func (c *APIClient) GetConfig() *Configuration {
 	return c.cfg
 }
 
-type formFile struct {
-		fileBytes []byte
-		fileName string
-		formFileName string
-}
-
 // prepareRequest build the request
 func (c *APIClient) prepareRequest(
 	ctx context.Context,
@@ -218,7 +212,9 @@ func (c *APIClient) prepareRequest(
 	headerParams map[string]string,
 	queryParams url.Values,
 	formParams url.Values,
-	formFiles []formFile) (localVarRequest *http.Request, err error) {
+	formFileName string,
+	fileName string,
+	fileBytes []byte) (localVarRequest *http.Request, err error) {
 
 	var body *bytes.Buffer
 
@@ -237,7 +233,7 @@ func (c *APIClient) prepareRequest(
 	}
 
 	// add form parameters and file if available.
-	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(formFiles) > 0) {
+	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(fileBytes) > 0 && fileName != "") {
 		if body != nil {
 			return nil, errors.New("Cannot specify postBody and multipart form at the same time.")
 		}
@@ -256,17 +252,16 @@ func (c *APIClient) prepareRequest(
 				}
 			}
 		}
-		for _, formFile := range formFiles {
-			if len(formFile.fileBytes) > 0 && formFile.fileName != "" {
-				w.Boundary()
-				part, err := w.CreateFormFile(formFile.formFileName, filepath.Base(formFile.fileName))
-				if err != nil {
-						return nil, err
-				}
-				_, err = part.Write(formFile.fileBytes)
-				if err != nil {
-						return nil, err
-				}
+		if len(fileBytes) > 0 && fileName != "" {
+			w.Boundary()
+			//_, fileNm := filepath.Split(fileName)
+			part, err := w.CreateFormFile(formFileName, filepath.Base(fileName))
+			if err != nil {
+				return nil, err
+			}
+			_, err = part.Write(fileBytes)
+			if err != nil {
+				return nil, err
 			}
 		}
 
@@ -329,7 +324,7 @@ func (c *APIClient) prepareRequest(
 	if len(headerParams) > 0 {
 		headers := http.Header{}
 		for h, v := range headerParams {
-			headers[h] = []string{v}
+			headers.Set(h, v)
 		}
 		localVarRequest.Header = headers
 	}
@@ -386,9 +381,6 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 			return
 		}
 		_, err = (*f).Write(b)
-		if err != nil {
-			return
-		}
 		_, err = (*f).Seek(0, io.SeekStart)
 		return
 	}

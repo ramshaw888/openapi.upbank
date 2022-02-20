@@ -98,16 +98,6 @@ and a boolean to check if the value has been set.
 SetDeliveryStatus sets DeliveryStatus field to given value.
 
 
-### SetDeliveryStatusNil
-
-`func (o *WebhookDeliveryLogResourceAttributes) SetDeliveryStatusNil(b bool)`
-
- SetDeliveryStatusNil sets the value for DeliveryStatus to be an explicit nil
-
-### UnsetDeliveryStatus
-`func (o *WebhookDeliveryLogResourceAttributes) UnsetDeliveryStatus()`
-
-UnsetDeliveryStatus ensures that no value is present for DeliveryStatus, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *WebhookDeliveryLogResourceAttributes) GetCreatedAt() time.Time`

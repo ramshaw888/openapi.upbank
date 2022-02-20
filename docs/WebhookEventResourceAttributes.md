@@ -46,16 +46,6 @@ and a boolean to check if the value has been set.
 SetEventType sets EventType field to given value.
 
 
-### SetEventTypeNil
-
-`func (o *WebhookEventResourceAttributes) SetEventTypeNil(b bool)`
-
- SetEventTypeNil sets the value for EventType to be an explicit nil
-
-### UnsetEventType
-`func (o *WebhookEventResourceAttributes) UnsetEventType()`
-
-UnsetEventType ensures that no value is present for EventType, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *WebhookEventResourceAttributes) GetCreatedAt() time.Time`

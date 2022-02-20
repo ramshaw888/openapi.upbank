@@ -26,8 +26,7 @@ const (
 	PING WebhookEventTypeEnum = "PING"
 )
 
-// All allowed values of WebhookEventTypeEnum enum
-var AllowedWebhookEventTypeEnumEnumValues = []WebhookEventTypeEnum{
+var allowedWebhookEventTypeEnumEnumValues = []WebhookEventTypeEnum{
 	"TRANSACTION_CREATED",
 	"TRANSACTION_SETTLED",
 	"TRANSACTION_DELETED",
@@ -41,7 +40,7 @@ func (v *WebhookEventTypeEnum) UnmarshalJSON(src []byte) error {
 		return err
 	}
 	enumTypeValue := WebhookEventTypeEnum(value)
-	for _, existing := range AllowedWebhookEventTypeEnumEnumValues {
+	for _, existing := range allowedWebhookEventTypeEnumEnumValues {
 		if existing == enumTypeValue {
 			*v = enumTypeValue
 			return nil
@@ -58,13 +57,13 @@ func NewWebhookEventTypeEnumFromValue(v string) (*WebhookEventTypeEnum, error) {
 	if ev.IsValid() {
 		return &ev, nil
 	} else {
-		return nil, fmt.Errorf("invalid value '%v' for WebhookEventTypeEnum: valid values are %v", v, AllowedWebhookEventTypeEnumEnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for WebhookEventTypeEnum: valid values are %v", v, allowedWebhookEventTypeEnumEnumValues)
 	}
 }
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v WebhookEventTypeEnum) IsValid() bool {
-	for _, existing := range AllowedWebhookEventTypeEnumEnumValues {
+	for _, existing := range allowedWebhookEventTypeEnumEnumValues {
 		if existing == v {
 			return true
 		}

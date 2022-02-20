@@ -97,7 +97,6 @@ func (o *WebhookDeliveryLogResourceAttributes) SetResponse(v WebhookDeliveryLogR
 }
 
 // GetDeliveryStatus returns the DeliveryStatus field value
-// If the value is explicit nil, the zero value for WebhookDeliveryStatusEnum will be returned
 func (o *WebhookDeliveryLogResourceAttributes) GetDeliveryStatus() WebhookDeliveryStatusEnum {
 	if o == nil {
 		var ret WebhookDeliveryStatusEnum
@@ -109,9 +108,8 @@ func (o *WebhookDeliveryLogResourceAttributes) GetDeliveryStatus() WebhookDelive
 
 // GetDeliveryStatusOk returns a tuple with the DeliveryStatus field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *WebhookDeliveryLogResourceAttributes) GetDeliveryStatusOk() (*WebhookDeliveryStatusEnum, bool) {
-	if o == nil || o.DeliveryStatus == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.DeliveryStatus, true
@@ -154,7 +152,7 @@ func (o WebhookDeliveryLogResourceAttributes) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["response"] = o.Response.Get()
 	}
-	if o.DeliveryStatus != nil {
+	if true {
 		toSerialize["deliveryStatus"] = o.DeliveryStatus
 	}
 	if true {

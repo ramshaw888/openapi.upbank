@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Data** | [**CategoryInputResourceIdentifier**](CategoryInputResourceIdentifier.md) | The category to set on the transaction. Set this entire key to &#x60;null&#x60; de-categorize a transaction.  | 
+**Data** | [**NullableCategoryInputResourceIdentifier**](CategoryInputResourceIdentifier.md) | The category to set on the transaction. Set this entire key to &#x60;null&#x60; de-categorize a transaction.  | 
 
 ## Methods
 
 ### NewUpdateTransactionCategoryRequest
 
-`func NewUpdateTransactionCategoryRequest(data CategoryInputResourceIdentifier, ) *UpdateTransactionCategoryRequest`
+`func NewUpdateTransactionCategoryRequest(data NullableCategoryInputResourceIdentifier, ) *UpdateTransactionCategoryRequest`
 
 NewUpdateTransactionCategoryRequest instantiates a new UpdateTransactionCategoryRequest object
 This constructor will assign default values to properties that have it defined,

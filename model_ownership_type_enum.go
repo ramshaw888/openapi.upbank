@@ -24,8 +24,7 @@ const (
 	JOINT OwnershipTypeEnum = "JOINT"
 )
 
-// All allowed values of OwnershipTypeEnum enum
-var AllowedOwnershipTypeEnumEnumValues = []OwnershipTypeEnum{
+var allowedOwnershipTypeEnumEnumValues = []OwnershipTypeEnum{
 	"INDIVIDUAL",
 	"JOINT",
 }
@@ -37,7 +36,7 @@ func (v *OwnershipTypeEnum) UnmarshalJSON(src []byte) error {
 		return err
 	}
 	enumTypeValue := OwnershipTypeEnum(value)
-	for _, existing := range AllowedOwnershipTypeEnumEnumValues {
+	for _, existing := range allowedOwnershipTypeEnumEnumValues {
 		if existing == enumTypeValue {
 			*v = enumTypeValue
 			return nil
@@ -54,13 +53,13 @@ func NewOwnershipTypeEnumFromValue(v string) (*OwnershipTypeEnum, error) {
 	if ev.IsValid() {
 		return &ev, nil
 	} else {
-		return nil, fmt.Errorf("invalid value '%v' for OwnershipTypeEnum: valid values are %v", v, AllowedOwnershipTypeEnumEnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for OwnershipTypeEnum: valid values are %v", v, allowedOwnershipTypeEnumEnumValues)
 	}
 }
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v OwnershipTypeEnum) IsValid() bool {
-	for _, existing := range AllowedOwnershipTypeEnumEnumValues {
+	for _, existing := range allowedOwnershipTypeEnumEnumValues {
 		if existing == v {
 			return true
 		}

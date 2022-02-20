@@ -19,14 +19,14 @@ type HoldInfoObject struct {
 	// The amount of this transaction while in the `HELD` status, in Australian dollars. 
 	Amount MoneyObject `json:"amount"`
 	// The foreign currency amount of this transaction while in the `HELD` status. This field will be `null` for domestic transactions. The amount was converted to the AUD amount reflected in the `amount` field. 
-	ForeignAmount MoneyObject `json:"foreignAmount"`
+	ForeignAmount NullableMoneyObject `json:"foreignAmount"`
 }
 
 // NewHoldInfoObject instantiates a new HoldInfoObject object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewHoldInfoObject(amount MoneyObject, foreignAmount MoneyObject) *HoldInfoObject {
+func NewHoldInfoObject(amount MoneyObject, foreignAmount NullableMoneyObject) *HoldInfoObject {
 	this := HoldInfoObject{}
 	this.Amount = amount
 	this.ForeignAmount = foreignAmount
@@ -42,7 +42,6 @@ func NewHoldInfoObjectWithDefaults() *HoldInfoObject {
 }
 
 // GetAmount returns the Amount field value
-// If the value is explicit nil, the zero value for MoneyObject will be returned
 func (o *HoldInfoObject) GetAmount() MoneyObject {
 	if o == nil {
 		var ret MoneyObject
@@ -54,9 +53,8 @@ func (o *HoldInfoObject) GetAmount() MoneyObject {
 
 // GetAmountOk returns a tuple with the Amount field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *HoldInfoObject) GetAmountOk() (*MoneyObject, bool) {
-	if o == nil || o.Amount == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Amount, true
@@ -70,36 +68,36 @@ func (o *HoldInfoObject) SetAmount(v MoneyObject) {
 // GetForeignAmount returns the ForeignAmount field value
 // If the value is explicit nil, the zero value for MoneyObject will be returned
 func (o *HoldInfoObject) GetForeignAmount() MoneyObject {
-	if o == nil {
+	if o == nil || o.ForeignAmount.Get() == nil {
 		var ret MoneyObject
 		return ret
 	}
 
-	return o.ForeignAmount
+	return *o.ForeignAmount.Get()
 }
 
 // GetForeignAmountOk returns a tuple with the ForeignAmount field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *HoldInfoObject) GetForeignAmountOk() (*MoneyObject, bool) {
-	if o == nil || o.ForeignAmount == nil {
+	if o == nil  {
 		return nil, false
 	}
-	return &o.ForeignAmount, true
+	return o.ForeignAmount.Get(), o.ForeignAmount.IsSet()
 }
 
 // SetForeignAmount sets field value
 func (o *HoldInfoObject) SetForeignAmount(v MoneyObject) {
-	o.ForeignAmount = v
+	o.ForeignAmount.Set(&v)
 }
 
 func (o HoldInfoObject) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Amount != nil {
+	if true {
 		toSerialize["amount"] = o.Amount
 	}
-	if o.ForeignAmount != nil {
-		toSerialize["foreignAmount"] = o.ForeignAmount
+	if true {
+		toSerialize["foreignAmount"] = o.ForeignAmount.Get()
 	}
 	return json.Marshal(toSerialize)
 }

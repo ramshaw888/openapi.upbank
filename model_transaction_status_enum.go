@@ -24,8 +24,7 @@ const (
 	SETTLED TransactionStatusEnum = "SETTLED"
 )
 
-// All allowed values of TransactionStatusEnum enum
-var AllowedTransactionStatusEnumEnumValues = []TransactionStatusEnum{
+var allowedTransactionStatusEnumEnumValues = []TransactionStatusEnum{
 	"HELD",
 	"SETTLED",
 }
@@ -37,7 +36,7 @@ func (v *TransactionStatusEnum) UnmarshalJSON(src []byte) error {
 		return err
 	}
 	enumTypeValue := TransactionStatusEnum(value)
-	for _, existing := range AllowedTransactionStatusEnumEnumValues {
+	for _, existing := range allowedTransactionStatusEnumEnumValues {
 		if existing == enumTypeValue {
 			*v = enumTypeValue
 			return nil
@@ -54,13 +53,13 @@ func NewTransactionStatusEnumFromValue(v string) (*TransactionStatusEnum, error)
 	if ev.IsValid() {
 		return &ev, nil
 	} else {
-		return nil, fmt.Errorf("invalid value '%v' for TransactionStatusEnum: valid values are %v", v, AllowedTransactionStatusEnumEnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for TransactionStatusEnum: valid values are %v", v, allowedTransactionStatusEnumEnumValues)
 	}
 }
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v TransactionStatusEnum) IsValid() bool {
-	for _, existing := range AllowedTransactionStatusEnumEnumValues {
+	for _, existing := range allowedTransactionStatusEnumEnumValues {
 		if existing == v {
 			return true
 		}

@@ -39,7 +39,6 @@ func NewGetTransactionResponseWithDefaults() *GetTransactionResponse {
 }
 
 // GetData returns the Data field value
-// If the value is explicit nil, the zero value for TransactionResource will be returned
 func (o *GetTransactionResponse) GetData() TransactionResource {
 	if o == nil {
 		var ret TransactionResource
@@ -51,9 +50,8 @@ func (o *GetTransactionResponse) GetData() TransactionResource {
 
 // GetDataOk returns a tuple with the Data field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *GetTransactionResponse) GetDataOk() (*TransactionResource, bool) {
-	if o == nil || o.Data == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Data, true
@@ -66,7 +64,7 @@ func (o *GetTransactionResponse) SetData(v TransactionResource) {
 
 func (o GetTransactionResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Data != nil {
+	if true {
 		toSerialize["data"] = o.Data
 	}
 	return json.Marshal(toSerialize)
