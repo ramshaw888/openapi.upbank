@@ -12,19 +12,23 @@ package openapi
 
 import (
 	"bytes"
-	"context"
-	"io/ioutil"
-	"net/http"
-	"net/url"
+	_context "context"
+	_ioutil "io/ioutil"
+	_nethttp "net/http"
+	_neturl "net/url"
 	"strings"
 )
 
+// Linger please
+var (
+	_ _context.Context
+)
 
 // TagsApiService TagsApi service
 type TagsApiService service
 
 type ApiTagsGetRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *TagsApiService
 	pageSize *int32
 }
@@ -35,7 +39,7 @@ func (r ApiTagsGetRequest) PageSize(pageSize int32) ApiTagsGetRequest {
 	return r
 }
 
-func (r ApiTagsGetRequest) Execute() (*ListTagsResponse, *http.Response, error) {
+func (r ApiTagsGetRequest) Execute() (ListTagsResponse, *_nethttp.Response, error) {
 	return r.ApiService.TagsGetExecute(r)
 }
 
@@ -49,10 +53,10 @@ The `transactions` relationship for each tag exposes a link
 to get the transactions with the given tag.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiTagsGetRequest
 */
-func (a *TagsApiService) TagsGet(ctx context.Context) ApiTagsGetRequest {
+func (a *TagsApiService) TagsGet(ctx _context.Context) ApiTagsGetRequest {
 	return ApiTagsGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -61,24 +65,24 @@ func (a *TagsApiService) TagsGet(ctx context.Context) ApiTagsGetRequest {
 
 // Execute executes the request
 //  @return ListTagsResponse
-func (a *TagsApiService) TagsGetExecute(r ApiTagsGetRequest) (*ListTagsResponse, *http.Response, error) {
+func (a *TagsApiService) TagsGetExecute(r ApiTagsGetRequest) (ListTagsResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *ListTagsResponse
+		localVarReturnValue  ListTagsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TagsApiService.TagsGet")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/tags"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	if r.pageSize != nil {
 		localVarQueryParams.Add("page[size]", parameterToString(*r.pageSize, ""))
@@ -110,15 +114,15 @@ func (a *TagsApiService) TagsGetExecute(r ApiTagsGetRequest) (*ListTagsResponse,
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -127,7 +131,7 @@ func (a *TagsApiService) TagsGetExecute(r ApiTagsGetRequest) (*ListTagsResponse,
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -138,7 +142,7 @@ func (a *TagsApiService) TagsGetExecute(r ApiTagsGetRequest) (*ListTagsResponse,
 }
 
 type ApiTransactionsTransactionIdRelationshipsTagsDeleteRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *TagsApiService
 	transactionId string
 	updateTransactionTagsRequest *UpdateTransactionTagsRequest
@@ -149,7 +153,7 @@ func (r ApiTransactionsTransactionIdRelationshipsTagsDeleteRequest) UpdateTransa
 	return r
 }
 
-func (r ApiTransactionsTransactionIdRelationshipsTagsDeleteRequest) Execute() (*http.Response, error) {
+func (r ApiTransactionsTransactionIdRelationshipsTagsDeleteRequest) Execute() (*_nethttp.Response, error) {
 	return r.ApiService.TransactionsTransactionIdRelationshipsTagsDeleteExecute(r)
 }
 
@@ -163,11 +167,11 @@ exposed via the `tags` relationship on the transaction resource returned
 from `/transactions/{id}`.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param transactionId The unique identifier for the transaction. 
  @return ApiTransactionsTransactionIdRelationshipsTagsDeleteRequest
 */
-func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsDelete(ctx context.Context, transactionId string) ApiTransactionsTransactionIdRelationshipsTagsDeleteRequest {
+func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsDelete(ctx _context.Context, transactionId string) ApiTransactionsTransactionIdRelationshipsTagsDeleteRequest {
 	return ApiTransactionsTransactionIdRelationshipsTagsDeleteRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -176,24 +180,24 @@ func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsDelete(ctx co
 }
 
 // Execute executes the request
-func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsDeleteExecute(r ApiTransactionsTransactionIdRelationshipsTagsDeleteRequest) (*http.Response, error) {
+func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsDeleteExecute(r ApiTransactionsTransactionIdRelationshipsTagsDeleteRequest) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
+		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TagsApiService.TransactionsTransactionIdRelationshipsTagsDelete")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/transactions/{transactionId}/relationships/tags"
-	localVarPath = strings.Replace(localVarPath, "{"+"transactionId"+"}", url.PathEscape(parameterToString(r.transactionId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"transactionId"+"}", _neturl.PathEscape(parameterToString(r.transactionId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -224,15 +228,15 @@ func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsDeleteExecute
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -243,7 +247,7 @@ func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsDeleteExecute
 }
 
 type ApiTransactionsTransactionIdRelationshipsTagsPostRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *TagsApiService
 	transactionId string
 	updateTransactionTagsRequest *UpdateTransactionTagsRequest
@@ -254,7 +258,7 @@ func (r ApiTransactionsTransactionIdRelationshipsTagsPostRequest) UpdateTransact
 	return r
 }
 
-func (r ApiTransactionsTransactionIdRelationshipsTagsPostRequest) Execute() (*http.Response, error) {
+func (r ApiTransactionsTransactionIdRelationshipsTagsPostRequest) Execute() (*_nethttp.Response, error) {
 	return r.ApiService.TransactionsTransactionIdRelationshipsTagsPostExecute(r)
 }
 
@@ -269,11 +273,11 @@ relationship on the transaction resource returned from
 `/transactions/{id}`.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param transactionId The unique identifier for the transaction. 
  @return ApiTransactionsTransactionIdRelationshipsTagsPostRequest
 */
-func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsPost(ctx context.Context, transactionId string) ApiTransactionsTransactionIdRelationshipsTagsPostRequest {
+func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsPost(ctx _context.Context, transactionId string) ApiTransactionsTransactionIdRelationshipsTagsPostRequest {
 	return ApiTransactionsTransactionIdRelationshipsTagsPostRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -282,24 +286,24 @@ func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsPost(ctx cont
 }
 
 // Execute executes the request
-func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsPostExecute(r ApiTransactionsTransactionIdRelationshipsTagsPostRequest) (*http.Response, error) {
+func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsPostExecute(r ApiTransactionsTransactionIdRelationshipsTagsPostRequest) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TagsApiService.TransactionsTransactionIdRelationshipsTagsPost")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/transactions/{transactionId}/relationships/tags"
-	localVarPath = strings.Replace(localVarPath, "{"+"transactionId"+"}", url.PathEscape(parameterToString(r.transactionId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"transactionId"+"}", _neturl.PathEscape(parameterToString(r.transactionId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -330,15 +334,15 @@ func (a *TagsApiService) TransactionsTransactionIdRelationshipsTagsPostExecute(r
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}

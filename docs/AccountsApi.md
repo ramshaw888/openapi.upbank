@@ -35,8 +35,8 @@ func main() {
     filterOwnershipType := openapiclient.OwnershipTypeEnum("INDIVIDUAL") // OwnershipTypeEnum | The account ownership structure for which to return records. This can be used to filter 2Up accounts from Up accounts.  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AccountsApi.AccountsGet(context.Background()).PageSize(pageSize).FilterAccountType(filterAccountType).FilterOwnershipType(filterOwnershipType).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AccountsApi.AccountsGet(context.Background()).PageSize(pageSize).FilterAccountType(filterAccountType).FilterOwnershipType(filterOwnershipType).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AccountsApi.AccountsGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -103,8 +103,8 @@ func main() {
     id := "92b41408-6b7b-4fca-982b-3fb1fdd77220" // string | The unique identifier for the account. 
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AccountsApi.AccountsIdGet(context.Background(), id).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AccountsApi.AccountsIdGet(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AccountsApi.AccountsIdGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

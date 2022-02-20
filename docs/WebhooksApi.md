@@ -37,8 +37,8 @@ func main() {
     pageSize := int32(30) // int32 | The number of records to return in each page.  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.WebhooksApi.WebhooksGet(context.Background()).PageSize(pageSize).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.WebhooksApi.WebhooksGet(context.Background()).PageSize(pageSize).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -103,8 +103,8 @@ func main() {
     id := "a940825b-80b6-4798-b378-c6284259b4c5" // string | The unique identifier for the webhook. 
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.WebhooksApi.WebhooksIdDelete(context.Background(), id).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.WebhooksApi.WebhooksIdDelete(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksIdDelete``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -171,8 +171,8 @@ func main() {
     id := "c8283a72-24b0-4fd8-9b13-fccccab371e5" // string | The unique identifier for the webhook. 
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.WebhooksApi.WebhooksIdGet(context.Background(), id).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.WebhooksApi.WebhooksIdGet(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksIdGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -241,8 +241,8 @@ func main() {
     createWebhookRequest := *openapiclient.NewCreateWebhookRequest(*openapiclient.NewWebhookInputResource(*openapiclient.NewWebhookInputResourceAttributes("Url_example"))) // CreateWebhookRequest |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.WebhooksApi.WebhooksPost(context.Background()).CreateWebhookRequest(createWebhookRequest).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.WebhooksApi.WebhooksPost(context.Background()).CreateWebhookRequest(createWebhookRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -308,8 +308,8 @@ func main() {
     pageSize := int32(30) // int32 | The number of records to return in each page.  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.WebhooksApi.WebhooksWebhookIdLogsGet(context.Background(), webhookId).PageSize(pageSize).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.WebhooksApi.WebhooksWebhookIdLogsGet(context.Background(), webhookId).PageSize(pageSize).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksWebhookIdLogsGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -379,8 +379,8 @@ func main() {
     webhookId := "830e127d-fb89-4400-92bb-f3f48289dcba" // string | The unique identifier for the webhook. 
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.WebhooksApi.WebhooksWebhookIdPingPost(context.Background(), webhookId).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.WebhooksApi.WebhooksWebhookIdPingPost(context.Background(), webhookId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksWebhookIdPingPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

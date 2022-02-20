@@ -41,8 +41,8 @@ func main() {
     filterTag := "Holiday" // string | A transaction tag to filter for which to return records. If the tag does not exist, zero records are returned and a success response is given.  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TransactionsApi.AccountsAccountIdTransactionsGet(context.Background(), accountId).PageSize(pageSize).FilterStatus(filterStatus).FilterSince(filterSince).FilterUntil(filterUntil).FilterCategory(filterCategory).FilterTag(filterTag).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.TransactionsApi.AccountsAccountIdTransactionsGet(context.Background(), accountId).PageSize(pageSize).FilterStatus(filterStatus).FilterSince(filterSince).FilterUntil(filterUntil).FilterCategory(filterCategory).FilterTag(filterTag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `TransactionsApi.AccountsAccountIdTransactionsGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -123,8 +123,8 @@ func main() {
     filterTag := "Holiday" // string | A transaction tag to filter for which to return records. If the tag does not exist, zero records are returned and a success response is given.  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TransactionsApi.TransactionsGet(context.Background()).PageSize(pageSize).FilterStatus(filterStatus).FilterSince(filterSince).FilterUntil(filterUntil).FilterCategory(filterCategory).FilterTag(filterTag).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.TransactionsApi.TransactionsGet(context.Background()).PageSize(pageSize).FilterStatus(filterStatus).FilterSince(filterSince).FilterUntil(filterUntil).FilterCategory(filterCategory).FilterTag(filterTag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `TransactionsApi.TransactionsGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -194,8 +194,8 @@ func main() {
     id := "7a9d19f9-106c-4e29-8591-52fc5d8f09c5" // string | The unique identifier for the transaction. 
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TransactionsApi.TransactionsIdGet(context.Background(), id).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.TransactionsApi.TransactionsIdGet(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `TransactionsApi.TransactionsIdGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

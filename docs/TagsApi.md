@@ -34,8 +34,8 @@ func main() {
     pageSize := int32(50) // int32 | The number of records to return in each page.  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TagsApi.TagsGet(context.Background()).PageSize(pageSize).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.TagsApi.TagsGet(context.Background()).PageSize(pageSize).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `TagsApi.TagsGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -101,8 +101,8 @@ func main() {
     updateTransactionTagsRequest := *openapiclient.NewUpdateTransactionTagsRequest([]openapiclient.TagInputResourceIdentifier{*openapiclient.NewTagInputResourceIdentifier("Type_example", "Id_example")}) // UpdateTransactionTagsRequest |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TagsApi.TransactionsTransactionIdRelationshipsTagsDelete(context.Background(), transactionId).UpdateTransactionTagsRequest(updateTransactionTagsRequest).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.TagsApi.TransactionsTransactionIdRelationshipsTagsDelete(context.Background(), transactionId).UpdateTransactionTagsRequest(updateTransactionTagsRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `TagsApi.TransactionsTransactionIdRelationshipsTagsDelete``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -171,8 +171,8 @@ func main() {
     updateTransactionTagsRequest := *openapiclient.NewUpdateTransactionTagsRequest([]openapiclient.TagInputResourceIdentifier{*openapiclient.NewTagInputResourceIdentifier("Type_example", "Id_example")}) // UpdateTransactionTagsRequest |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TagsApi.TransactionsTransactionIdRelationshipsTagsPost(context.Background(), transactionId).UpdateTransactionTagsRequest(updateTransactionTagsRequest).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.TagsApi.TransactionsTransactionIdRelationshipsTagsPost(context.Background(), transactionId).UpdateTransactionTagsRequest(updateTransactionTagsRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `TagsApi.TransactionsTransactionIdRelationshipsTagsPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

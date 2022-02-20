@@ -50,11 +50,11 @@ func (o *ErrorResponse) GetErrors() []ErrorObject {
 
 // GetErrorsOk returns a tuple with the Errors field value
 // and a boolean to check if the value has been set.
-func (o *ErrorResponse) GetErrorsOk() ([]ErrorObject, bool) {
+func (o *ErrorResponse) GetErrorsOk() (*[]ErrorObject, bool) {
 	if o == nil  {
 		return nil, false
 	}
-	return o.Errors, true
+	return &o.Errors, true
 }
 
 // SetErrors sets field value

@@ -12,19 +12,23 @@ package openapi
 
 import (
 	"bytes"
-	"context"
-	"io/ioutil"
-	"net/http"
-	"net/url"
+	_context "context"
+	_ioutil "io/ioutil"
+	_nethttp "net/http"
+	_neturl "net/url"
 	"strings"
 )
 
+// Linger please
+var (
+	_ _context.Context
+)
 
 // CategoriesApiService CategoriesApi service
 type CategoriesApiService service
 
 type ApiCategoriesGetRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *CategoriesApiService
 	filterParent *string
 }
@@ -35,7 +39,7 @@ func (r ApiCategoriesGetRequest) FilterParent(filterParent string) ApiCategories
 	return r
 }
 
-func (r ApiCategoriesGetRequest) Execute() (*ListCategoriesResponse, *http.Response, error) {
+func (r ApiCategoriesGetRequest) Execute() (ListCategoriesResponse, *_nethttp.Response, error) {
 	return r.ApiService.CategoriesGetExecute(r)
 }
 
@@ -46,10 +50,10 @@ Retrieve a list of all categories and their ancestry. The returned list
 is not paginated.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCategoriesGetRequest
 */
-func (a *CategoriesApiService) CategoriesGet(ctx context.Context) ApiCategoriesGetRequest {
+func (a *CategoriesApiService) CategoriesGet(ctx _context.Context) ApiCategoriesGetRequest {
 	return ApiCategoriesGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -58,24 +62,24 @@ func (a *CategoriesApiService) CategoriesGet(ctx context.Context) ApiCategoriesG
 
 // Execute executes the request
 //  @return ListCategoriesResponse
-func (a *CategoriesApiService) CategoriesGetExecute(r ApiCategoriesGetRequest) (*ListCategoriesResponse, *http.Response, error) {
+func (a *CategoriesApiService) CategoriesGetExecute(r ApiCategoriesGetRequest) (ListCategoriesResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *ListCategoriesResponse
+		localVarReturnValue  ListCategoriesResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CategoriesApiService.CategoriesGet")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/categories"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	if r.filterParent != nil {
 		localVarQueryParams.Add("filter[parent]", parameterToString(*r.filterParent, ""))
@@ -107,15 +111,15 @@ func (a *CategoriesApiService) CategoriesGetExecute(r ApiCategoriesGetRequest) (
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -124,7 +128,7 @@ func (a *CategoriesApiService) CategoriesGetExecute(r ApiCategoriesGetRequest) (
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -135,13 +139,13 @@ func (a *CategoriesApiService) CategoriesGetExecute(r ApiCategoriesGetRequest) (
 }
 
 type ApiCategoriesIdGetRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *CategoriesApiService
 	id string
 }
 
 
-func (r ApiCategoriesIdGetRequest) Execute() (*GetCategoryResponse, *http.Response, error) {
+func (r ApiCategoriesIdGetRequest) Execute() (GetCategoryResponse, *_nethttp.Response, error) {
 	return r.ApiService.CategoriesIdGetExecute(r)
 }
 
@@ -151,11 +155,11 @@ CategoriesIdGet Retrieve category
 Retrieve a specific category by providing its unique identifier.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param id The unique identifier for the category. 
  @return ApiCategoriesIdGetRequest
 */
-func (a *CategoriesApiService) CategoriesIdGet(ctx context.Context, id string) ApiCategoriesIdGetRequest {
+func (a *CategoriesApiService) CategoriesIdGet(ctx _context.Context, id string) ApiCategoriesIdGetRequest {
 	return ApiCategoriesIdGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -165,25 +169,25 @@ func (a *CategoriesApiService) CategoriesIdGet(ctx context.Context, id string) A
 
 // Execute executes the request
 //  @return GetCategoryResponse
-func (a *CategoriesApiService) CategoriesIdGetExecute(r ApiCategoriesIdGetRequest) (*GetCategoryResponse, *http.Response, error) {
+func (a *CategoriesApiService) CategoriesIdGetExecute(r ApiCategoriesIdGetRequest) (GetCategoryResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *GetCategoryResponse
+		localVarReturnValue  GetCategoryResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CategoriesApiService.CategoriesIdGet")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/categories/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -212,15 +216,15 @@ func (a *CategoriesApiService) CategoriesIdGetExecute(r ApiCategoriesIdGetReques
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -229,7 +233,7 @@ func (a *CategoriesApiService) CategoriesIdGetExecute(r ApiCategoriesIdGetReques
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -240,7 +244,7 @@ func (a *CategoriesApiService) CategoriesIdGetExecute(r ApiCategoriesIdGetReques
 }
 
 type ApiTransactionsTransactionIdRelationshipsCategoryPatchRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *CategoriesApiService
 	transactionId string
 	updateTransactionCategoryRequest *UpdateTransactionCategoryRequest
@@ -251,7 +255,7 @@ func (r ApiTransactionsTransactionIdRelationshipsCategoryPatchRequest) UpdateTra
 	return r
 }
 
-func (r ApiTransactionsTransactionIdRelationshipsCategoryPatchRequest) Execute() (*http.Response, error) {
+func (r ApiTransactionsTransactionIdRelationshipsCategoryPatchRequest) Execute() (*_nethttp.Response, error) {
 	return r.ApiService.TransactionsTransactionIdRelationshipsCategoryPatchExecute(r)
 }
 
@@ -268,11 +272,11 @@ the `category` relationship on the transaction resource returned from
 `/transactions/{id}`.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param transactionId The unique identifier for the transaction. 
  @return ApiTransactionsTransactionIdRelationshipsCategoryPatchRequest
 */
-func (a *CategoriesApiService) TransactionsTransactionIdRelationshipsCategoryPatch(ctx context.Context, transactionId string) ApiTransactionsTransactionIdRelationshipsCategoryPatchRequest {
+func (a *CategoriesApiService) TransactionsTransactionIdRelationshipsCategoryPatch(ctx _context.Context, transactionId string) ApiTransactionsTransactionIdRelationshipsCategoryPatchRequest {
 	return ApiTransactionsTransactionIdRelationshipsCategoryPatchRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -281,24 +285,24 @@ func (a *CategoriesApiService) TransactionsTransactionIdRelationshipsCategoryPat
 }
 
 // Execute executes the request
-func (a *CategoriesApiService) TransactionsTransactionIdRelationshipsCategoryPatchExecute(r ApiTransactionsTransactionIdRelationshipsCategoryPatchRequest) (*http.Response, error) {
+func (a *CategoriesApiService) TransactionsTransactionIdRelationshipsCategoryPatchExecute(r ApiTransactionsTransactionIdRelationshipsCategoryPatchRequest) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
+		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CategoriesApiService.TransactionsTransactionIdRelationshipsCategoryPatch")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/transactions/{transactionId}/relationships/category"
-	localVarPath = strings.Replace(localVarPath, "{"+"transactionId"+"}", url.PathEscape(parameterToString(r.transactionId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"transactionId"+"}", _neturl.PathEscape(parameterToString(r.transactionId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -329,15 +333,15 @@ func (a *CategoriesApiService) TransactionsTransactionIdRelationshipsCategoryPat
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}

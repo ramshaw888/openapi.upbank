@@ -12,19 +12,23 @@ package openapi
 
 import (
 	"bytes"
-	"context"
-	"io/ioutil"
-	"net/http"
-	"net/url"
+	_context "context"
+	_ioutil "io/ioutil"
+	_nethttp "net/http"
+	_neturl "net/url"
 	"strings"
 )
 
+// Linger please
+var (
+	_ _context.Context
+)
 
 // WebhooksApiService WebhooksApi service
 type WebhooksApiService service
 
 type ApiWebhooksGetRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *WebhooksApiService
 	pageSize *int32
 }
@@ -35,7 +39,7 @@ func (r ApiWebhooksGetRequest) PageSize(pageSize int32) ApiWebhooksGetRequest {
 	return r
 }
 
-func (r ApiWebhooksGetRequest) Execute() (*ListWebhooksResponse, *http.Response, error) {
+func (r ApiWebhooksGetRequest) Execute() (ListWebhooksResponse, *_nethttp.Response, error) {
 	return r.ApiService.WebhooksGetExecute(r)
 }
 
@@ -48,10 +52,10 @@ and `prev` links where present. Results are ordered oldest first to
 newest last.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiWebhooksGetRequest
 */
-func (a *WebhooksApiService) WebhooksGet(ctx context.Context) ApiWebhooksGetRequest {
+func (a *WebhooksApiService) WebhooksGet(ctx _context.Context) ApiWebhooksGetRequest {
 	return ApiWebhooksGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -60,24 +64,24 @@ func (a *WebhooksApiService) WebhooksGet(ctx context.Context) ApiWebhooksGetRequ
 
 // Execute executes the request
 //  @return ListWebhooksResponse
-func (a *WebhooksApiService) WebhooksGetExecute(r ApiWebhooksGetRequest) (*ListWebhooksResponse, *http.Response, error) {
+func (a *WebhooksApiService) WebhooksGetExecute(r ApiWebhooksGetRequest) (ListWebhooksResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *ListWebhooksResponse
+		localVarReturnValue  ListWebhooksResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WebhooksApiService.WebhooksGet")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/webhooks"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	if r.pageSize != nil {
 		localVarQueryParams.Add("page[size]", parameterToString(*r.pageSize, ""))
@@ -109,15 +113,15 @@ func (a *WebhooksApiService) WebhooksGetExecute(r ApiWebhooksGetRequest) (*ListW
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -126,7 +130,7 @@ func (a *WebhooksApiService) WebhooksGetExecute(r ApiWebhooksGetRequest) (*ListW
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -137,13 +141,13 @@ func (a *WebhooksApiService) WebhooksGetExecute(r ApiWebhooksGetRequest) (*ListW
 }
 
 type ApiWebhooksIdDeleteRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *WebhooksApiService
 	id string
 }
 
 
-func (r ApiWebhooksIdDeleteRequest) Execute() (*http.Response, error) {
+func (r ApiWebhooksIdDeleteRequest) Execute() (*_nethttp.Response, error) {
 	return r.ApiService.WebhooksIdDeleteExecute(r)
 }
 
@@ -154,11 +158,11 @@ Delete a specific webhook by providing its unique identifier. Once
 deleted, webhook events will no longer be sent to the configured URL.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param id The unique identifier for the webhook. 
  @return ApiWebhooksIdDeleteRequest
 */
-func (a *WebhooksApiService) WebhooksIdDelete(ctx context.Context, id string) ApiWebhooksIdDeleteRequest {
+func (a *WebhooksApiService) WebhooksIdDelete(ctx _context.Context, id string) ApiWebhooksIdDeleteRequest {
 	return ApiWebhooksIdDeleteRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -167,24 +171,24 @@ func (a *WebhooksApiService) WebhooksIdDelete(ctx context.Context, id string) Ap
 }
 
 // Execute executes the request
-func (a *WebhooksApiService) WebhooksIdDeleteExecute(r ApiWebhooksIdDeleteRequest) (*http.Response, error) {
+func (a *WebhooksApiService) WebhooksIdDeleteExecute(r ApiWebhooksIdDeleteRequest) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
+		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WebhooksApiService.WebhooksIdDelete")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/webhooks/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -213,15 +217,15 @@ func (a *WebhooksApiService) WebhooksIdDeleteExecute(r ApiWebhooksIdDeleteReques
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -232,13 +236,13 @@ func (a *WebhooksApiService) WebhooksIdDeleteExecute(r ApiWebhooksIdDeleteReques
 }
 
 type ApiWebhooksIdGetRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *WebhooksApiService
 	id string
 }
 
 
-func (r ApiWebhooksIdGetRequest) Execute() (*GetWebhookResponse, *http.Response, error) {
+func (r ApiWebhooksIdGetRequest) Execute() (GetWebhookResponse, *_nethttp.Response, error) {
 	return r.ApiService.WebhooksIdGetExecute(r)
 }
 
@@ -248,11 +252,11 @@ WebhooksIdGet Retrieve webhook
 Retrieve a specific webhook by providing its unique identifier.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param id The unique identifier for the webhook. 
  @return ApiWebhooksIdGetRequest
 */
-func (a *WebhooksApiService) WebhooksIdGet(ctx context.Context, id string) ApiWebhooksIdGetRequest {
+func (a *WebhooksApiService) WebhooksIdGet(ctx _context.Context, id string) ApiWebhooksIdGetRequest {
 	return ApiWebhooksIdGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -262,25 +266,25 @@ func (a *WebhooksApiService) WebhooksIdGet(ctx context.Context, id string) ApiWe
 
 // Execute executes the request
 //  @return GetWebhookResponse
-func (a *WebhooksApiService) WebhooksIdGetExecute(r ApiWebhooksIdGetRequest) (*GetWebhookResponse, *http.Response, error) {
+func (a *WebhooksApiService) WebhooksIdGetExecute(r ApiWebhooksIdGetRequest) (GetWebhookResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *GetWebhookResponse
+		localVarReturnValue  GetWebhookResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WebhooksApiService.WebhooksIdGet")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/webhooks/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -309,15 +313,15 @@ func (a *WebhooksApiService) WebhooksIdGetExecute(r ApiWebhooksIdGetRequest) (*G
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -326,7 +330,7 @@ func (a *WebhooksApiService) WebhooksIdGetExecute(r ApiWebhooksIdGetRequest) (*G
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -337,7 +341,7 @@ func (a *WebhooksApiService) WebhooksIdGetExecute(r ApiWebhooksIdGetRequest) (*G
 }
 
 type ApiWebhooksPostRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *WebhooksApiService
 	createWebhookRequest *CreateWebhookRequest
 }
@@ -347,7 +351,7 @@ func (r ApiWebhooksPostRequest) CreateWebhookRequest(createWebhookRequest Create
 	return r
 }
 
-func (r ApiWebhooksPostRequest) Execute() (*CreateWebhookResponse, *http.Response, error) {
+func (r ApiWebhooksPostRequest) Execute() (CreateWebhookResponse, *_nethttp.Response, error) {
 	return r.ApiService.WebhooksPostExecute(r)
 }
 
@@ -376,10 +380,10 @@ It is probably a good idea to test the webhook by
 it.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiWebhooksPostRequest
 */
-func (a *WebhooksApiService) WebhooksPost(ctx context.Context) ApiWebhooksPostRequest {
+func (a *WebhooksApiService) WebhooksPost(ctx _context.Context) ApiWebhooksPostRequest {
 	return ApiWebhooksPostRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -388,24 +392,24 @@ func (a *WebhooksApiService) WebhooksPost(ctx context.Context) ApiWebhooksPostRe
 
 // Execute executes the request
 //  @return CreateWebhookResponse
-func (a *WebhooksApiService) WebhooksPostExecute(r ApiWebhooksPostRequest) (*CreateWebhookResponse, *http.Response, error) {
+func (a *WebhooksApiService) WebhooksPostExecute(r ApiWebhooksPostRequest) (CreateWebhookResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *CreateWebhookResponse
+		localVarReturnValue  CreateWebhookResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WebhooksApiService.WebhooksPost")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/webhooks"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -436,15 +440,15 @@ func (a *WebhooksApiService) WebhooksPostExecute(r ApiWebhooksPostRequest) (*Cre
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -453,7 +457,7 @@ func (a *WebhooksApiService) WebhooksPostExecute(r ApiWebhooksPostRequest) (*Cre
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -464,7 +468,7 @@ func (a *WebhooksApiService) WebhooksPostExecute(r ApiWebhooksPostRequest) (*Cre
 }
 
 type ApiWebhooksWebhookIdLogsGetRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *WebhooksApiService
 	webhookId string
 	pageSize *int32
@@ -476,7 +480,7 @@ func (r ApiWebhooksWebhookIdLogsGetRequest) PageSize(pageSize int32) ApiWebhooks
 	return r
 }
 
-func (r ApiWebhooksWebhookIdLogsGetRequest) Execute() (*ListWebhookDeliveryLogsResponse, *http.Response, error) {
+func (r ApiWebhooksWebhookIdLogsGetRequest) Execute() (ListWebhookDeliveryLogsResponse, *_nethttp.Response, error) {
 	return r.ApiService.WebhooksWebhookIdLogsGetExecute(r)
 }
 
@@ -491,11 +495,11 @@ newest first to oldest last. Logs may be automatically purged after a
 period of time.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param webhookId The unique identifier for the webhook. 
  @return ApiWebhooksWebhookIdLogsGetRequest
 */
-func (a *WebhooksApiService) WebhooksWebhookIdLogsGet(ctx context.Context, webhookId string) ApiWebhooksWebhookIdLogsGetRequest {
+func (a *WebhooksApiService) WebhooksWebhookIdLogsGet(ctx _context.Context, webhookId string) ApiWebhooksWebhookIdLogsGetRequest {
 	return ApiWebhooksWebhookIdLogsGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -505,25 +509,25 @@ func (a *WebhooksApiService) WebhooksWebhookIdLogsGet(ctx context.Context, webho
 
 // Execute executes the request
 //  @return ListWebhookDeliveryLogsResponse
-func (a *WebhooksApiService) WebhooksWebhookIdLogsGetExecute(r ApiWebhooksWebhookIdLogsGetRequest) (*ListWebhookDeliveryLogsResponse, *http.Response, error) {
+func (a *WebhooksApiService) WebhooksWebhookIdLogsGetExecute(r ApiWebhooksWebhookIdLogsGetRequest) (ListWebhookDeliveryLogsResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *ListWebhookDeliveryLogsResponse
+		localVarReturnValue  ListWebhookDeliveryLogsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WebhooksApiService.WebhooksWebhookIdLogsGet")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/webhooks/{webhookId}/logs"
-	localVarPath = strings.Replace(localVarPath, "{"+"webhookId"+"}", url.PathEscape(parameterToString(r.webhookId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"webhookId"+"}", _neturl.PathEscape(parameterToString(r.webhookId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	if r.pageSize != nil {
 		localVarQueryParams.Add("page[size]", parameterToString(*r.pageSize, ""))
@@ -555,15 +559,15 @@ func (a *WebhooksApiService) WebhooksWebhookIdLogsGetExecute(r ApiWebhooksWebhoo
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -572,7 +576,7 @@ func (a *WebhooksApiService) WebhooksWebhookIdLogsGetExecute(r ApiWebhooksWebhoo
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -583,13 +587,13 @@ func (a *WebhooksApiService) WebhooksWebhookIdLogsGetExecute(r ApiWebhooksWebhoo
 }
 
 type ApiWebhooksWebhookIdPingPostRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *WebhooksApiService
 	webhookId string
 }
 
 
-func (r ApiWebhooksWebhookIdPingPostRequest) Execute() (*WebhookEventCallback, *http.Response, error) {
+func (r ApiWebhooksWebhookIdPingPostRequest) Execute() (WebhookEventCallback, *_nethttp.Response, error) {
 	return r.ApiService.WebhooksWebhookIdPingPostExecute(r)
 }
 
@@ -601,11 +605,11 @@ This is useful for testing and debugging purposes. The event is delivered
 asynchronously and its data is returned in the response to this request.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param webhookId The unique identifier for the webhook. 
  @return ApiWebhooksWebhookIdPingPostRequest
 */
-func (a *WebhooksApiService) WebhooksWebhookIdPingPost(ctx context.Context, webhookId string) ApiWebhooksWebhookIdPingPostRequest {
+func (a *WebhooksApiService) WebhooksWebhookIdPingPost(ctx _context.Context, webhookId string) ApiWebhooksWebhookIdPingPostRequest {
 	return ApiWebhooksWebhookIdPingPostRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -615,25 +619,25 @@ func (a *WebhooksApiService) WebhooksWebhookIdPingPost(ctx context.Context, webh
 
 // Execute executes the request
 //  @return WebhookEventCallback
-func (a *WebhooksApiService) WebhooksWebhookIdPingPostExecute(r ApiWebhooksWebhookIdPingPostRequest) (*WebhookEventCallback, *http.Response, error) {
+func (a *WebhooksApiService) WebhooksWebhookIdPingPostExecute(r ApiWebhooksWebhookIdPingPostRequest) (WebhookEventCallback, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *WebhookEventCallback
+		localVarReturnValue  WebhookEventCallback
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WebhooksApiService.WebhooksWebhookIdPingPost")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/webhooks/{webhookId}/ping"
-	localVarPath = strings.Replace(localVarPath, "{"+"webhookId"+"}", url.PathEscape(parameterToString(r.webhookId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"webhookId"+"}", _neturl.PathEscape(parameterToString(r.webhookId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -662,15 +666,15 @@ func (a *WebhooksApiService) WebhooksWebhookIdPingPostExecute(r ApiWebhooksWebho
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -679,7 +683,7 @@ func (a *WebhooksApiService) WebhooksWebhookIdPingPostExecute(r ApiWebhooksWebho
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

@@ -12,20 +12,24 @@ package openapi
 
 import (
 	"bytes"
-	"context"
-	"io/ioutil"
-	"net/http"
-	"net/url"
+	_context "context"
+	_ioutil "io/ioutil"
+	_nethttp "net/http"
+	_neturl "net/url"
 	"strings"
 	"time"
 )
 
+// Linger please
+var (
+	_ _context.Context
+)
 
 // TransactionsApiService TransactionsApi service
 type TransactionsApiService service
 
 type ApiAccountsAccountIdTransactionsGetRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *TransactionsApiService
 	accountId string
 	pageSize *int32
@@ -67,7 +71,7 @@ func (r ApiAccountsAccountIdTransactionsGetRequest) FilterTag(filterTag string) 
 	return r
 }
 
-func (r ApiAccountsAccountIdTransactionsGetRequest) Execute() (*ListTransactionsResponse, *http.Response, error) {
+func (r ApiAccountsAccountIdTransactionsGetRequest) Execute() (ListTransactionsResponse, *_nethttp.Response, error) {
 	return r.ApiService.AccountsAccountIdTransactionsGetExecute(r)
 }
 
@@ -83,11 +87,11 @@ specific date range pass one or both of `filter[since]` and
 to oldest last.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param accountId The unique identifier for the account. 
  @return ApiAccountsAccountIdTransactionsGetRequest
 */
-func (a *TransactionsApiService) AccountsAccountIdTransactionsGet(ctx context.Context, accountId string) ApiAccountsAccountIdTransactionsGetRequest {
+func (a *TransactionsApiService) AccountsAccountIdTransactionsGet(ctx _context.Context, accountId string) ApiAccountsAccountIdTransactionsGetRequest {
 	return ApiAccountsAccountIdTransactionsGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -97,25 +101,25 @@ func (a *TransactionsApiService) AccountsAccountIdTransactionsGet(ctx context.Co
 
 // Execute executes the request
 //  @return ListTransactionsResponse
-func (a *TransactionsApiService) AccountsAccountIdTransactionsGetExecute(r ApiAccountsAccountIdTransactionsGetRequest) (*ListTransactionsResponse, *http.Response, error) {
+func (a *TransactionsApiService) AccountsAccountIdTransactionsGetExecute(r ApiAccountsAccountIdTransactionsGetRequest) (ListTransactionsResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *ListTransactionsResponse
+		localVarReturnValue  ListTransactionsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TransactionsApiService.AccountsAccountIdTransactionsGet")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/accounts/{accountId}/transactions"
-	localVarPath = strings.Replace(localVarPath, "{"+"accountId"+"}", url.PathEscape(parameterToString(r.accountId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"accountId"+"}", _neturl.PathEscape(parameterToString(r.accountId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	if r.pageSize != nil {
 		localVarQueryParams.Add("page[size]", parameterToString(*r.pageSize, ""))
@@ -162,15 +166,15 @@ func (a *TransactionsApiService) AccountsAccountIdTransactionsGetExecute(r ApiAc
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -179,7 +183,7 @@ func (a *TransactionsApiService) AccountsAccountIdTransactionsGetExecute(r ApiAc
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -190,7 +194,7 @@ func (a *TransactionsApiService) AccountsAccountIdTransactionsGetExecute(r ApiAc
 }
 
 type ApiTransactionsGetRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *TransactionsApiService
 	pageSize *int32
 	filterStatus *TransactionStatusEnum
@@ -231,7 +235,7 @@ func (r ApiTransactionsGetRequest) FilterTag(filterTag string) ApiTransactionsGe
 	return r
 }
 
-func (r ApiTransactionsGetRequest) Execute() (*ListTransactionsResponse, *http.Response, error) {
+func (r ApiTransactionsGetRequest) Execute() (ListTransactionsResponse, *_nethttp.Response, error) {
 	return r.ApiService.TransactionsGetExecute(r)
 }
 
@@ -247,10 +251,10 @@ parameters **should not** be used for pagination. Results are ordered
 newest first to oldest last.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiTransactionsGetRequest
 */
-func (a *TransactionsApiService) TransactionsGet(ctx context.Context) ApiTransactionsGetRequest {
+func (a *TransactionsApiService) TransactionsGet(ctx _context.Context) ApiTransactionsGetRequest {
 	return ApiTransactionsGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -259,24 +263,24 @@ func (a *TransactionsApiService) TransactionsGet(ctx context.Context) ApiTransac
 
 // Execute executes the request
 //  @return ListTransactionsResponse
-func (a *TransactionsApiService) TransactionsGetExecute(r ApiTransactionsGetRequest) (*ListTransactionsResponse, *http.Response, error) {
+func (a *TransactionsApiService) TransactionsGetExecute(r ApiTransactionsGetRequest) (ListTransactionsResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *ListTransactionsResponse
+		localVarReturnValue  ListTransactionsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TransactionsApiService.TransactionsGet")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/transactions"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	if r.pageSize != nil {
 		localVarQueryParams.Add("page[size]", parameterToString(*r.pageSize, ""))
@@ -323,15 +327,15 @@ func (a *TransactionsApiService) TransactionsGetExecute(r ApiTransactionsGetRequ
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -340,7 +344,7 @@ func (a *TransactionsApiService) TransactionsGetExecute(r ApiTransactionsGetRequ
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -351,13 +355,13 @@ func (a *TransactionsApiService) TransactionsGetExecute(r ApiTransactionsGetRequ
 }
 
 type ApiTransactionsIdGetRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService *TransactionsApiService
 	id string
 }
 
 
-func (r ApiTransactionsIdGetRequest) Execute() (*GetTransactionResponse, *http.Response, error) {
+func (r ApiTransactionsIdGetRequest) Execute() (GetTransactionResponse, *_nethttp.Response, error) {
 	return r.ApiService.TransactionsIdGetExecute(r)
 }
 
@@ -367,11 +371,11 @@ TransactionsIdGet Retrieve transaction
 Retrieve a specific transaction by providing its unique identifier.
 
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param id The unique identifier for the transaction. 
  @return ApiTransactionsIdGetRequest
 */
-func (a *TransactionsApiService) TransactionsIdGet(ctx context.Context, id string) ApiTransactionsIdGetRequest {
+func (a *TransactionsApiService) TransactionsIdGet(ctx _context.Context, id string) ApiTransactionsIdGetRequest {
 	return ApiTransactionsIdGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -381,25 +385,25 @@ func (a *TransactionsApiService) TransactionsIdGet(ctx context.Context, id strin
 
 // Execute executes the request
 //  @return GetTransactionResponse
-func (a *TransactionsApiService) TransactionsIdGetExecute(r ApiTransactionsIdGetRequest) (*GetTransactionResponse, *http.Response, error) {
+func (a *TransactionsApiService) TransactionsIdGetExecute(r ApiTransactionsIdGetRequest) (GetTransactionResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *GetTransactionResponse
+		localVarReturnValue  GetTransactionResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TransactionsApiService.TransactionsIdGet")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/transactions/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -428,15 +432,15 @@ func (a *TransactionsApiService) TransactionsIdGetExecute(r ApiTransactionsIdGet
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -445,7 +449,7 @@ func (a *TransactionsApiService) TransactionsIdGetExecute(r ApiTransactionsIdGet
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

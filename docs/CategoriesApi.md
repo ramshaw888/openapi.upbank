@@ -34,8 +34,8 @@ func main() {
     filterParent := "good-life" // string | The unique identifier of a parent category for which to return only its children. Providing an invalid category identifier results in a `404` response.  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.CategoriesApi.CategoriesGet(context.Background()).FilterParent(filterParent).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CategoriesApi.CategoriesGet(context.Background()).FilterParent(filterParent).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `CategoriesApi.CategoriesGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -100,8 +100,8 @@ func main() {
     id := "restaurants-and-cafes" // string | The unique identifier for the category. 
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.CategoriesApi.CategoriesIdGet(context.Background(), id).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CategoriesApi.CategoriesIdGet(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `CategoriesApi.CategoriesIdGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -171,8 +171,8 @@ func main() {
     updateTransactionCategoryRequest := *openapiclient.NewUpdateTransactionCategoryRequest(*openapiclient.NewCategoryInputResourceIdentifier("Type_example", "Id_example")) // UpdateTransactionCategoryRequest |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.CategoriesApi.TransactionsTransactionIdRelationshipsCategoryPatch(context.Background(), transactionId).UpdateTransactionCategoryRequest(updateTransactionCategoryRequest).Execute()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CategoriesApi.TransactionsTransactionIdRelationshipsCategoryPatch(context.Background(), transactionId).UpdateTransactionCategoryRequest(updateTransactionCategoryRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `CategoriesApi.TransactionsTransactionIdRelationshipsCategoryPatch``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

@@ -3,10 +3,11 @@ info:
   contact:
     name: API Specification and Support
     url: https://github.com/up-banking/api
-  description: "The Up API gives you programmatic access to your balances and\ntransaction\
-    \ data. You can request past transactions or set up\nwebhooks to receive real-time\
-    \ events when new transactions hit your\naccount. It’s new, it’s exciting and\
-    \ it’s just the beginning.\n"
+  description: |
+    The Up API gives you programmatic access to your balances and
+    transaction data. You can request past transactions or set up
+    webhooks to receive real-time events when new transactions hit your
+    account. It’s new, it’s exciting and it’s just the beginning.
   title: Up API
   version: v1
 servers:
@@ -14,32 +15,42 @@ servers:
 security:
 - bearer_auth: []
 tags:
-- description: "Accounts represent the underlying store used to track balances\nand\
-    \ the transactions that have occurred to modify those balances\nover time. Up\
-    \ currently has two types of account: `SAVER`—used to\nearn interest and to hit\
-    \ savings goals, and `TRANSACTIONAL`—used\nfor everyday spending.\n"
+- description: |
+    Accounts represent the underlying store used to track balances
+    and the transactions that have occurred to modify those balances
+    over time. Up currently has two types of account: `SAVER`—used to
+    earn interest and to hit savings goals, and `TRANSACTIONAL`—used
+    for everyday spending.
   name: Accounts
-- description: "Categories enable understanding where your money goes by driving\n\
-    powerful insights in Up. All categories in Up are pre-defined\nand are automatically\
-    \ assigned to new purchases in most cases. A\nparent-child relationship is used\
-    \ to represent categories,\nhowever parent categories cannot be directly assigned\
-    \ to\ntransactions.\n"
+- description: |
+    Categories enable understanding where your money goes by driving
+    powerful insights in Up. All categories in Up are pre-defined
+    and are automatically assigned to new purchases in most cases. A
+    parent-child relationship is used to represent categories,
+    however parent categories cannot be directly assigned to
+    transactions.
   name: Categories
-- description: "Tags are custom labels that can be associated with transactions\n\
-    on Up. Within the Up application, tags provide additional insight\ninto spending.\
-    \ For example, you could have a \"Take Away\" tag that\nyou apply to purchases\
-    \ from food delivery services. The Up API\nallows you to manage the tags associated\
-    \ with transactions. Each\ntransaction may have up to 6 tags.\n\nTags are identified\
-    \ by their labels, which are unique strings,\nso the tag \"Holiday\" has also\
-    \ the `id` `\"Holiday\"`.\n"
+- description: |
+    Tags are custom labels that can be associated with transactions
+    on Up. Within the Up application, tags provide additional insight
+    into spending. For example, you could have a "Take Away" tag that
+    you apply to purchases from food delivery services. The Up API
+    allows you to manage the tags associated with transactions. Each
+    transaction may have up to 6 tags.
+
+    Tags are identified by their labels, which are unique strings,
+    so the tag "Holiday" has also the `id` `"Holiday"`.
   name: Tags
-- description: "Transactions represent the movement of money into and out of an\n\
-    account. They have many characteristics that vary depending on\nthe kind of transaction.\
-    \ Transactions may be temporarily `HELD`\n(pending) or `SETTLED`, typically depending\
-    \ on which payment\nmethod was used at the point of sale.\n"
+- description: |
+    Transactions represent the movement of money into and out of an
+    account. They have many characteristics that vary depending on
+    the kind of transaction. Transactions may be temporarily `HELD`
+    (pending) or `SETTLED`, typically depending on which payment
+    method was used at the point of sale.
   name: Transactions
-- description: "Some endpoints exist not to expose data, but to test the API\nitself.\
-    \ Currently there is only one endpoint in this group: ping!\n"
+- description: |
+    Some endpoints exist not to expose data, but to test the API
+    itself. Currently there is only one endpoint in this group: ping!
   name: Utility endpoints
 - description: |
     Webhooks provide a mechanism for a configured URL to receive
@@ -60,7 +71,7 @@ paths:
         example: 30
         explode: true
         in: query
-        name: "page[size]"
+        name: page[size]
         required: false
         schema:
           type: integer
@@ -71,7 +82,7 @@ paths:
         example: SAVER
         explode: true
         in: query
-        name: "filter[accountType]"
+        name: filter[accountType]
         required: false
         schema:
           $ref: '#/components/schemas/AccountTypeEnum'
@@ -83,7 +94,7 @@ paths:
         example: INDIVIDUAL
         explode: true
         in: query
-        name: "filter[ownershipType]"
+        name: filter[ownershipType]
         required: false
         schema:
           $ref: '#/components/schemas/OwnershipTypeEnum'
@@ -192,7 +203,7 @@ paths:
         example: good-life
         explode: true
         in: query
-        name: "filter[parent]"
+        name: filter[parent]
         required: false
         schema:
           type: string
@@ -302,13 +313,15 @@ paths:
       - Categories
   /transactions/{transactionId}/relationships/category:
     patch:
-      description: "Updates the category associated with a transaction. Only transactions\n\
-        for which `isCategorizable` is set to true support this operation. The\n`id`\
-        \ is taken from the list exposed on `/categories` and cannot be one of\nthe\
-        \ top-level (parent) categories. To de-categorize a transaction, set\nthe\
-        \ entire `data` key to `null`. An HTTP `204` is returned on success.\nThe\
-        \ associated category, along with its request URL is also exposed via\nthe\
-        \ `category` relationship on the transaction resource returned from\n`/transactions/{id}`.\n"
+      description: |
+        Updates the category associated with a transaction. Only transactions
+        for which `isCategorizable` is set to true support this operation. The
+        `id` is taken from the list exposed on `/categories` and cannot be one of
+        the top-level (parent) categories. To de-categorize a transaction, set
+        the entire `data` key to `null`. An HTTP `204` is returned on success.
+        The associated category, along with its request URL is also exposed via
+        the `category` relationship on the transaction resource returned from
+        `/transactions/{id}`.
       parameters:
       - description: |
           The unique identifier for the transaction.
@@ -385,26 +398,27 @@ paths:
               errors:
               - status: "401"
                 title: Not Authorized
-                detail: "The request was not authenticated because no valid credential\
-                  \ was found in the Authorization header, or the Authorization header\
-                  \ was not present."
+                detail: The request was not authenticated because no valid credential
+                  was found in the Authorization header, or the Authorization header
+                  was not present.
       summary: Ping
       tags:
       - Utility endpoints
   /tags:
     get:
-      description: "Retrieve a list of all tags currently in use. The returned list\
-        \ is\n[paginated](#pagination) and can be scrolled by following the `next`\n\
-        and `prev` links where present. Results are ordered lexicographically.\nThe\
-        \ `transactions` relationship for each tag exposes a link\nto get the transactions\
-        \ with the given tag.\n"
+      description: |
+        Retrieve a list of all tags currently in use. The returned list is
+        [paginated](#pagination) and can be scrolled by following the `next`
+        and `prev` links where present. Results are ordered lexicographically.
+        The `transactions` relationship for each tag exposes a link
+        to get the transactions with the given tag.
       parameters:
       - description: |
           The number of records to return in each page.
         example: 50
         explode: true
         in: query
-        name: "page[size]"
+        name: page[size]
         required: false
         schema:
           type: integer
@@ -445,11 +459,12 @@ paths:
       - Tags
   /transactions/{transactionId}/relationships/tags:
     delete:
-      description: "Disassociates one or more tags from a specific transaction. Tags\
-        \ that are\nnot associated are silently ignored. An HTTP `204` is returned\
-        \ on\nsuccess. The associated tags, along with this request URL, are also\n\
-        exposed via the `tags` relationship on the transaction resource returned\n\
-        from `/transactions/{id}`.\n"
+      description: |
+        Disassociates one or more tags from a specific transaction. Tags that are
+        not associated are silently ignored. An HTTP `204` is returned on
+        success. The associated tags, along with this request URL, are also
+        exposed via the `tags` relationship on the transaction resource returned
+        from `/transactions/{id}`.
       parameters:
       - description: |
           The unique identifier for the transaction.
@@ -488,11 +503,13 @@ paths:
       tags:
       - Tags
     post:
-      description: "Associates one or more tags with a specific transaction. No more\
-        \ than 6\ntags may be present on any single transaction. Duplicate tags are\n\
-        silently ignored. An HTTP `204` is returned on success. The associated\ntags,\
-        \ along with this request URL, are also exposed via the `tags`\nrelationship\
-        \ on the transaction resource returned from\n`/transactions/{id}`.\n"
+      description: |
+        Associates one or more tags with a specific transaction. No more than 6
+        tags may be present on any single transaction. Duplicate tags are
+        silently ignored. An HTTP `204` is returned on success. The associated
+        tags, along with this request URL, are also exposed via the `tags`
+        relationship on the transaction resource returned from
+        `/transactions/{id}`.
       parameters:
       - description: |
           The unique identifier for the transaction.
@@ -532,20 +549,21 @@ paths:
       - Tags
   /transactions:
     get:
-      description: "Retrieve a list of all transactions across all accounts for the\
-        \ currently\nauthenticated user. The returned list is [paginated](#pagination)\
-        \ and can\nbe scrolled by following the `next` and `prev` links where present.\
-        \ To\nnarrow the results to a specific date range pass one or both of\n`filter[since]`\
-        \ and `filter[until]` in the query string. These filter\nparameters **should\
-        \ not** be used for pagination. Results are ordered\nnewest first to oldest\
-        \ last.\n"
+      description: |
+        Retrieve a list of all transactions across all accounts for the currently
+        authenticated user. The returned list is [paginated](#pagination) and can
+        be scrolled by following the `next` and `prev` links where present. To
+        narrow the results to a specific date range pass one or both of
+        `filter[since]` and `filter[until]` in the query string. These filter
+        parameters **should not** be used for pagination. Results are ordered
+        newest first to oldest last.
       parameters:
       - description: |
           The number of records to return in each page.
         example: 30
         explode: true
         in: query
-        name: "page[size]"
+        name: page[size]
         required: false
         schema:
           type: integer
@@ -557,28 +575,32 @@ paths:
         example: HELD
         explode: true
         in: query
-        name: "filter[status]"
+        name: filter[status]
         required: false
         schema:
           $ref: '#/components/schemas/TransactionStatusEnum'
         style: form
-      - description: "The start date-time from which to return records,\nformatted\
-          \ according to rfc-3339. Not to be used for\npagination purposes.\n"
+      - description: |
+          The start date-time from which to return records,
+          formatted according to rfc-3339. Not to be used for
+          pagination purposes.
         example: 2020-01-01T01:02:03+10:00
         explode: true
         in: query
-        name: "filter[since]"
+        name: filter[since]
         required: false
         schema:
           format: date-time
           type: string
         style: form
-      - description: "The end date-time up to which to return records,\nformatted\
-          \ according to rfc-3339. Not to be used for\npagination purposes.\n"
+      - description: |
+          The end date-time up to which to return records,
+          formatted according to rfc-3339. Not to be used for
+          pagination purposes.
         example: 2020-02-01T01:02:03+10:00
         explode: true
         in: query
-        name: "filter[until]"
+        name: filter[until]
         required: false
         schema:
           format: date-time
@@ -592,18 +614,19 @@ paths:
         example: good-life
         explode: true
         in: query
-        name: "filter[category]"
+        name: filter[category]
         required: false
         schema:
           type: string
         style: form
-      - description: "A transaction tag to filter for which to return records.\nIf\
-          \ the tag does not exist, zero records are returned and\na success response\
-          \ is given.\n"
+      - description: |
+          A transaction tag to filter for which to return records.
+          If the tag does not exist, zero records are returned and
+          a success response is given.
         example: Holiday
         explode: true
         in: query
-        name: "filter[tag]"
+        name: filter[tag]
         required: false
         schema:
           type: string
@@ -636,7 +659,7 @@ paths:
                   isCategorizable: true
                   amount:
                     currencyCode: AUD
-                    value: "-59.98"
+                    value: -59.98
                     valueInBaseUnits: -5998
                   settledAt: 2022-01-12T07:48:33+11:00
                   createdAt: 2022-01-12T07:48:33+11:00
@@ -700,26 +723,26 @@ paths:
                 id: 7c125426-98b7-4cd5-b899-95db54f5c6c1
                 attributes:
                   status: SETTLED
-                  rawText: "WARUNG BEBEK, UBUD INDONES"
+                  rawText: WARUNG BEBEK, UBUD INDONES
                   description: Warung Bebek Bengil
                   isCategorizable: true
                   holdInfo:
                     amount:
                       currencyCode: AUD
-                      value: "-107.92"
+                      value: -107.92
                       valueInBaseUnits: -10792
                   roundUp:
                     amount:
                       currencyCode: AUD
-                      value: "-0.08"
+                      value: -0.08
                       valueInBaseUnits: -8
                   amount:
                     currencyCode: AUD
-                    value: "-107.92"
+                    value: -107.92
                     valueInBaseUnits: -10792
                   foreignAmount:
                     currencyCode: IDR
-                    value: "-1053698.77"
+                    value: -1053698.77
                     valueInBaseUnits: -105369877
                   settledAt: 2022-01-10T04:00:00+11:00
                   createdAt: 2022-01-10T04:00:00+11:00
@@ -746,12 +769,14 @@ paths:
       - Transactions
   /accounts/{accountId}/transactions:
     get:
-      description: "Retrieve a list of all transactions for a specific account. The\
-        \ returned\nlist is [paginated](#pagination) and can be scrolled by following\
-        \ the\n`next` and `prev` links where present. To narrow the results to a\n\
-        specific date range pass one or both of `filter[since]` and\n`filter[until]`\
-        \ in the query string. These filter parameters\n**should not** be used for\
-        \ pagination. Results are ordered newest first\nto oldest last.\n"
+      description: |
+        Retrieve a list of all transactions for a specific account. The returned
+        list is [paginated](#pagination) and can be scrolled by following the
+        `next` and `prev` links where present. To narrow the results to a
+        specific date range pass one or both of `filter[since]` and
+        `filter[until]` in the query string. These filter parameters
+        **should not** be used for pagination. Results are ordered newest first
+        to oldest last.
       parameters:
       - description: |
           The unique identifier for the account.
@@ -768,7 +793,7 @@ paths:
         example: 30
         explode: true
         in: query
-        name: "page[size]"
+        name: page[size]
         required: false
         schema:
           type: integer
@@ -780,28 +805,32 @@ paths:
         example: HELD
         explode: true
         in: query
-        name: "filter[status]"
+        name: filter[status]
         required: false
         schema:
           $ref: '#/components/schemas/TransactionStatusEnum'
         style: form
-      - description: "The start date-time from which to return records,\nformatted\
-          \ according to rfc-3339. Not to be used for\npagination purposes.\n"
+      - description: |
+          The start date-time from which to return records,
+          formatted according to rfc-3339. Not to be used for
+          pagination purposes.
         example: 2020-01-01T01:02:03+10:00
         explode: true
         in: query
-        name: "filter[since]"
+        name: filter[since]
         required: false
         schema:
           format: date-time
           type: string
         style: form
-      - description: "The end date-time up to which to return records,\nformatted\
-          \ according to rfc-3339. Not to be used for\npagination purposes.\n"
+      - description: |
+          The end date-time up to which to return records,
+          formatted according to rfc-3339. Not to be used for
+          pagination purposes.
         example: 2020-02-01T01:02:03+10:00
         explode: true
         in: query
-        name: "filter[until]"
+        name: filter[until]
         required: false
         schema:
           format: date-time
@@ -815,18 +844,19 @@ paths:
         example: good-life
         explode: true
         in: query
-        name: "filter[category]"
+        name: filter[category]
         required: false
         schema:
           type: string
         style: form
-      - description: "A transaction tag to filter for which to return records.\nIf\
-          \ the tag does not exist, zero records are returned and\na success response\
-          \ is given.\n"
+      - description: |
+          A transaction tag to filter for which to return records.
+          If the tag does not exist, zero records are returned and
+          a success response is given.
         example: Holiday
         explode: true
         in: query
-        name: "filter[tag]"
+        name: filter[tag]
         required: false
         schema:
           type: string
@@ -861,11 +891,11 @@ paths:
                   holdInfo:
                     amount:
                       currencyCode: AUD
-                      value: "-11.95"
+                      value: -11.95
                       valueInBaseUnits: -1195
                   amount:
                     currencyCode: AUD
-                    value: "-11.95"
+                    value: -11.95
                     valueInBaseUnits: -1195
                   createdAt: 2022-01-10T10:41:42+11:00
                 relationships:
@@ -901,17 +931,18 @@ paths:
       - Transactions
   /webhooks:
     get:
-      description: "Retrieve a list of configured webhooks. The returned list is\n\
-        [paginated](#pagination) and can be scrolled by following the `next`\nand\
-        \ `prev` links where present. Results are ordered oldest first to\nnewest\
-        \ last.\n"
+      description: |
+        Retrieve a list of configured webhooks. The returned list is
+        [paginated](#pagination) and can be scrolled by following the `next`
+        and `prev` links where present. Results are ordered oldest first to
+        newest last.
       parameters:
       - description: |
           The number of records to return in each page.
         example: 30
         explode: true
         in: query
-        name: "page[size]"
+        name: page[size]
         required: false
         schema:
           type: integer
@@ -955,77 +986,158 @@ paths:
         Event:
           '{webhookURL}':
             post:
-              description: "Once you have created a webhook in the Up API, events\
-                \ are sent to the\nwebhook’s configured URL as JSON-encoded `POST`\
-                \ requests. The webhook\nURL must respond with a HTTP `200` status\
-                \ on success.\n\nIt is important that the URL responds in a timely\
-                \ manner. If the URL\ntakes too long to respond (currently 30s), the\
-                \ request will be timed\nout. For this reason it is strongly advised\
-                \ to avoid any heavy\nprocessing before a response has been returned\
-                \ from the URL. A common\nsolution to this problem is to use a message\
-                \ broker such as RabbitMQ\nto do the work asynchronously.\n\nEvent\
-                \ delivery is retried with exponential backoff in the case of any\n\
-                non-`200` response status, if the URL is unreachable, or if the request\n\
-                is timed out.\n\nRefer to the `eventType` attribute in order to determine\
-                \ what course of\naction to take when handling the event. The following\
-                \ event types are\ncurrently sent:\n\n**`PING`**\n\nManually triggered\
-                \ by calls to the webhook `ping` endpoint. Used for\ntesting and debugging\
-                \ purposes.\n\n**`TRANSACTION_CREATED`**\n\nTriggered whenever a new\
-                \ transaction is created in Up. This event\nincludes a `transaction`\
-                \ relationship that provides the unique\nidentifier for the transaction\
-                \ and a link to the transaction within the\nUp API. This link should\
-                \ be used to retrieve the complete transaction\ndata.\n\n**`TRANSACTION_SETTLED`**\n\
-                \nTriggered whenever a transaction transitions from the `HELD` status\
-                \ to\nthe `SETTLED` status. This event includes a `transaction` relationship\n\
-                that provides the unique identifier for the transaction and a link\
-                \ to\nthe transaction within the Up API. This link should be used\
-                \ to retrieve\nthe complete transaction data.\n\nDue to external factors\
-                \ in banking processes, on rare occasions this\nevent may not be triggered.\
-                \ Separate `TRANSACTION_DELETED` and\n`TRANSACTION_CREATED` events\
-                \ will be received in its place.\n\n**`TRANSACTION_DELETED`**\n\n\
-                Triggered whenever a `HELD` transaction is deleted from Up. This\n\
-                generally occurs for example when a hotel deposit is returned. This\n\
-                event includes a `transaction` relationship that provides the unique\n\
-                identifier for the transaction, however no link is provided to the\n\
-                transaction within the Up API as it no longer exists.\n\n## Securing\
-                \ Webhook Event Handlers\n\nIncoming webhook event requests include\
-                \ a `X-Up-Authenticity-Signature`\nheader, which can be used to verify\
-                \ that the event was sent by Up.\nVerification of the signature requires\
-                \ knowledge of the shared\n`secretKey` that was returned upon creation\
-                \ of the webhook. This key is\nknown only to your application and\
-                \ to Up.\n\nThe verification process involves:\n\n1. Taking the raw,\
-                \ unparsed webhook event request body.\n2. Computing the SHA-256 HMAC\
-                \ signature of the request body, using the\n   shared `secretKey`.\n\
-                3. Comparing the computed HMAC signature with the value of the\n \
-                \  `X-Up-Authenticity-Signature` header.\n\nIf the computed SHA-256\
-                \ HMAC signature matches the\n`X-Up-Authenticity-Signature` header,\
-                \ the request is valid.\n\nA few language-specific examples follow.\n\
-                \n**Ruby**:\n\nThis example uses the Ruby on Rails framework.\n\n\
-                ```ruby\nrequire 'openssl'\n\ndef handle_webhook_event\n  received_signature\
-                \ =\n    request.headers['X-Up-Authenticity-Signature']\n\n  signature\
-                \ = OpenSSL::HMAC.hexdigest(\n    'SHA256',\n    secret_key,\n   \
-                \ request.raw_post,\n  )\n\n  if Rack::Utils.secure_compare(received_signature,\
-                \ signature)\n    # Process webhook event\n  end\nend\n```\n\n**PHP**:\n\
-                \nThis example uses the Laravel framework.\n\n```php\npublic function\
-                \ handleWebhookEvent(Request $request) {\n    $received_signature\
-                \ = $request->header(\n        'X-Up-Authenticity-Signature',\n  \
-                \      ''\n    );\n    $raw_body = $request->getContent();\n    $signature\
-                \ = hash_hmac('sha256', $raw_body, $this->secretKey);\n\n    if (hash_equals($signature,\
-                \ $received_signature)) {\n        // Process webhook event\n    }\n\
-                }\n```\n\n**Go**:\n\nThis example is in plain Go.\n\n```go\nimport\
-                \ (\n    \"crypto/hmac\"\n    \"crypto/sha256\"\n    \"encoding/hex\"\
-                \n    \"io\"\n    \"net/http\"\n)\n\nfunc handleWebhookEvent(w http.ResponseWriter,\
-                \ r *http.Request) {\n    receivedSignature, _ := hex.DecodeString(\n\
-                \        r.Header.Get(\"X-Up-Authenticity-Signature\"),\n    )\n\n\
-                \    mac := hmac.New(sha256.New, secretKey)\n    io.Copy(mac, r.Body)\n\
-                \    signature := mac.Sum(nil)\n\n    if hmac.Equal(signature, receivedSignature)\n\
-                \        // Process webhook event\n    }\n}\n```\n\nIf the `secretKey`\
-                \ for a webhook is lost, simply create a new webhook\nwith the same\
-                \ URL, capture the returned `secretKey` and delete the\noriginal webhook.\n"
+              description: |
+                Once you have created a webhook in the Up API, events are sent to the
+                webhook’s configured URL as JSON-encoded `POST` requests. The webhook
+                URL must respond with a HTTP `200` status on success.
+
+                It is important that the URL responds in a timely manner. If the URL
+                takes too long to respond (currently 30s), the request will be timed
+                out. For this reason it is strongly advised to avoid any heavy
+                processing before a response has been returned from the URL. A common
+                solution to this problem is to use a message broker such as RabbitMQ
+                to do the work asynchronously.
+
+                Event delivery is retried with exponential backoff in the case of any
+                non-`200` response status, if the URL is unreachable, or if the request
+                is timed out.
+
+                Refer to the `eventType` attribute in order to determine what course of
+                action to take when handling the event. The following event types are
+                currently sent:
+
+                **`PING`**
+
+                Manually triggered by calls to the webhook `ping` endpoint. Used for
+                testing and debugging purposes.
+
+                **`TRANSACTION_CREATED`**
+
+                Triggered whenever a new transaction is created in Up. This event
+                includes a `transaction` relationship that provides the unique
+                identifier for the transaction and a link to the transaction within the
+                Up API. This link should be used to retrieve the complete transaction
+                data.
+
+                **`TRANSACTION_SETTLED`**
+
+                Triggered whenever a transaction transitions from the `HELD` status to
+                the `SETTLED` status. This event includes a `transaction` relationship
+                that provides the unique identifier for the transaction and a link to
+                the transaction within the Up API. This link should be used to retrieve
+                the complete transaction data.
+
+                Due to external factors in banking processes, on rare occasions this
+                event may not be triggered. Separate `TRANSACTION_DELETED` and
+                `TRANSACTION_CREATED` events will be received in its place.
+
+                **`TRANSACTION_DELETED`**
+
+                Triggered whenever a `HELD` transaction is deleted from Up. This
+                generally occurs for example when a hotel deposit is returned. This
+                event includes a `transaction` relationship that provides the unique
+                identifier for the transaction, however no link is provided to the
+                transaction within the Up API as it no longer exists.
+
+                ## Securing Webhook Event Handlers
+
+                Incoming webhook event requests include a `X-Up-Authenticity-Signature`
+                header, which can be used to verify that the event was sent by Up.
+                Verification of the signature requires knowledge of the shared
+                `secretKey` that was returned upon creation of the webhook. This key is
+                known only to your application and to Up.
+
+                The verification process involves:
+
+                1. Taking the raw, unparsed webhook event request body.
+                2. Computing the SHA-256 HMAC signature of the request body, using the
+                   shared `secretKey`.
+                3. Comparing the computed HMAC signature with the value of the
+                   `X-Up-Authenticity-Signature` header.
+
+                If the computed SHA-256 HMAC signature matches the
+                `X-Up-Authenticity-Signature` header, the request is valid.
+
+                A few language-specific examples follow.
+
+                **Ruby**:
+
+                This example uses the Ruby on Rails framework.
+
+                ```ruby
+                require 'openssl'
+
+                def handle_webhook_event
+                  received_signature =
+                    request.headers['X-Up-Authenticity-Signature']
+
+                  signature = OpenSSL::HMAC.hexdigest(
+                    'SHA256',
+                    secret_key,
+                    request.raw_post,
+                  )
+
+                  if Rack::Utils.secure_compare(received_signature, signature)
+                    # Process webhook event
+                  end
+                end
+                ```
+
+                **PHP**:
+
+                This example uses the Laravel framework.
+
+                ```php
+                public function handleWebhookEvent(Request $request) {
+                    $received_signature = $request->header(
+                        'X-Up-Authenticity-Signature',
+                        ''
+                    );
+                    $raw_body = $request->getContent();
+                    $signature = hash_hmac('sha256', $raw_body, $this->secretKey);
+
+                    if (hash_equals($signature, $received_signature)) {
+                        // Process webhook event
+                    }
+                }
+                ```
+
+                **Go**:
+
+                This example is in plain Go.
+
+                ```go
+                import (
+                    "crypto/hmac"
+                    "crypto/sha256"
+                    "encoding/hex"
+                    "io"
+                    "net/http"
+                )
+
+                func handleWebhookEvent(w http.ResponseWriter, r *http.Request) {
+                    receivedSignature, _ := hex.DecodeString(
+                        r.Header.Get("X-Up-Authenticity-Signature"),
+                    )
+
+                    mac := hmac.New(sha256.New, secretKey)
+                    io.Copy(mac, r.Body)
+                    signature := mac.Sum(nil)
+
+                    if hmac.Equal(signature, receivedSignature)
+                        // Process webhook event
+                    }
+                }
+                ```
+
+                If the `secretKey` for a webhook is lost, simply create a new webhook
+                with the same URL, capture the returned `secretKey` and delete the
+                original webhook.
               operationId: event_webhookURLPost
               parameters:
-              - description: "The SHA-256 HMAC signature of the raw request body,\
-                  \ signed using\nthe `secretKey` of the webhook.\n"
+              - description: |
+                  The SHA-256 HMAC signature of the raw request body, signed using
+                  the `secretKey` of the webhook.
                 example: 317c0a8ea81df3f53c1d2aef5dcbf60492d0df557197b2990e71daa4a0693364
                 explode: false
                 in: header
@@ -1066,20 +1178,27 @@ paths:
                         links:
                           related: https://api.up.com.au/api/v1/transactions/52717f62-f725-4674-94a9-8470decf2c2a
               x-callback-request: true
-      description: "Create a new webhook with a given URL. The URL will receive webhook\n\
-        events as JSON-encoded `POST` requests. The URL must respond with a HTTP\n\
-        `200` status on success.\n\nThere is currently a limit of 10 webhooks at any\
-        \ given time. Once this\nlimit is reached, existing webhooks will need to\
-        \ be deleted before new\nwebhooks can be created.\n\nEvent delivery is retried\
-        \ with exponential backoff if the URL is\nunreachable or it does not respond\
-        \ with a `200` status. The response\nincludes a `secretKey` attribute, which\
-        \ is used to sign requests sent to\nthe webhook URL. It will not be returned\
-        \ from any other endpoints within\nthe Up API. If the `secretKey` is lost,\
-        \ simply create a new webhook with\nthe same URL, capture its `secretKey`\
-        \ and then delete the original\nwebhook. See [Handling webhook events](#callback_post_webhookURL)\
-        \ for\ndetails on how to process webhook events.\n\nIt is probably a good\
-        \ idea to test the webhook by\n[sending it a `PING` event](#post_webhooks_webhookId_ping)\
-        \ after creating\nit.\n"
+      description: |
+        Create a new webhook with a given URL. The URL will receive webhook
+        events as JSON-encoded `POST` requests. The URL must respond with a HTTP
+        `200` status on success.
+
+        There is currently a limit of 10 webhooks at any given time. Once this
+        limit is reached, existing webhooks will need to be deleted before new
+        webhooks can be created.
+
+        Event delivery is retried with exponential backoff if the URL is
+        unreachable or it does not respond with a `200` status. The response
+        includes a `secretKey` attribute, which is used to sign requests sent to
+        the webhook URL. It will not be returned from any other endpoints within
+        the Up API. If the `secretKey` is lost, simply create a new webhook with
+        the same URL, capture its `secretKey` and then delete the original
+        webhook. See [Handling webhook events](#callback_post_webhookURL) for
+        details on how to process webhook events.
+
+        It is probably a good idea to test the webhook by
+        [sending it a `PING` event](#post_webhooks_webhookId_ping) after creating
+        it.
       requestBody:
         content:
           application/json:
@@ -1125,8 +1244,9 @@ paths:
       - Webhooks
   /webhooks/{id}:
     delete:
-      description: "Delete a specific webhook by providing its unique identifier.\
-        \ Once\ndeleted, webhook events will no longer be sent to the configured URL.\n"
+      description: |
+        Delete a specific webhook by providing its unique identifier. Once
+        deleted, webhook events will no longer be sent to the configured URL.
       parameters:
       - description: |
           The unique identifier for the webhook.
@@ -1251,12 +1371,13 @@ paths:
       - Webhooks
   /webhooks/{webhookId}/logs:
     get:
-      description: "Retrieve a list of delivery logs for a webhook by providing its\
-        \ unique\nidentifier. This is useful for analysis and debugging purposes.\
-        \ The\nreturned list is [paginated](#pagination) and can be scrolled by\n\
-        following the `next` and `prev` links where present. Results are ordered\n\
-        newest first to oldest last. Logs may be automatically purged after a\nperiod\
-        \ of time.\n"
+      description: |
+        Retrieve a list of delivery logs for a webhook by providing its unique
+        identifier. This is useful for analysis and debugging purposes. The
+        returned list is [paginated](#pagination) and can be scrolled by
+        following the `next` and `prev` links where present. Results are ordered
+        newest first to oldest last. Logs may be automatically purged after a
+        period of time.
       parameters:
       - description: |
           The unique identifier for the webhook.
@@ -1273,7 +1394,7 @@ paths:
         example: 30
         explode: true
         in: query
-        name: "page[size]"
+        name: page[size]
         required: false
         schema:
           type: integer
@@ -1300,18 +1421,10 @@ paths:
                 id: 2482a02f-ebec-42a0-a09f-eb15843378d9
                 attributes:
                   request:
-                    body: "{\"data\":{\"type\":\"webhook-events\",\"id\":\"2347d5a4-78c8-47f8-b858-6a6f7ed8cd10\"\
-                      ,\"attributes\":{\"eventType\":\"TRANSACTION_CREATED\",\"createdAt\"\
-                      :\"2022-01-12T14:51:50+11:00\"},\"relationships\":{\"webhook\"\
-                      :{\"data\":{\"type\":\"webhooks\",\"id\":\"117454bf-46ad-4be9-be0f-cadabf14e2c9\"\
-                      },\"links\":{\"related\":\"https://api.up.com.au/api/v1/webhooks/117454bf-46ad-4be9-be0f-cadabf14e2c9\"\
-                      }},\"transaction\":{\"data\":{\"type\":\"transactions\",\"id\"\
-                      :\"346eeb5b-43ba-4a5b-a747-667d72bef559\"},\"links\":{\"related\"\
-                      :\"https://api.up.com.au/api/v1/transactions/346eeb5b-43ba-4a5b-a747-667d72bef559\"\
-                      }}}}}"
+                    body: '{"data":{"type":"webhook-events","id":"2347d5a4-78c8-47f8-b858-6a6f7ed8cd10","attributes":{"eventType":"TRANSACTION_CREATED","createdAt":"2022-01-12T14:51:50+11:00"},"relationships":{"webhook":{"data":{"type":"webhooks","id":"117454bf-46ad-4be9-be0f-cadabf14e2c9"},"links":{"related":"https://api.up.com.au/api/v1/webhooks/117454bf-46ad-4be9-be0f-cadabf14e2c9"}},"transaction":{"data":{"type":"transactions","id":"346eeb5b-43ba-4a5b-a747-667d72bef559"},"links":{"related":"https://api.up.com.au/api/v1/transactions/346eeb5b-43ba-4a5b-a747-667d72bef559"}}}}}'
                   response:
                     statusCode: 200
-                    body: "{\"ok\":true}"
+                    body: '{"ok":true}'
                   deliveryStatus: DELIVERED
                   createdAt: 2022-01-12T14:51:50+11:00
                 relationships:
@@ -1351,15 +1464,16 @@ components:
             The ISO 4217 currency code.
           type: string
         value:
-          description: "The amount of money, formatted as a string in the relevant\
-            \ currency.\nFor example, for an Australian dollar value of $10.56, this\
-            \ field will\nbe `\"10.56\"`. The currency symbol is not included in the\
-            \ string.\n"
+          description: |
+            The amount of money, formatted as a string in the relevant currency.
+            For example, for an Australian dollar value of $10.56, this field will
+            be `"10.56"`. The currency symbol is not included in the string.
           type: string
         valueInBaseUnits:
-          description: "The amount of money in the smallest denomination for the currency,\
-            \ as a\n64-bit integer.  For example, for an Australian dollar value of\
-            \ $10.56,\nthis field will be `1056`.\n"
+          description: |
+            The amount of money in the smallest denomination for the currency, as a
+            64-bit integer.  For example, for an Australian dollar value of $10.56,
+            this field will be `1056`.
           type: integer
       required:
       - currencyCode
@@ -1386,7 +1500,7 @@ components:
         type: type
       properties:
         type:
-          description: "The type of this resource: `accounts`"
+          description: 'The type of this resource: `accounts`'
           type: string
         id:
           description: |
@@ -1405,9 +1519,10 @@ components:
       - type
       type: object
     ListAccountsResponse:
-      description: "Successful response to get all accounts. This returns a paginated\
-        \ list of\naccounts, which can be scrolled by following the `prev` and `next`\
-        \ links\nif present.\n"
+      description: |
+        Successful response to get all accounts. This returns a paginated list of
+        accounts, which can be scrolled by following the `prev` and `next` links
+        if present.
       example:
         data:
         - relationships:
@@ -1495,7 +1610,7 @@ components:
         type: type
       properties:
         type:
-          description: "The type of this resource: `categories`"
+          description: 'The type of this resource: `categories`'
           type: string
         id:
           description: |
@@ -1591,11 +1706,12 @@ components:
         Uniquely identifies a category in the API.
       properties:
         type:
-          description: "The type of this resource: `categories`"
+          description: 'The type of this resource: `categories`'
           type: string
         id:
-          description: "The unique identifier of the category, as returned by the\
-            \ `/categories`\nendpoint.\n"
+          description: |
+            The unique identifier of the category, as returned by the `/categories`
+            endpoint.
           type: string
       required:
       - id
@@ -1684,11 +1800,11 @@ components:
         type: type
       properties:
         type:
-          description: "The type of this resource: `tags`"
+          description: 'The type of this resource: `tags`'
           type: string
         id:
-          description: "The label of the tag, which also acts as the tag’s unique\
-            \ identifier.\n"
+          description: |
+            The label of the tag, which also acts as the tag’s unique identifier.
           type: string
         relationships:
           $ref: '#/components/schemas/AccountResource_relationships'
@@ -1698,9 +1814,10 @@ components:
       - type
       type: object
     ListTagsResponse:
-      description: "Successful response to get all tags. This returns a paginated\
-        \ list of\ntags, which can be scrolled by following the `prev` and `next`\
-        \ links if\npresent.\n"
+      description: |
+        Successful response to get all tags. This returns a paginated list of
+        tags, which can be scrolled by following the `prev` and `next` links if
+        present.
       example:
         data:
         - relationships:
@@ -1739,11 +1856,11 @@ components:
         type: type
       properties:
         type:
-          description: "The type of this resource: `tags`"
+          description: 'The type of this resource: `tags`'
           type: string
         id:
-          description: "The label of the tag, which also acts as the tag’s unique\
-            \ identifier.\n"
+          description: |
+            The label of the tag, which also acts as the tag’s unique identifier.
           type: string
       required:
       - id
@@ -1769,10 +1886,11 @@ components:
       - data
       type: object
     TransactionStatusEnum:
-      description: "Specifies which stage of processing a transaction is currently\
-        \ at.\nCurrently returned values are `HELD` and `SETTLED`. When a transaction\
-        \ is\nheld, its account’s `availableBalance` is affected. When a transaction\
-        \ is\nsettled, its account’s `currentBalance` is affected.\n"
+      description: |
+        Specifies which stage of processing a transaction is currently at.
+        Currently returned values are `HELD` and `SETTLED`. When a transaction is
+        held, its account’s `availableBalance` is affected. When a transaction is
+        settled, its account’s `currentBalance` is affected.
       enum:
       - HELD
       - SETTLED
@@ -1785,8 +1903,9 @@ components:
         amount:
           allOf:
           - $ref: '#/components/schemas/MoneyObject'
-          description: "The amount of this transaction while in the `HELD` status,\
-            \ in\nAustralian dollars.\n"
+          description: |
+            The amount of this transaction while in the `HELD` status, in
+            Australian dollars.
         foreignAmount:
           allOf:
           - $ref: '#/components/schemas/MoneyObject'
@@ -1800,20 +1919,23 @@ components:
       - foreignAmount
       type: object
     RoundUpObject:
-      description: "Provides information about how a Round Up was applied, such as\
-        \ whether or\nnot a boost was included in the Round Up.\n"
+      description: |
+        Provides information about how a Round Up was applied, such as whether or
+        not a boost was included in the Round Up.
       properties:
         amount:
           allOf:
           - $ref: '#/components/schemas/MoneyObject'
-          description: "The total amount of this Round Up, including any boosts, represented\
-            \ as\na negative value.\n"
+          description: |
+            The total amount of this Round Up, including any boosts, represented as
+            a negative value.
         boostPortion:
           allOf:
           - $ref: '#/components/schemas/MoneyObject'
-          description: "The portion of the Round Up `amount` owing to boosted Round\
-            \ Ups,\nrepresented as a negative value. If no boost was added to the\
-            \ Round Up\nthis field will be `null`.\n"
+          description: |
+            The portion of the Round Up `amount` owing to boosted Round Ups,
+            represented as a negative value. If no boost was added to the Round Up
+            this field will be `null`.
           nullable: true
       required:
       - amount
@@ -1831,8 +1953,8 @@ components:
         amount:
           allOf:
           - $ref: '#/components/schemas/MoneyObject'
-          description: "The total amount of cashback paid, represented as a positive\
-            \ value.\n"
+          description: |
+            The total amount of cashback paid, represented as a positive value.
       required:
       - amount
       - description
@@ -1892,7 +2014,7 @@ components:
         type: type
       properties:
         type:
-          description: "The type of this resource: `transactions`"
+          description: 'The type of this resource: `transactions`'
           type: string
         id:
           description: |
@@ -1911,9 +2033,10 @@ components:
       - type
       type: object
     ListTransactionsResponse:
-      description: "Successful response to get all transactions. This returns a paginated\n\
-        list of transactions, which can be scrolled by following the `prev` and\n\
-        `next` links if present.\n"
+      description: |
+        Successful response to get all transactions. This returns a paginated
+        list of transactions, which can be scrolled by following the `prev` and
+        `next` links if present.
       example:
         data:
         - relationships:
@@ -2067,7 +2190,7 @@ components:
         type: type
       properties:
         type:
-          description: "The type of this resource: `webhooks`"
+          description: 'The type of this resource: `webhooks`'
           type: string
         id:
           description: |
@@ -2086,9 +2209,10 @@ components:
       - type
       type: object
     ListWebhooksResponse:
-      description: "Successful response to get all webhooks. This returns a paginated\
-        \ list of\nwebhooks, which can be scrolled by following the `prev` and `next`\
-        \ links\nif present.\n"
+      description: |
+        Successful response to get all webhooks. This returns a paginated list of
+        webhooks, which can be scrolled by following the `prev` and `next` links
+        if present.
       example:
         data:
         - relationships:
@@ -2172,9 +2296,10 @@ components:
       - data
       type: object
     WebhookEventTypeEnum:
-      description: "Specifies the type of a webhook event. This can be used to determine\
-        \ what\naction to take in response to the event, such as which relationships\
-        \ to\nexpect.\n"
+      description: |
+        Specifies the type of a webhook event. This can be used to determine what
+        action to take in response to the event, such as which relationships to
+        expect.
       enum:
       - TRANSACTION_CREATED
       - TRANSACTION_SETTLED
@@ -2188,7 +2313,7 @@ components:
         optionally relate to other resources within the Up API.
       properties:
         type:
-          description: "The type of this resource: `webhook-events`"
+          description: 'The type of this resource: `webhook-events`'
           type: string
         id:
           description: |
@@ -2234,13 +2359,16 @@ components:
       - data
       type: object
     WebhookDeliveryStatusEnum:
-      description: "Specifies the nature of the success or failure of a webhook delivery\n\
-        attempt to the subscribed webhook URL. The currently returned values are\n\
-        described below:\n\n- **`DELIVERED`**: The event was delivered to the webhook\
-        \ URL\n  successfully and a `200` response was received.\n- **`UNDELIVERABLE`**:\
-        \ The webhook URL was not reachable, or timed out.\n- **`BAD_RESPONSE_CODE`**:\
-        \ The event was delivered to the webhook URL\n  but a non-`200` response was\
-        \ received.\n"
+      description: |
+        Specifies the nature of the success or failure of a webhook delivery
+        attempt to the subscribed webhook URL. The currently returned values are
+        described below:
+
+        - **`DELIVERED`**: The event was delivered to the webhook URL
+          successfully and a `200` response was received.
+        - **`UNDELIVERABLE`**: The webhook URL was not reachable, or timed out.
+        - **`BAD_RESPONSE_CODE`**: The event was delivered to the webhook URL
+          but a non-`200` response was received.
       enum:
       - DELIVERED
       - UNDELIVERABLE
@@ -2268,7 +2396,7 @@ components:
         type: type
       properties:
         type:
-          description: "The type of this resource: `webhook-delivery-logs`"
+          description: 'The type of this resource: `webhook-delivery-logs`'
           type: string
         id:
           description: |
@@ -2285,9 +2413,10 @@ components:
       - type
       type: object
     ListWebhookDeliveryLogsResponse:
-      description: "Successful response to get all delivery logs for a webhook. This\
-        \ returns\na paginated list of delivery logs, which can be scrolled by following\
-        \ the\n`next` and `prev` links if present.\n"
+      description: |
+        Successful response to get all delivery logs for a webhook. This returns
+        a paginated list of delivery logs, which can be scrolled by following the
+        `next` and `prev` links if present.
       example:
         data:
         - relationships:
@@ -2361,8 +2490,9 @@ components:
         balance:
           allOf:
           - $ref: '#/components/schemas/MoneyObject'
-          description: "The available balance of the account, taking into account\
-            \ any amounts\nthat are currently on hold.\n"
+          description: |
+            The available balance of the account, taking into account any amounts
+            that are currently on hold.
         createdAt:
           description: |
             The date-time at which this account was first opened.
@@ -2455,7 +2585,7 @@ components:
       nullable: true
       properties:
         type:
-          description: "The type of this resource: `categories`"
+          description: 'The type of this resource: `categories`'
           type: string
         id:
           description: |
@@ -2486,7 +2616,7 @@ components:
         type: type
       properties:
         type:
-          description: "The type of this resource: `categories`"
+          description: 'The type of this resource: `categories`'
           type: string
         id:
           description: |
@@ -2558,17 +2688,20 @@ components:
       - statusEmoji
       type: object
     ErrorObject_source:
-      description: "If applicable, location in the request that this error relates\
-        \ to. This\nmay be a parameter in the query string, or a an attribute in the\n\
-        request body.\n"
+      description: |
+        If applicable, location in the request that this error relates to. This
+        may be a parameter in the query string, or a an attribute in the
+        request body.
       properties:
         parameter:
-          description: "If this error relates to a query parameter, the name of the\n\
-            parameter.\n"
+          description: |
+            If this error relates to a query parameter, the name of the
+            parameter.
           type: string
         pointer:
-          description: "If this error relates to an attribute in the request body,\
-            \ a\nrfc-6901 JSON pointer to the attribute.\n"
+          description: |
+            If this error relates to an attribute in the request body, a
+            rfc-6901 JSON pointer to the attribute.
           type: string
       type: object
     TransactionResource_attributes:
@@ -2589,12 +2722,14 @@ components:
         status:
           allOf:
           - $ref: '#/components/schemas/TransactionStatusEnum'
-          description: "The current processing status of this transaction, according\
-            \ to\nwhether or not this transaction has settled or is still held.\n"
+          description: |
+            The current processing status of this transaction, according to
+            whether or not this transaction has settled or is still held.
         rawText:
-          description: "The original, unprocessed text of the transaction. This is\
-            \ often not\na perfect indicator of the actual merchant, but it is useful\
-            \ for\nreconciliation purposes in some cases.\n"
+          description: |
+            The original, unprocessed text of the transaction. This is often not
+            a perfect indicator of the actual merchant, but it is useful for
+            reconciliation purposes in some cases.
           nullable: true
           type: string
         description:
@@ -2603,8 +2738,9 @@ components:
             for purchases.
           type: string
         message:
-          description: "Attached message for this transaction, such as a payment message,\
-            \ or a\ntransfer note.\n"
+          description: |
+            Attached message for this transaction, such as a payment message, or a
+            transfer note.
           nullable: true
           type: string
         isCategorizable:
@@ -2615,9 +2751,10 @@ components:
         holdInfo:
           allOf:
           - $ref: '#/components/schemas/HoldInfoObject'
-          description: "If this transaction is currently in the `HELD` status, or\
-            \ was ever in\nthe `HELD` status, the `amount` and `foreignAmount` of\
-            \ the\ntransaction while `HELD`.\n"
+          description: |
+            If this transaction is currently in the `HELD` status, or was ever in
+            the `HELD` status, the `amount` and `foreignAmount` of the
+            transaction while `HELD`.
           nullable: true
         roundUp:
           allOf:
@@ -2629,16 +2766,18 @@ components:
         cashback:
           allOf:
           - $ref: '#/components/schemas/CashbackObject'
-          description: "If all or part of this transaction was instantly reimbursed\
-            \ in the\nform of cashback, details of the reimbursement.\n"
+          description: |
+            If all or part of this transaction was instantly reimbursed in the
+            form of cashback, details of the reimbursement.
           nullable: true
         amount:
           allOf:
           - $ref: '#/components/schemas/MoneyObject'
-          description: "The amount of this transaction in Australian dollars. For\n\
-            transactions that were once `HELD` but are now `SETTLED`, refer to\nthe\
-            \ `holdInfo` field for the original `amount` the transaction was\n`HELD`\
-            \ at.\n"
+          description: |
+            The amount of this transaction in Australian dollars. For
+            transactions that were once `HELD` but are now `SETTLED`, refer to
+            the `holdInfo` field for the original `amount` the transaction was
+            `HELD` at.
         foreignAmount:
           allOf:
           - $ref: '#/components/schemas/MoneyObject'
@@ -2681,7 +2820,7 @@ components:
         type: type
       properties:
         type:
-          description: "The type of this resource: `accounts`"
+          description: 'The type of this resource: `accounts`'
           type: string
         id:
           description: |
@@ -2713,7 +2852,7 @@ components:
       nullable: true
       properties:
         type:
-          description: "The type of this resource: `accounts`"
+          description: 'The type of this resource: `accounts`'
           type: string
         id:
           description: |
@@ -2724,9 +2863,10 @@ components:
       - type
       type: object
     TransactionResource_relationships_transferAccount:
-      description: "If this transaction is a transfer between accounts, this relationship\n\
-        will contain the account the transaction went to/came from. The\n`amount`\
-        \ field can be used to determine the direction of the transfer.\n"
+      description: |
+        If this transaction is a transfer between accounts, this relationship
+        will contain the account the transaction went to/came from. The
+        `amount` field can be used to determine the direction of the transfer.
       example:
         data:
           id: id
@@ -2780,11 +2920,11 @@ components:
         type: type
       properties:
         type:
-          description: "The type of this resource: `tags`"
+          description: 'The type of this resource: `tags`'
           type: string
         id:
-          description: "The label of the tag, which also acts as the tag’s unique\
-            \ identifier.\n"
+          description: |
+            The label of the tag, which also acts as the tag’s unique identifier.
           type: string
       required:
       - id
@@ -2892,15 +3032,19 @@ components:
           nullable: true
           type: string
         secretKey:
-          description: "A shared secret key used to sign all webhook events sent to\
-            \ the\nconfigured webhook URL. This field is returned only once, upon\
-            \ the\ninitial creation of the webhook. If lost, create a new webhook\
-            \ and\ndelete this webhook.\n\nThe webhook URL receives a request with\
-            \ a\n`X-Up-Authenticity-Signature` header, which is the SHA-256 HMAC of\n\
-            the entire raw request body signed using this `secretKey`. It is\nadvised\
-            \ to compute and check this signature to verify the\nauthenticity of requests\
-            \ sent to the webhook URL. See\n[Handling webhook events](#callback_post_webhookURL)\
-            \ for full\ndetails.\n"
+          description: |
+            A shared secret key used to sign all webhook events sent to the
+            configured webhook URL. This field is returned only once, upon the
+            initial creation of the webhook. If lost, create a new webhook and
+            delete this webhook.
+
+            The webhook URL receives a request with a
+            `X-Up-Authenticity-Signature` header, which is the SHA-256 HMAC of
+            the entire raw request body signed using this `secretKey`. It is
+            advised to compute and check this signature to verify the
+            authenticity of requests sent to the webhook URL. See
+            [Handling webhook events](#callback_post_webhookURL) for full
+            details.
           type: string
         createdAt:
           description: |
@@ -2932,8 +3076,9 @@ components:
           format: uri
           type: string
         description:
-          description: "An optional description for this webhook, up to 64 characters\
-            \ in\nlength.\n"
+          description: |
+            An optional description for this webhook, up to 64 characters in
+            length.
           nullable: true
           type: string
       required:
@@ -2959,7 +3104,7 @@ components:
     WebhookEventResource_relationships_webhook_data:
       properties:
         type:
-          description: "The type of this resource: `webhooks`"
+          description: 'The type of this resource: `webhooks`'
           type: string
         id:
           description: |
@@ -2981,7 +3126,7 @@ components:
     WebhookEventResource_relationships_transaction_data:
       properties:
         type:
-          description: "The type of this resource: `transactions`"
+          description: 'The type of this resource: `transactions`'
           type: string
         id:
           description: |
@@ -3078,7 +3223,7 @@ components:
         type: type
       properties:
         type:
-          description: "The type of this resource: `webhook-events`"
+          description: 'The type of this resource: `webhook-events`'
           type: string
         id:
           description: |
