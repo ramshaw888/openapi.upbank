@@ -10,15 +10,46 @@ Method | HTTP request | Description
 
 ## UtilPingGet
 
-> PingResponse UtilPingGet(ctx, )
+> PingResponse UtilPingGet(ctx).Execute()
 
 Ping
 
-Make a basic ping request to the API. This is useful to verify that authentication is functioning correctly. On authentication success an HTTP `200` status is returned. On failure an HTTP `401` error response is returned. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UtilityEndpointsApi.UtilPingGet(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UtilityEndpointsApi.UtilPingGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UtilPingGet`: PingResponse
+    fmt.Fprintf(os.Stdout, "Response from `UtilityEndpointsApi.UtilPingGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUtilPingGetRequest struct via the builder pattern
+
 
 ### Return type
 

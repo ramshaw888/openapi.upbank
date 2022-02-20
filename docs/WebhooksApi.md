@@ -15,28 +15,51 @@ Method | HTTP request | Description
 
 ## WebhooksGet
 
-> ListWebhooksResponse WebhooksGet(ctx, optional)
+> ListWebhooksResponse WebhooksGet(ctx).PageSize(pageSize).Execute()
 
 List webhooks
 
-Retrieve a list of configured webhooks. The returned list is [paginated](#pagination) and can be scrolled by following the `next` and `prev` links where present. Results are ordered oldest first to newest last. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    pageSize := int32(30) // int32 | The number of records to return in each page.  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.WebhooksApi.WebhooksGet(context.Background()).PageSize(pageSize).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `WebhooksGet`: ListWebhooksResponse
+    fmt.Fprintf(os.Stdout, "Response from `WebhooksApi.WebhooksGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiWebhooksGetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***WebhooksGetOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a WebhooksGetOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pageSize** | **optional.Int32**| The number of records to return in each page.  | 
+ **pageSize** | **int32** | The number of records to return in each page.  | 
 
 ### Return type
 
@@ -58,19 +81,53 @@ Name | Type | Description  | Notes
 
 ## WebhooksIdDelete
 
-> WebhooksIdDelete(ctx, id)
+> WebhooksIdDelete(ctx, id).Execute()
 
 Delete webhook
 
-Delete a specific webhook by providing its unique identifier. Once deleted, webhook events will no longer be sent to the configured URL. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "a940825b-80b6-4798-b378-c6284259b4c5" // string | The unique identifier for the webhook. 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.WebhooksApi.WebhooksIdDelete(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksIdDelete``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The unique identifier for the webhook.  | 
+**id** | **string** | The unique identifier for the webhook.  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiWebhooksIdDeleteRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -92,19 +149,55 @@ Name | Type | Description  | Notes
 
 ## WebhooksIdGet
 
-> GetWebhookResponse WebhooksIdGet(ctx, id)
+> GetWebhookResponse WebhooksIdGet(ctx, id).Execute()
 
 Retrieve webhook
 
-Retrieve a specific webhook by providing its unique identifier. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "c8283a72-24b0-4fd8-9b13-fccccab371e5" // string | The unique identifier for the webhook. 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.WebhooksApi.WebhooksIdGet(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksIdGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `WebhooksIdGet`: GetWebhookResponse
+    fmt.Fprintf(os.Stdout, "Response from `WebhooksApi.WebhooksIdGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The unique identifier for the webhook.  | 
+**id** | **string** | The unique identifier for the webhook.  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiWebhooksIdGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -126,28 +219,51 @@ Name | Type | Description  | Notes
 
 ## WebhooksPost
 
-> CreateWebhookResponse WebhooksPost(ctx, optional)
+> CreateWebhookResponse WebhooksPost(ctx).CreateWebhookRequest(createWebhookRequest).Execute()
 
 Create webhook
 
-Create a new webhook with a given URL. The URL will receive webhook events as JSON-encoded `POST` requests. The URL must respond with a HTTP `200` status on success.  There is currently a limit of 10 webhooks at any given time. Once this limit is reached, existing webhooks will need to be deleted before new webhooks can be created.  Event delivery is retried with exponential backoff if the URL is unreachable or it does not respond with a `200` status. The response includes a `secretKey` attribute, which is used to sign requests sent to the webhook URL. It will not be returned from any other endpoints within the Up API. If the `secretKey` is lost, simply create a new webhook with the same URL, capture its `secretKey` and then delete the original webhook. See [Handling webhook events](#callback_post_webhookURL) for details on how to process webhook events.  It is probably a good idea to test the webhook by [sending it a `PING` event](#post_webhooks_webhookId_ping) after creating it. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    createWebhookRequest := *openapiclient.NewCreateWebhookRequest(*openapiclient.NewWebhookInputResource(*openapiclient.NewWebhookInputResourceAttributes("Url_example"))) // CreateWebhookRequest |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.WebhooksApi.WebhooksPost(context.Background()).CreateWebhookRequest(createWebhookRequest).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksPost``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `WebhooksPost`: CreateWebhookResponse
+    fmt.Fprintf(os.Stdout, "Response from `WebhooksApi.WebhooksPost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiWebhooksPostRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***WebhooksPostOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a WebhooksPostOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **createWebhookRequest** | [**optional.Interface of CreateWebhookRequest**](CreateWebhookRequest.md)|  | 
+ **createWebhookRequest** | [**CreateWebhookRequest**](CreateWebhookRequest.md) |  | 
 
 ### Return type
 
@@ -169,30 +285,57 @@ Name | Type | Description  | Notes
 
 ## WebhooksWebhookIdLogsGet
 
-> ListWebhookDeliveryLogsResponse WebhooksWebhookIdLogsGet(ctx, webhookId, optional)
+> ListWebhookDeliveryLogsResponse WebhooksWebhookIdLogsGet(ctx, webhookId).PageSize(pageSize).Execute()
 
 List webhook logs
 
-Retrieve a list of delivery logs for a webhook by providing its unique identifier. This is useful for analysis and debugging purposes. The returned list is [paginated](#pagination) and can be scrolled by following the `next` and `prev` links where present. Results are ordered newest first to oldest last. Logs may be automatically purged after a period of time. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    webhookId := "7104f5df-4993-495f-9d29-2b4d062c03a9" // string | The unique identifier for the webhook. 
+    pageSize := int32(30) // int32 | The number of records to return in each page.  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.WebhooksApi.WebhooksWebhookIdLogsGet(context.Background(), webhookId).PageSize(pageSize).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksWebhookIdLogsGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `WebhooksWebhookIdLogsGet`: ListWebhookDeliveryLogsResponse
+    fmt.Fprintf(os.Stdout, "Response from `WebhooksApi.WebhooksWebhookIdLogsGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**webhookId** | **string**| The unique identifier for the webhook.  | 
- **optional** | ***WebhooksWebhookIdLogsGetOpts** | optional parameters | nil if no parameters
+**webhookId** | **string** | The unique identifier for the webhook.  | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a WebhooksWebhookIdLogsGetOpts struct
+Other parameters are passed through a pointer to a apiWebhooksWebhookIdLogsGetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **pageSize** | **optional.Int32**| The number of records to return in each page.  | 
+ **pageSize** | **int32** | The number of records to return in each page.  | 
 
 ### Return type
 
@@ -214,19 +357,55 @@ Name | Type | Description  | Notes
 
 ## WebhooksWebhookIdPingPost
 
-> WebhookEventCallback WebhooksWebhookIdPingPost(ctx, webhookId)
+> WebhookEventCallback WebhooksWebhookIdPingPost(ctx, webhookId).Execute()
 
 Ping webhook
 
-Send a `PING` event to a webhook by providing its unique identifier. This is useful for testing and debugging purposes. The event is delivered asynchronously and its data is returned in the response to this request. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    webhookId := "830e127d-fb89-4400-92bb-f3f48289dcba" // string | The unique identifier for the webhook. 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.WebhooksApi.WebhooksWebhookIdPingPost(context.Background(), webhookId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `WebhooksApi.WebhooksWebhookIdPingPost``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `WebhooksWebhookIdPingPost`: WebhookEventCallback
+    fmt.Fprintf(os.Stdout, "Response from `WebhooksApi.WebhooksWebhookIdPingPost`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**webhookId** | **string**| The unique identifier for the webhook.  | 
+**webhookId** | **string** | The unique identifier for the webhook.  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiWebhooksWebhookIdPingPostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 

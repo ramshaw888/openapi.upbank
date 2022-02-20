@@ -12,28 +12,51 @@ Method | HTTP request | Description
 
 ## TagsGet
 
-> ListTagsResponse TagsGet(ctx, optional)
+> ListTagsResponse TagsGet(ctx).PageSize(pageSize).Execute()
 
 List tags
 
-Retrieve a list of all tags currently in use. The returned list is [paginated](#pagination) and can be scrolled by following the `next` and `prev` links where present. Results are ordered lexicographically. The `transactions` relationship for each tag exposes a link to get the transactions with the given tag. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    pageSize := int32(50) // int32 | The number of records to return in each page.  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.TagsApi.TagsGet(context.Background()).PageSize(pageSize).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `TagsApi.TagsGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `TagsGet`: ListTagsResponse
+    fmt.Fprintf(os.Stdout, "Response from `TagsApi.TagsGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTagsGetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***TagsGetOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a TagsGetOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pageSize** | **optional.Int32**| The number of records to return in each page.  | 
+ **pageSize** | **int32** | The number of records to return in each page.  | 
 
 ### Return type
 
@@ -55,30 +78,55 @@ Name | Type | Description  | Notes
 
 ## TransactionsTransactionIdRelationshipsTagsDelete
 
-> TransactionsTransactionIdRelationshipsTagsDelete(ctx, transactionId, optional)
+> TransactionsTransactionIdRelationshipsTagsDelete(ctx, transactionId).UpdateTransactionTagsRequest(updateTransactionTagsRequest).Execute()
 
 Remove tags from transaction
 
-Disassociates one or more tags from a specific transaction. Tags that are not associated are silently ignored. An HTTP `204` is returned on success. The associated tags, along with this request URL, are also exposed via the `tags` relationship on the transaction resource returned from `/transactions/{id}`. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    transactionId := "c3feb4ba-829c-4482-b882-1b9bd23da82d" // string | The unique identifier for the transaction. 
+    updateTransactionTagsRequest := *openapiclient.NewUpdateTransactionTagsRequest([]openapiclient.TagInputResourceIdentifier{*openapiclient.NewTagInputResourceIdentifier("Type_example", "Id_example")}) // UpdateTransactionTagsRequest |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.TagsApi.TransactionsTransactionIdRelationshipsTagsDelete(context.Background(), transactionId).UpdateTransactionTagsRequest(updateTransactionTagsRequest).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `TagsApi.TransactionsTransactionIdRelationshipsTagsDelete``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**transactionId** | **string**| The unique identifier for the transaction.  | 
- **optional** | ***TransactionsTransactionIdRelationshipsTagsDeleteOpts** | optional parameters | nil if no parameters
+**transactionId** | **string** | The unique identifier for the transaction.  | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a TransactionsTransactionIdRelationshipsTagsDeleteOpts struct
+Other parameters are passed through a pointer to a apiTransactionsTransactionIdRelationshipsTagsDeleteRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **updateTransactionTagsRequest** | [**optional.Interface of UpdateTransactionTagsRequest**](UpdateTransactionTagsRequest.md)|  | 
+ **updateTransactionTagsRequest** | [**UpdateTransactionTagsRequest**](UpdateTransactionTagsRequest.md) |  | 
 
 ### Return type
 
@@ -100,30 +148,55 @@ Name | Type | Description  | Notes
 
 ## TransactionsTransactionIdRelationshipsTagsPost
 
-> TransactionsTransactionIdRelationshipsTagsPost(ctx, transactionId, optional)
+> TransactionsTransactionIdRelationshipsTagsPost(ctx, transactionId).UpdateTransactionTagsRequest(updateTransactionTagsRequest).Execute()
 
 Add tags to transaction
 
-Associates one or more tags with a specific transaction. No more than 6 tags may be present on any single transaction. Duplicate tags are silently ignored. An HTTP `204` is returned on success. The associated tags, along with this request URL, are also exposed via the `tags` relationship on the transaction resource returned from `/transactions/{id}`. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    transactionId := "acde4631-db56-49a6-aea3-4e2311ef1d6a" // string | The unique identifier for the transaction. 
+    updateTransactionTagsRequest := *openapiclient.NewUpdateTransactionTagsRequest([]openapiclient.TagInputResourceIdentifier{*openapiclient.NewTagInputResourceIdentifier("Type_example", "Id_example")}) // UpdateTransactionTagsRequest |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.TagsApi.TransactionsTransactionIdRelationshipsTagsPost(context.Background(), transactionId).UpdateTransactionTagsRequest(updateTransactionTagsRequest).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `TagsApi.TransactionsTransactionIdRelationshipsTagsPost``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**transactionId** | **string**| The unique identifier for the transaction.  | 
- **optional** | ***TransactionsTransactionIdRelationshipsTagsPostOpts** | optional parameters | nil if no parameters
+**transactionId** | **string** | The unique identifier for the transaction.  | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a TransactionsTransactionIdRelationshipsTagsPostOpts struct
+Other parameters are passed through a pointer to a apiTransactionsTransactionIdRelationshipsTagsPostRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **updateTransactionTagsRequest** | [**optional.Interface of UpdateTransactionTagsRequest**](UpdateTransactionTagsRequest.md)|  | 
+ **updateTransactionTagsRequest** | [**UpdateTransactionTagsRequest**](UpdateTransactionTagsRequest.md) |  | 
 
 ### Return type
 

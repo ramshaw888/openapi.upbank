@@ -11,28 +11,55 @@ Method | HTTP request | Description
 
 ## AccountsGet
 
-> ListAccountsResponse AccountsGet(ctx, optional)
+> ListAccountsResponse AccountsGet(ctx).PageSize(pageSize).FilterAccountType(filterAccountType).FilterOwnershipType(filterOwnershipType).Execute()
 
 List accounts
 
-Retrieve a paginated list of all accounts for the currently authenticated user. The returned list is paginated and can be scrolled by following the `prev` and `next` links where present. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    pageSize := int32(30) // int32 | The number of records to return in each page.  (optional)
+    filterAccountType := openapiclient.AccountTypeEnum("SAVER") // AccountTypeEnum | The type of account for which to return records. This can be used to filter Savers from spending accounts.  (optional)
+    filterOwnershipType := openapiclient.OwnershipTypeEnum("INDIVIDUAL") // OwnershipTypeEnum | The account ownership structure for which to return records. This can be used to filter 2Up accounts from Up accounts.  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.AccountsApi.AccountsGet(context.Background()).PageSize(pageSize).FilterAccountType(filterAccountType).FilterOwnershipType(filterOwnershipType).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AccountsApi.AccountsGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `AccountsGet`: ListAccountsResponse
+    fmt.Fprintf(os.Stdout, "Response from `AccountsApi.AccountsGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAccountsGetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***AccountsGetOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a AccountsGetOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pageSize** | **optional.Int32**| The number of records to return in each page.  | 
+ **pageSize** | **int32** | The number of records to return in each page.  | 
+ **filterAccountType** | [**AccountTypeEnum**](AccountTypeEnum.md) | The type of account for which to return records. This can be used to filter Savers from spending accounts.  | 
+ **filterOwnershipType** | [**OwnershipTypeEnum**](OwnershipTypeEnum.md) | The account ownership structure for which to return records. This can be used to filter 2Up accounts from Up accounts.  | 
 
 ### Return type
 
@@ -54,19 +81,55 @@ Name | Type | Description  | Notes
 
 ## AccountsIdGet
 
-> GetAccountResponse AccountsIdGet(ctx, id)
+> GetAccountResponse AccountsIdGet(ctx, id).Execute()
 
 Retrieve account
 
-Retrieve a specific account by providing its unique identifier. 
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "92b41408-6b7b-4fca-982b-3fb1fdd77220" // string | The unique identifier for the account. 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.AccountsApi.AccountsIdGet(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AccountsApi.AccountsIdGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `AccountsIdGet`: GetAccountResponse
+    fmt.Fprintf(os.Stdout, "Response from `AccountsApi.AccountsIdGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The unique identifier for the account.  | 
+**id** | **string** | The unique identifier for the account.  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAccountsIdGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
